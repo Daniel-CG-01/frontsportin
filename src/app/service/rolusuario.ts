@@ -20,8 +20,13 @@ export class RolusuarioService {
     descripcion: string = ''
   ): Observable<IPage<IRolusuario>> {
 
-    if (order === '') order = 'id';
-    if (direction === '') direction = 'asc';
+    if (order === '') {
+      order = 'id';
+    }
+
+    if (direction === '') {
+       direction = 'asc';
+    }
 
     let params =
       `page=${page}&size=${rpp}&sort=${order},${direction}`;
@@ -42,8 +47,8 @@ export class RolusuarioService {
     );
   }
 
-  get(id: number): Observable<IRolusuario> {
-    return this.oHttp.get<IRolusuario>(serverURL + '/rolusuario/' + id);
-  }
+  // get(id: number): Observable<IRolusuario> {
+  //   return this.oHttp.get<IRolusuario>(serverURL + '/rolusuario/' + id);
+  // }
 
 }
