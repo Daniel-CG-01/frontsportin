@@ -20,13 +20,13 @@ export class UsuarioPlist implements OnInit, OnDestroy {
   numPage: number = 0;
   numRpp: number = 10;
   filtro: string = '';
+  orderField: string = 'id';
   isLoading: boolean = false;
   isFilling: boolean = false;
   errorMessage: string = '';
   fillErrorMessage: string = '';
   totalElementsCount: number = 0;
   fillAmount: number = 25;
-  orderField: string = 'id';
   orderDirection: 'asc' | 'desc' = 'asc';
 
   idTipousuario: number = 0;

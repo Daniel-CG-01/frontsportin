@@ -1,33 +1,4 @@
-//ruta opcional
-export interface IClub {
-  id: number;
-  nombre: string;
-  direccion?: string;
-  telefono?: string;
-  fechaAlta?: string;
-  imagen?: string | null;
-  temporadas?: number;
-  noticias?: number;
-  tipoarticulos?: number;
-  usuarios?: number;
-}
-
-export interface IEquipo {
-  id: number;
-  nombre: string;
-  categoria?: string;
-  club?: IClub | null;
-  jugadores?: number;
-  partidos?: number;
-}
-
-export interface ITipoUsuario {
-  id: number;
-  descripcion: string;
-  usuarios?: number;
-}
-
-export interface IUsuarioRelacion {
+﻿export interface IUsuarioRelacion {
   id: number;
   descripcion?: string;
   nombre?: string;
@@ -41,14 +12,11 @@ export interface IUsuario {
   username: string;
   fechaAlta: string;
   genero: number;
-  // Relaciones principales
-  tipousuario?: ITipoUsuario | null;
+  tipousuario?: IUsuarioRelacion | null;
   rolusuario?: IUsuarioRelacion | null;
-  club?: IClub | null;
-  equipo?: IEquipo | null;
+  club?: IUsuarioRelacion | null;
   comentarios: number;
   puntuaciones: number;
-  compras?: number;
   comentarioarts: number;
   carritos: number;
   facturas: number;
