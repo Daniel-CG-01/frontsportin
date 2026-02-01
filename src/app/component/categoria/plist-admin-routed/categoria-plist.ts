@@ -1,7 +1,7 @@
 import { Component, signal, computed, effect } from '@angular/core';
-import { IArticulo } from '../../../model/articulo';
+import { ICategoria } from '../../../model/categoria';
 import { IPage } from '../../../model/plist';
-import { ArticuloService } from '../../../service/articulo';
+import { CategoriaService } from '../../../service/categoria';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Paginacion } from '../../shared/paginacion/paginacion';
@@ -12,13 +12,13 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { debounceTimeSearch } from '../../../environment/environment';
 
 @Component({
-  selector: 'app-articulo-plist',
+  selector: 'app-categoria-plist',
   imports: [Paginacion, BotoneraRpp, TrimPipe, RouterLink],
   templateUrl: './categoria-plist.html',
   styleUrl: './categoria-plist.css',
 })
-export class ArticuloPlistAdminRouted {
-  oPage = signal<IPage<IArticulo> | null>(null);
+export class CategoriaPlistAdminRouted {
+  oPage = signal<IPage<ICategoria> | null>(null);
   numPage = signal<number>(0);
   numRpp = signal<number>(5);
   rellenaCantidad = signal<number>(10);
@@ -38,7 +38,7 @@ export class ArticuloPlistAdminRouted {
   orderDirection = signal<'asc' | 'desc'>('asc');
 
   // Variables de filtro
-  tipoarticulo = signal<number>(0);
+  tipocategoria = signal<number>(0);
 
   // Variables de búsqueda
   descripcion = signal<string>('');
@@ -46,14 +46,14 @@ export class ArticuloPlistAdminRouted {
   private searchSubscription?: Subscription;
 
   constructor(
-    private oArticuloService: ArticuloService,
+    private oCategoriaService: CategoriaService,
     private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('tipoarticulo');
+    const id = this.route.snapshot.paramMap.get('tipocategoria');
     if (id) {
-      this.tipoarticulo.set(+id);
+      this.tipocategoria.set(+id);
     }
 
     // Configurar el debounce para la búsqueda
@@ -79,17 +79,15 @@ export class ArticuloPlistAdminRouted {
   }
 
   getPage() {
-    this.oArticuloService
+    this.oCategoriaService
       .getPage(
         this.numPage(),
         this.numRpp(),
         this.orderField(),
         this.orderDirection(),
-        this.descripcion(),
-        this.tipoarticulo(),
       )
       .subscribe({
-        next: (data: IPage<IArticulo>) => {
+        next: (data: IPage<ICategoria>) => {
           this.oPage.set(data);
           if (this.numPage() > 0 && this.numPage() >= data.totalPages) {
             this.numPage.set(data.totalPages - 1);
