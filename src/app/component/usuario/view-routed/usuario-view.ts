@@ -13,7 +13,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   templateUrl: './usuario-view.html',
   styleUrl: './usuario-view.css',
 })
-export class UsuarioViewPage implements OnInit {
+export class UsuarioViewRouted implements OnInit {
   private route = inject(ActivatedRoute);
   private oUsuarioService = inject(UsuarioService);
   private snackBar = inject(MatSnackBar);
