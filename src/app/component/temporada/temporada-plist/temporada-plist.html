@@ -140,8 +140,8 @@
               @if (oTemporada.categorias === 0) {
                 <i class="bi bi-ban" aria-hidden="true"></i>
               } @else {
-                <a [routerLink]="['/categoria', oTemporada.categorias]">
-                  {{ oTemporada.categorias }}
+                <a [routerLink]="['/categoria', oTemporada.id]">
+                  {{ oTemporada.id }}
                 </a>
               }
             </td>
