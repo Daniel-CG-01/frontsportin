@@ -17,9 +17,9 @@ export class UsuarioService {
     order: string = '',
     direction: string = '',
     nombre: string = '',
-    idTipousuario: number = 0,
-    idRol: number = 0,
-    idClub: number = 0
+    id_tipousuario: number = 0,
+    id_rol: number = 0,
+    id_club: number = 0
   ): Observable<IPage<IUsuario>> {
     if (order === '') {
       order = 'id';
@@ -30,18 +30,18 @@ export class UsuarioService {
 
     let strUrl = `${serverURL}/usuario?page=${page}&size=${rpp}&sort=${order},${direction}`;
 
-    if (idTipousuario > 0) {
-      strUrl += `&idTipousuario=${idTipousuario}`;
+    if (id_tipousuario > 0) {
+      strUrl += `&idTipousuario=${id_tipousuario}`;
       return this.oHttp.get<IPage<IUsuario>>(strUrl);
     }
 
-    if (idRol > 0) {
-      strUrl += `&idRol=${idRol}`;
+    if (id_rol > 0) {
+      strUrl += `&idRol=${id_rol}`;
       return this.oHttp.get<IPage<IUsuario>>(strUrl);
     }
 
-    if (idClub > 0) {
-      strUrl += `&idClub=${idClub}`;
+    if (id_club > 0) {
+      strUrl += `&idClub=${id_club}`;
       return this.oHttp.get<IPage<IUsuario>>(strUrl);
     }
 
