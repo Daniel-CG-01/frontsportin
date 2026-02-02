@@ -17,7 +17,7 @@ export class TipoarticuloService {
     order: string = '',
     direction: string = '',
     descripcion: string = '',
-    club: number = 0,
+    id_club: number = 0,
   ): Observable<IPage<ITipoarticulo>> {
     if (order === '') {
       order = 'id';
@@ -25,10 +25,10 @@ export class TipoarticuloService {
     if (direction === '') {
       direction = 'asc';
     }
-    if (club > 0) {
+    if (id_club > 0) {
       return this.oHttp.get<IPage<ITipoarticulo>>(
         serverURL +
-          `/tipoarticulo?page=${page}&size=${rpp}&sort=${order},${direction}&idClub=${club}`,
+          `/tipoarticulo?page=${page}&size=${rpp}&sort=${order},${direction}&id_club=${id_club}`,
       );
     }
     if (descripcion && descripcion.length > 0) {

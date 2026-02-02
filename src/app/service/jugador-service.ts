@@ -17,8 +17,8 @@ export class JugadorService {
     order: string = '',
     direction: string = '',
     posicion: string = '',
-    usuario: number = 0,
-    equipo: number = 0,
+    id_usuario: number = 0,
+    id_equipo: number = 0,
   ): Observable<IPage<IJugador>> {
     if (order === '') {
       order = 'id';
@@ -29,13 +29,13 @@ export class JugadorService {
     
     let url = '';
     
-    if (usuario > 0) {
-      url = serverURL + `/jugador?page=${page}&size=${rpp}&sort=${order},${direction}&idUsuario=${usuario}`;
+    if (id_usuario > 0) {
+      url = serverURL + `/jugador?page=${page}&size=${rpp}&sort=${order},${direction}&id_usuario=${id_usuario}`;
       console.log('URL filtro usuario:', url);
       return this.http.get<IPage<IJugador>>(url);
     }
-    if (equipo > 0) {
-      url = serverURL + `/jugador?page=${page}&size=${rpp}&sort=${order},${direction}&idEquipo=${equipo}`;
+    if (id_equipo > 0) {
+      url = serverURL + `/jugador?page=${page}&size=${rpp}&sort=${order},${direction}&id_equipo=${id_equipo}`;
       console.log('URL filtro equipo:', url);
       return this.http.get<IPage<IJugador>>(url);
     }

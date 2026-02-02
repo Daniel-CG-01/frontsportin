@@ -19,7 +19,7 @@ export class NoticiaService {
     order: string = '',
     direction: string = '',
     titulo: string = '',
-    club: number = 0,
+    id_club: number = 0,
   ): Observable<IPage<noticiaModel>> {
     if (order === '') {
       order = 'id';
@@ -29,10 +29,10 @@ export class NoticiaService {
     }
     
     // Filtro por club.id
-    if (club > 0) {
+    if (id_club > 0) {
       return this.oHttp.get<IPage<noticiaModel>>(
         serverURL +
-          `/noticia?page=${page}&size=${rpp}&sort=${order},${direction}&idClub=${club}`,
+          `/noticia?page=${page}&size=${rpp}&sort=${order},${direction}&id_club=${id_club}`,
       );
     }
     

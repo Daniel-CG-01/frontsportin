@@ -17,7 +17,7 @@ export class LigaService {
     order: string = '',
     direction: string = '',
     nombre: string = '',
-    equipo: number = 0,
+    id_equipo: number = 0,
   ): Observable<IPage<ILiga>> {
     if (order === '') {
       order = 'id';
@@ -25,10 +25,10 @@ export class LigaService {
     if (direction === '') {
       direction = 'asc';
     }
-    if (equipo > 0) {
+    if (id_equipo > 0) {
       return this.oHttp.get<IPage<ILiga>>(
         serverURL +
-          `/liga?page=${page}&size=${rpp}&sort=${order},${direction}&idEquipo=${equipo}`,
+          `/liga?page=${page}&size=${rpp}&sort=${order},${direction}&id_equipo=${id_equipo}`,
       );
     }
     if (nombre && nombre.length > 0) {

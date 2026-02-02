@@ -17,7 +17,7 @@ export class CategoriaService {
     order: string = '',
     direction: string = '',
     nombre: string = '',
-    temporada: number = 0,
+    id_temporada: number = 0,
   ): Observable<IPage<ICategoria>> {
     if (order === '') {
       order = 'id';
@@ -27,9 +27,9 @@ export class CategoriaService {
     }
 
     // Filtro por temporada tiene prioridad
-    if (temporada > 0) {
+    if (id_temporada > 0) {
       return this.oHttp.get<IPage<ICategoria>>(
-        serverURL + `/categoria?page=${page}&size=${rpp}&sort=${order},${direction}&id_temporada=${temporada}`
+        serverURL + `/categoria?page=${page}&size=${rpp}&sort=${order},${direction}&id_temporada=${id_temporada}`
       );
     }
 

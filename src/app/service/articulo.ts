@@ -17,7 +17,7 @@ export class ArticuloService {
     order: string = '',
     direction: string = '',
     descripcion: string = '',
-    tipoarticulo: number = 0,
+    id_tipoarticulo: number = 0,
   ): Observable<IPage<IArticulo>> {
     if (order === '') {
       order = 'id';
@@ -25,10 +25,10 @@ export class ArticuloService {
     if (direction === '') {
       direction = 'asc';
     }
-    if (tipoarticulo > 0) {
+    if (id_tipoarticulo > 0) {
       return this.oHttp.get<IPage<IArticulo>>(
         serverURL +
-          `/articulo?page=${page}&size=${rpp}&sort=${order},${direction}&tipoarticulo=${tipoarticulo}`,
+          `/articulo?page=${page}&size=${rpp}&sort=${order},${direction}&id_tipoarticulo=${id_tipoarticulo}`,
       );
     }
     if (descripcion && descripcion.length > 0) {

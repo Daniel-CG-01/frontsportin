@@ -19,7 +19,7 @@ getPage(
   rpp: number, 
   order: string = '', 
   direction: string = '', 
-  usuario: number = 0, 
+  id_usuario: number = 0, 
 ): Observable<IPage<IFactura>> {
     if (order === '') {
       order = 'id';
@@ -27,10 +27,10 @@ getPage(
     if (direction === '') {
       direction = 'asc';
     }
-    if (usuario > 0) {
+    if (id_usuario > 0) {
       return this.oHttp.get<IPage<IFactura>>(
         serverURL + 
-        `/factura?page=${page}&size=${rpp}&sort=${order},${direction}&usuario=${usuario}`,
+        `/factura?page=${page}&size=${rpp}&sort=${order},${direction}&id_usuario=${id_usuario}`,
       );
     }
     return this.oHttp.get<IPage<IFactura>>(

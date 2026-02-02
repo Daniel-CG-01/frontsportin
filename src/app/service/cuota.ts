@@ -17,7 +17,7 @@ export class CuotaService {
     order: string = '',
     direction: string = '',
     descripcion: string = '',
-    equipo: number = 0,
+    id_equipo: number = 0,
   ): Observable<IPage<ICuota>> {
     if (order === '') {
       order = 'id';
@@ -25,10 +25,10 @@ export class CuotaService {
     if (direction === '') {
       direction = 'asc';
     }
-    if (equipo > 0) {
+    if (id_equipo > 0) {
       return this.oHttp.get<IPage<ICuota>>(
         serverURL +
-          `/cuota?page=${page}&size=${rpp}&sort=${order},${direction}&idEquipo=${equipo}`,
+          `/cuota?page=${page}&size=${rpp}&sort=${order},${direction}&id_equipo=${id_equipo}`,
       );
     }
     if (descripcion && descripcion.length > 0) {

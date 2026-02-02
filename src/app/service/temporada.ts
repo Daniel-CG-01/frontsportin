@@ -17,7 +17,7 @@ export class TemporadaService {
     order: string = '',
     direction: string = '',
     descripcion: string = '',
-    club: number = 0,
+    id_club: number = 0,
   ): Observable<IPage<ITemporada>> {
     if (order === '') {
       order = 'id';
@@ -29,9 +29,9 @@ export class TemporadaService {
     const sortParams =
       order === 'id' ? `${order},${direction}` : `${order},${direction}&sort=id,asc`;
 
-    if (club > 0) {
+    if (id_club > 0) {
       return this.oHttp.get<IPage<ITemporada>>(
-        serverURL + `/temporada?page=${page}&size=${rpp}&sort=${sortParams}&club=${club}`,
+        serverURL + `/temporada?page=${page}&size=${rpp}&sort=${sortParams}&id_club=${id_club}`,
       );
     }
 
