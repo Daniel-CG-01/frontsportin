@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { IPage } from '../../../model/plist';
 import { IUsuario } from '../../../model/usuario';
 import { UsuarioService } from '../../../service/usuarioService';
 
-
 import { Paginacion } from '../../shared/paginacion/paginacion';
 import { BotoneraRpp } from '../../shared/botonera-rpp/botonera-rpp';
+import { debounceTimeSearch } from '../../../environment/environment';
 
 @Component({
   selector: 'app-usuario-plist',
@@ -19,141 +20,158 @@ import { BotoneraRpp } from '../../shared/botonera-rpp/botonera-rpp';
   templateUrl: './usuario-plist.html',
   styleUrl: './usuario-plist.css',
 })
-export class UsuarioPlist implements OnInit, OnDestroy {
-  oPage: IPage<IUsuario> | null = null;
-  numPage: number = 0;
-  numRpp: number = 10;
-  filtro: string = '';
-  orderField: string = 'id';
-  isLoading: boolean = false;
-  isFilling: boolean = false;
-  errorMessage: string = '';
-  fillErrorMessage: string = '';
-  totalElementsCount: number = 0;
-  fillAmount: number = 25;
-  orderDirection: 'asc' | 'desc' = 'asc';
+export class UsuarioPlist {
+  oPage = signal<IPage<IUsuario> | null>(null);
+  numPage = signal<number>(0);
+  numRpp = signal<number>(10);
 
-  idTipousuario: number = 0;
-  idRol: number = 0;
-  idClub: number = 0;
+
+  orderField = signal<string>('id');
+  orderDirection = signal<'asc' | 'desc'>('asc');
+
+
+  filtro = signal<string>('');
+  idTipousuario = signal<number>(0);
+  idRol = signal<number>(0);
+  idClub = signal<number>(0);
+
+
+  isLoading = signal<boolean>(false);
+  errorMessage = signal<string>('');
+  isFilling = signal<boolean>(false);
+  fillErrorMessage = signal<string>('');
+  fillAmount = signal<number>(25);
+
+ 
+  totalElementsCount = computed(() => this.oPage()?.totalElements ?? 0);
+
 
   private routeSub?: Subscription;
 
+
+  private searchSubject = new Subject<string>();
+  private searchSubscription?: Subscription;
+
   constructor(
     private oUsuarioService: UsuarioService,
-    private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+
     this.routeSub = this.route.params.subscribe((params) => {
-      this.idTipousuario = params['tipousuario'] ? Number(params['tipousuario']) : 0;
-      this.idRol = params['rol'] ? Number(params['rol']) : 0;
-      this.idClub = params['club'] ? Number(params['club']) : 0;
-      this.numPage = 0;
+      this.idTipousuario.set(params['tipousuario'] ? Number(params['tipousuario']) : 0);
+      this.idRol.set(params['rol'] ? Number(params['rol']) : 0);
+      this.idClub.set(params['club'] ? Number(params['club']) : 0);
+
+      this.numPage.set(0);
       this.getPage();
     });
+
+
+    this.searchSubscription = this.searchSubject
+      .pipe(
+        debounceTime(debounceTimeSearch),
+        distinctUntilChanged()
+      )
+      .subscribe((term: string) => {
+        this.filtro.set(term);
+        this.numPage.set(0);
+        this.getPage();
+      });
   }
 
   ngOnDestroy() {
-    if (this.routeSub) {
-      this.routeSub.unsubscribe();
-    }
+    this.routeSub?.unsubscribe();
+    this.searchSubscription?.unsubscribe();
   }
 
   getPage() {
-    this.isLoading = true;
-    this.errorMessage = '';
-    this.cdr.markForCheck();
+    this.isLoading.set(true);
+    this.errorMessage.set('');
 
     this.oUsuarioService
       .getPage(
-        this.numPage,
-        this.numRpp,
-        this.orderField,
-        this.orderDirection,
-        this.filtro.trim(),
-        this.idTipousuario,
-        this.idRol,
-        this.idClub,
+        this.numPage(),
+        this.numRpp(),
+        this.orderField(),
+        this.orderDirection(),
+        this.filtro().trim(),
+        this.idTipousuario(),
+        this.idRol(),
+        this.idClub()
       )
       .subscribe({
         next: (data: IPage<IUsuario>) => {
-          this.oPage = data;
-          this.totalElementsCount = data.totalElements ?? 0;
+          this.oPage.set(data);
 
-          if (this.numPage > 0 && this.numPage >= data.totalPages) {
-            this.numPage = data.totalPages - 1;
+          // si la página se queda fuera por un borrado, etc.
+          if (this.numPage() > 0 && this.numPage() >= (data.totalPages ?? 0)) {
+            this.numPage.set(Math.max((data.totalPages ?? 1) - 1, 0));
             this.getPage();
             return;
           }
 
-          this.isLoading = false;
-          this.cdr.markForCheck();
+          this.isLoading.set(false);
         },
         error: (error: HttpErrorResponse) => {
           console.error(error);
-          this.errorMessage = 'No se pudo cargar la lista de usuarios.';
-          this.isLoading = false;
-          this.cdr.markForCheck();
+          this.errorMessage.set('No se pudo cargar la lista de usuarios.');
+          this.isLoading.set(false);
         },
       });
   }
 
   onOrder(order: string) {
-    if (this.orderField === order) {
-      this.orderDirection = this.orderDirection === 'asc' ? 'desc' : 'asc';
+    if (this.orderField() === order) {
+      this.orderDirection.set(this.orderDirection() === 'asc' ? 'desc' : 'asc');
     } else {
-      this.orderField = order;
-      this.orderDirection = 'asc';
+      this.orderField.set(order);
+      this.orderDirection.set('asc');
     }
-    this.numPage = 0;
+    this.numPage.set(0);
     this.getPage();
   }
 
   onSearch(value: string) {
-    this.filtro = value;
-    this.numPage = 0;
+    this.searchSubject.next(value);
+  }
+
+  goToPage(numPage: number) {
+    this.numPage.set(numPage);
+    this.getPage();
+  }
+
+  onRppChange(n: number) {
+    this.numRpp.set(n);
+    this.numPage.set(0);
     this.getPage();
   }
 
   setFillAmount(value: string) {
     const parsed = Number(value);
     if (!Number.isNaN(parsed) && parsed > 0) {
-      this.fillAmount = parsed;
+      this.fillAmount.set(parsed);
     }
   }
 
   fillUsuarios() {
-    if (this.isFilling) return;
+    if (this.isFilling()) return;
 
-    this.isFilling = true;
-    this.fillErrorMessage = '';
-    this.cdr.markForCheck();
+    this.isFilling.set(true);
+    this.fillErrorMessage.set('');
 
-    this.oUsuarioService.fill(this.fillAmount).subscribe({
+    this.oUsuarioService.fill(this.fillAmount()).subscribe({
       next: () => {
-        this.isFilling = false;
+        this.isFilling.set(false);
         this.getPage();
       },
       error: (error: HttpErrorResponse) => {
         console.error(error);
-        this.fillErrorMessage = 'No se pudieron rellenar usuarios.';
-        this.isFilling = false;
-        this.cdr.markForCheck();
+        this.fillErrorMessage.set('No se pudieron rellenar usuarios.');
+        this.isFilling.set(false);
       },
     });
-  }
-
-  goToPage(numPage: number) {
-    this.numPage = numPage;
-    this.getPage();
-  }
-
-  onRppChange(n: number) {
-    this.numRpp = n;
-    this.numPage = 0;
-    this.getPage();
   }
 
   trackById(index: number, usuario: IUsuario) {

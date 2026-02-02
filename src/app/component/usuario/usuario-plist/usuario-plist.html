@@ -10,44 +10,51 @@
       placeholder="Buscar por nombre"
       aria-label="Search"
       (input)="onSearch($any($event.target).value)"
-      [value]="filtro"
+      [value]="filtro()"
     />
   </div>
 
   <div class="d-flex justify-content-center my-1 flex-wrap gap-2">
-    <small class="text-muted">Total registros: {{ totalElementsCount || 0 }}</small>
-    @if (idTipousuario > 0) {
-      <small class="text-muted ms-3">Filtro: id de tipo de usuario = {{ idTipousuario }}</small>
-      <a class="ms-2" [routerLink]="['/usuario']" role="button" title="Quitar filtro"
-        ><i class="bi bi-x-lg" aria-hidden="true"></i> Quitar filtro</a
-      >
+    <small class="text-muted">Total registros: {{ totalElementsCount() || 0 }}</small>
+
+    @if (idTipousuario() > 0) {
+      <small class="text-muted ms-3">Filtro: id de tipo de usuario = {{ idTipousuario() }}</small>
+      <a class="ms-2" [routerLink]="['/usuario']" role="button" title="Quitar filtro">
+        <i class="bi bi-x-lg" aria-hidden="true"></i> Quitar filtro
+      </a>
     }
-    @if (idRol > 0) {
-      <small class="text-muted ms-3">Filtro: id de rol = {{ idRol }}</small>
-      <a class="ms-2" [routerLink]="['/usuario']" role="button" title="Quitar filtro"
-        ><i class="bi bi-x-lg" aria-hidden="true"></i> Quitar filtro</a
-      >
+
+    @if (idRol() > 0) {
+      <small class="text-muted ms-3">Filtro: id de rol = {{ idRol() }}</small>
+      <a class="ms-2" [routerLink]="['/usuario']" role="button" title="Quitar filtro">
+        <i class="bi bi-x-lg" aria-hidden="true"></i> Quitar filtro
+      </a>
     }
-    @if (idClub > 0) {
-      <small class="text-muted ms-3">Filtro: id de club = {{ idClub }}</small>
-      <a class="ms-2" [routerLink]="['/usuario']" role="button" title="Quitar filtro"
-        ><i class="bi bi-x-lg" aria-hidden="true"></i> Quitar filtro</a
-      >
+
+    @if (idClub() > 0) {
+      <small class="text-muted ms-3">Filtro: id de club = {{ idClub() }}</small>
+      <a class="ms-2" [routerLink]="['/usuario']" role="button" title="Quitar filtro">
+        <i class="bi bi-x-lg" aria-hidden="true"></i> Quitar filtro
+      </a>
     }
-    @if (filtro.length > 0) {
-      <small class="text-muted ms-3">Filtro: nombre contiene "{{ filtro }}"</small>
+
+    @if (filtro().length > 0) {
+      <small class="text-muted ms-3">Filtro: nombre contiene "{{ filtro() }}"</small>
     }
   </div>
 
-  @if (totalElementsCount > 0) {
+  @if (totalElementsCount() > 0) {
     <div class="d-flex justify-content-between my-1">
       <app-paginacion
-        [numPage]="numPage"
-        [numPages]="oPage?.totalPages || 1"
+        [numPage]="numPage()"
+        [numPages]="oPage()?.totalPages || 1"
         (pageChange)="goToPage($event)"
       ></app-paginacion>
 
-      <app-botonera-rpp [numRpp]="numRpp" (rppChange)="onRppChange($event)"></app-botonera-rpp>
+      <app-botonera-rpp
+        [numRpp]="numRpp()"
+        (rppChange)="onRppChange($event)"
+      ></app-botonera-rpp>
     </div>
   }
 
@@ -58,42 +65,45 @@
           <th scope="col" (click)="onOrder('id')" style="cursor: pointer; width: 5%">
             <span class="header-inline">
               ID
-              @if (orderField === 'id') {
-                @if (orderDirection === 'asc') {
+              @if (orderField() === 'id') {
+                @if (orderDirection() === 'asc') {
                   <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
                 }
-                @if (orderDirection === 'desc') {
+                @if (orderDirection() === 'desc') {
                   <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
                 }
               }
             </span>
           </th>
+
           <th scope="col" (click)="onOrder('nombre')" style="cursor: pointer; width: 20%">
             <span class="header-inline">
               Nombre
-              @if (orderField === 'nombre') {
-                @if (orderDirection === 'asc') {
+              @if (orderField() === 'nombre') {
+                @if (orderDirection() === 'asc') {
                   <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
                 }
-                @if (orderDirection === 'desc') {
+                @if (orderDirection() === 'desc') {
                   <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
                 }
               }
             </span>
           </th>
+
           <th scope="col" (click)="onOrder('username')" style="cursor: pointer; width: 10%">
             <span class="header-inline">
               Usuario
-              @if (orderField === 'username') {
-                @if (orderDirection === 'asc') {
+              @if (orderField() === 'username') {
+                @if (orderDirection() === 'asc') {
                   <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
                 }
-                @if (orderDirection === 'desc') {
+                @if (orderDirection() === 'desc') {
                   <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
                 }
               }
             </span>
           </th>
+
           <th scope="col" style="width: 6%">Genero</th>
           <th scope="col" style="width: 12%">Club</th>
           <th scope="col" style="width: 10%">Tipo</th>
@@ -105,31 +115,35 @@
           <th scope="col" style="width: 7%">Fact</th>
           <th scope="col" style="width: 7%">Eq</th>
           <th scope="col" style="width: 7%">Jug</th>
+
           <th scope="col" (click)="onOrder('fechaAlta')" style="cursor: pointer; width: 10%">
             <span class="header-inline">
               Alta
-              @if (orderField === 'fechaAlta') {
-                @if (orderDirection === 'asc') {
+              @if (orderField() === 'fechaAlta') {
+                @if (orderDirection() === 'asc') {
                   <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
                 }
-                @if (orderDirection === 'desc') {
+                @if (orderDirection() === 'desc') {
                   <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
                 }
               }
             </span>
           </th>
+
           <th scope="col">
             <span class="header-inline">Acciones</span>
           </th>
         </tr>
       </thead>
+
       <tbody>
-        @for (usuario of oPage?.content; track usuario.id) {
+        @for (usuario of oPage()?.content; track usuario.id) {
           <tr>
             <th scope="row" style="text-align: center">{{ usuario.id }}</th>
             <td>{{ usuario.nombre }} {{ usuario.apellido1 }} {{ usuario.apellido2 }}</td>
             <td>@{{ usuario.username }}</td>
             <td style="text-align: center">{{ getGeneroLabel(usuario.genero) }}</td>
+
             <td>
               <a [routerLink]="['/club', 'view', usuario.club?.id]">
                 {{ usuario.club?.nombre || 'Sin club' }} ({{ usuario.club?.id }})
@@ -139,9 +153,11 @@
                 [routerLink]="['/usuario', 'club', usuario.club?.id]"
                 role="button"
                 title="Filtrar"
-                ><i class="bi bi-funnel-fill" aria-hidden="true"></i
-              ></a>
+              >
+                <i class="bi bi-funnel-fill" aria-hidden="true"></i>
+              </a>
             </td>
+
             <td>
               <a [routerLink]="['/tipousuario', 'view', usuario.tipousuario?.id]">
                 {{ usuario.tipousuario?.descripcion || 'Sin tipo' }} ({{ usuario.tipousuario?.id }})
@@ -151,9 +167,11 @@
                 [routerLink]="['/usuario', 'tipousuario', usuario.tipousuario?.id]"
                 role="button"
                 title="Filtrar"
-                ><i class="bi bi-funnel-fill" aria-hidden="true"></i
-              ></a>
+              >
+                <i class="bi bi-funnel-fill" aria-hidden="true"></i>
+              </a>
             </td>
+
             <td>
               <a [routerLink]="['/rolusuario', 'view', usuario.rolusuario?.id]">
                 {{ usuario.rolusuario?.descripcion || 'Sin rol' }} ({{ usuario.rolusuario?.id }})
@@ -163,59 +181,48 @@
                 [routerLink]="['/usuario', 'rol', usuario.rolusuario?.id]"
                 role="button"
                 title="Filtrar"
-                ><i class="bi bi-funnel-fill" aria-hidden="true"></i
-              ></a>
+              >
+                <i class="bi bi-funnel-fill" aria-hidden="true"></i>
+              </a>
             </td>
+
             <td style="text-align: center">
-              @if (usuario.comentarios === 0) {
-                <i class="bi bi-ban" aria-hidden="true"></i>
-              } @else {
-                {{ usuario.comentarios }}
-              }
+              @if (usuario.comentarios === 0) { <i class="bi bi-ban" aria-hidden="true"></i> }
+              @else { {{ usuario.comentarios }} }
             </td>
+
             <td style="text-align: center">
-              @if (usuario.puntuaciones === 0) {
-                <i class="bi bi-ban" aria-hidden="true"></i>
-              } @else {
-                {{ usuario.puntuaciones }}
-              }
+              @if (usuario.puntuaciones === 0) { <i class="bi bi-ban" aria-hidden="true"></i> }
+              @else { {{ usuario.puntuaciones }} }
             </td>
+
             <td style="text-align: center">
-              @if (usuario.comentarioarts === 0) {
-                <i class="bi bi-ban" aria-hidden="true"></i>
-              } @else {
-                {{ usuario.comentarioarts }}
-              }
+              @if (usuario.comentarioarts === 0) { <i class="bi bi-ban" aria-hidden="true"></i> }
+              @else { {{ usuario.comentarioarts }} }
             </td>
+
             <td style="text-align: center">
-              @if (usuario.carritos === 0) {
-                <i class="bi bi-ban" aria-hidden="true"></i>
-              } @else {
-                {{ usuario.carritos }}
-              }
+              @if (usuario.carritos === 0) { <i class="bi bi-ban" aria-hidden="true"></i> }
+              @else { {{ usuario.carritos }} }
             </td>
+
             <td style="text-align: center">
-              @if (usuario.facturas === 0) {
-                <i class="bi bi-ban" aria-hidden="true"></i>
-              } @else {
-                {{ usuario.facturas }}
-              }
+              @if (usuario.facturas === 0) { <i class="bi bi-ban" aria-hidden="true"></i> }
+              @else { {{ usuario.facturas }} }
             </td>
+
             <td style="text-align: center">
-              @if (usuario.equiposentrenados === 0) {
-                <i class="bi bi-ban" aria-hidden="true"></i>
-              } @else {
-                {{ usuario.equiposentrenados }}
-              }
+              @if (usuario.equiposentrenados === 0) { <i class="bi bi-ban" aria-hidden="true"></i> }
+              @else { {{ usuario.equiposentrenados }} }
             </td>
+
             <td style="text-align: center">
-              @if (usuario.jugadores === 0) {
-                <i class="bi bi-ban" aria-hidden="true"></i>
-              } @else {
-                {{ usuario.jugadores }}
-              }
+              @if (usuario.jugadores === 0) { <i class="bi bi-ban" aria-hidden="true"></i> }
+              @else { {{ usuario.jugadores }} }
             </td>
+
             <td>{{ usuario.fechaAlta }}</td>
+
             <td>
               <div class="d-flex justify-content-center">
                 <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
