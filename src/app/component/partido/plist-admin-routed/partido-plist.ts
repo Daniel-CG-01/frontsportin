@@ -21,7 +21,6 @@ export class PartidoPlistAdminRouted implements OnInit, OnDestroy {
   oPage = signal<IPage<IPartido> | null>(null);
   nPage = signal<number>(0);
   nRpp = signal<number>(10);
-  rival = signal<number>(0);
   strResult = signal<string>('');
   filter = signal<string>('');
   descripcion = signal<string>('');
