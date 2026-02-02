@@ -1,0 +1,154 @@
+<div class="container py-5">
+  <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+    <div class="card-header bg-white border-0 py-4 px-4 d-flex justify-content-between align-items-center">
+      <div>
+        <h2 class="mb-1 fw-bold text-primary gradient-text">Partidos jugados</h2>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center my-1">
+      <small class="text-muted">Total registros: {{ totalRecords() || 0 }}</small>
+      
+      @if (id_liga()) {
+      <small class="text-muted ms-3">Filtro: id de liga = {{ id_liga() }}</small>
+      <a class="ms-2" [routerLink]="['/partido']" role="button" title="Quitar filtro"><i class="bi bi-x-lg"
+          aria-hidden="true"></i> Quitar filtro</a>
+      }
+    </div>
+
+    @if (strResult()) {
+    <div class="px-4">
+      <div class="alert alert-info border-0 shadow-sm d-flex align-items-center" role="alert">
+        <i class="bi bi-info-circle-fill me-2 fs-5"></i>
+        <div>{{ strResult() }}</div>
+      </div>
+    </div>
+    }
+
+    <div class="card-body p-0">
+      <div
+        class="px-4 py-3 bg-light bg-opacity-50 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div class="d-flex align-items-center gap-3">
+          <app-botonera-rpp [numRpp]="nRpp()" (rppChange)="onSetRpp($event)"> </app-botonera-rpp>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="bg-light">
+            <tr>
+              <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7"
+                style="width: 10%; cursor: pointer;" (click)="setOrder('id')">
+                ID
+                @if (sortField() === 'id' && sortDirection() === 'asc') {
+                <i class="bi bi-caret-up-fill"></i>
+                }
+                @if (sortField() === 'id' && sortDirection() === 'desc') {
+                <i class="bi bi-caret-down-fill"></i>
+                }
+              </th>
+              <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="width: 20%">
+                Rival
+              </th>
+              <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7"
+                style="width: 20%; cursor: pointer;" (click)="setOrder('id_liga')">
+                Liga (ID)
+                @if (sortField() === 'id_liga' && sortDirection() === 'asc') {
+                <i class="bi bi-caret-up-fill"></i>
+                }
+                @if (sortField() === 'id_liga' && sortDirection() === 'desc') {
+                <i class="bi bi-caret-down-fill"></i>
+                }
+              </th>
+              <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
+                Local
+              </th>
+              <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
+                Resultado
+              </th>
+              <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
+                Acciones
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (oPartido of oPage()?.content; track oPartido.id) {
+            <tr>
+              <th scope="row" style="text-align: center">{{ oPartido.id }}</th>
+
+              <td>{{ oPartido.rival | trim:25 }}</td>
+
+              <td>
+                @if (oPartido.liga) {
+                  <a [routerLink]="['/liga', 'view', oPartido.liga.id]">
+                    {{ oPartido.liga.nombre | trim:25 }} ({{ oPartido.liga.id }})
+                  </a>
+                  
+                  <a class="btn btn-warning btn-sm ms-2 float-end" 
+                    [routerLink]="['/partido', oPartido.liga.id]"
+                    role="button" title="Filtrar por esta Liga">
+                    <i class="bi bi-funnel-fill" aria-hidden="true"></i>
+                  </a>
+                } @else {
+                  <span class="text-danger">--</span>
+                }
+              </td>
+
+              <td style="text-align: center">
+                @if (oPartido.local) {
+                <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3">
+                  Local
+                </span>
+                } @else {
+                <span class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle px-3">
+                  Visitante
+                </span>
+                }
+              </td>
+
+              <td style="text-align: center">
+                <i class="bi bi-calendar-event me-1"></i>
+                {{ oPartido.resultado }}
+              </td>
+
+              <td>
+                <div class="d-flex justify-content-center">
+                  <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                    <a class="btn btn-primary btn-sm" [routerLink]="['/partido/view', oPartido.id]" role="button"
+                      title="Ver"><i class="bi bi-eye" aria-hidden="true"></i></a>
+                    <a class="btn btn-warning btn-sm" [routerLink]="['/partido/edit', oPartido.id]" role="button"
+                      title="Editar"><i class="bi bi-pencil" aria-hidden="true"></i></a>
+                    <a class="btn btn-danger btn-sm" [routerLink]="['/partido/delete', oPartido.id]" role="button"
+                      title="Eliminar"><i class="bi bi-trash" aria-hidden="true"></i></a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            }
+            @if (!oPage() || oPage()?.content?.length === 0) {
+            <tr>
+              <td colspan="7" class="text-center py-5">
+                <div class="d-flex flex-column align-items-center opacity-50">
+                  <i class="bi bi-folder-x fs-1 mb-2"></i>
+                  <h5>No se encontraron resultados</h5>
+                  <p class="small">
+                    ¡Prueba a generar partidos nuevos!
+                  </p>
+                </div>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card-footer bg-white border-0 py-3">
+      <div class="d-flex justify-content-center">
+        <app-paginacion [numPage]="oPage() ? oPage()!.number : 0" [numPages]="oPage() ? oPage()!.totalPages : 0"
+          (pageChange)="onSetPage($event)">
+        </app-paginacion>
+      </div>
+    </div>
+  </div>
+</div>

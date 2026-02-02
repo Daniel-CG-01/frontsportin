@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { Home } from './component/shared/home/home';
 import { ArticuloPlistAdminRouted } from './component/articulo/plist-admin-routed/articulo-plist';
+import { PartidoPlistAdminRouted } from './component/partido/plist-admin-routed/partido-plist';
 import { FacturaPlistAdminRouted } from './component/factura/plist-admin-routed/factura-plist';
 import { RolusuarioPlist } from './component/rolusuario/plist-admin-routed/rolusuario-plist';
 import { TipoarticuloPlistAdminRouted } from './component/tipoarticulo/plist-admin-routed/tipoarticulo-plist';
@@ -20,7 +21,9 @@ export const routes: Routes = [
     { path: 'liga', component: LigaPlistAdminRouted },
     { path: 'liga/:equipo', component: LigaPlistAdminRouted },
     { path: 'articulo', component: ArticuloPlistAdminRouted},
-    { path: 'articulo/:tipoarticulo', component: ArticuloPlistAdminRouted},
+    { path: 'articulo/:tipoarticulo', component: ArticuloPlistAdminRouted},    
+    { path: 'partido', component: PartidoPlistAdminRouted},
+    { path: 'partido/:id_liga', component: PartidoPlistAdminRouted}
     { path: 'factura', component: FacturaPlistAdminRouted },
     { path: 'factura/:usuario', component: FacturaPlistAdminRouted }    
     { path: 'rolusuario', component: RolusuarioPlist },  
