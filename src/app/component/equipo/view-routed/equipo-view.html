@@ -1,0 +1,172 @@
+<div class="container py-3">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 border rounded bg-light p-2 mb-3">
+    <div>
+      <div class="text-uppercase small text-muted fw-semibold">Equipos</div>
+      <div class="fw-bold">Detalle de equipo</div>
+      <div class="text-muted small">Panel administrativo</div>
+    </div>
+    <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2" routerLink="/equipo">
+      <i class="bi bi-arrow-left"></i>
+      Volver
+    </a>
+  </div>
+
+  @if (loading()) {
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="text-center py-3">
+          <div class="spinner-border text-secondary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p class="text-muted mt-2 mb-0">Cargando detalle...</p>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <span>{{ error() }}</span>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (!loading() && !error() && oEquipo()) {
+    <div class="row g-3">
+      <div class="col-lg-4">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Identificación</div>
+          <div class="card-body p-2">
+            <div class="fw-bold">
+              {{ oEquipo()?.nombre }}
+            </div>
+            <div class="d-flex flex-wrap gap-2 mt-1">
+              <span class="badge bg-secondary-subtle text-secondary">ID {{ oEquipo()?.id }}</span>
+            </div>
+
+            <div class="mt-2">
+              <div class="row g-1">
+                <div class="col-5 text-muted small text-uppercase">Nombre</div>
+                <div class="col-7 fw-semibold small">{{ oEquipo()?.nombre }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Relaciones</div>
+          <div class="card-body p-2">
+            <div class="row g-1">
+              <div class="col-5 text-muted small text-uppercase">Categoría</div>
+              <div class="col-7 fw-semibold small">
+                @if (oEquipo()?.categoria?.nombre) {
+                  {{ oEquipo()?.categoria?.nombre }} ({{ oEquipo()?.categoria?.id }})
+                } @else {
+                  Sin categoría
+                }
+              </div>
+              <div class="col-5 text-muted small text-uppercase">Entrenador</div>
+              <div class="col-7 fw-semibold small">
+                @if (oEquipo()?.entrenador?.nombre) {
+                  <a [routerLink]="['/usuario/view', oEquipo()?.entrenador?.id]">
+                    {{ oEquipo()?.entrenador?.nombre }} {{ oEquipo()?.entrenador?.apellido1 }} ({{ oEquipo()?.entrenador?.id }})
+                  </a>
+                } @else {
+                  Sin entrenador
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Actividad</div>
+          <div class="card-body p-2">
+            <div class="row g-2">
+              <div class="col-6">
+                <div class="border rounded p-2 bg-white">
+                  <div class="text-muted small text-uppercase">Jugadores</div>
+                  <div class="fw-bold">
+                    @if (oEquipo()?.jugadores === 0) {
+                      0
+                    } @else {
+                      <a [routerLink]="['/jugador/equipo', oEquipo()?.id]">
+                        {{ oEquipo()?.jugadores ?? 0 }}
+                      </a>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Categoría (detalle)</div>
+          <div class="card-body p-2">
+            @if (oEquipo()?.categoria) {
+              <div class="row g-2">
+                <div class="col-sm-6 col-lg-4">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">ID</div>
+                    <div class="fw-semibold">{{ oEquipo()?.categoria?.id }}</div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Nombre</div>
+                    <div class="fw-semibold">{{ oEquipo()?.categoria?.nombre }}</div>
+                  </div>
+                </div>
+              </div>
+            } @else {
+              <div class="text-muted">Sin categoría asignada.</div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Entrenador (detalle)</div>
+          <div class="card-body p-2">
+            @if (oEquipo()?.entrenador) {
+              <div class="row g-2">
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">ID</div>
+                    <div class="fw-semibold">{{ oEquipo()?.entrenador?.id }}</div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Nombre</div>
+                    <div class="fw-semibold">{{ oEquipo()?.entrenador?.nombre }}</div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Apellido</div>
+                    <div class="fw-semibold">{{ oEquipo()?.entrenador?.apellido1 }}</div>
+                  </div>
+                </div>
+              </div>
+            } @else {
+              <div class="text-muted">Sin entrenador asignado.</div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
