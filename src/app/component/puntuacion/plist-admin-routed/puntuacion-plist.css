@@ -1,0 +1,9 @@
+.star-rating {
+  display: inline-flex;
+  gap: 2px;
+  font-size: 1.1rem;
+}
+
+.star-rating i {
+  transition: color 0.2s ease;
+}

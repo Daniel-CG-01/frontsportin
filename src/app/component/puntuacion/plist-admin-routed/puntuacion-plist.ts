@@ -95,4 +95,8 @@ export class PuntuacionPlistAdminRouted {
     this.numPage.set(0);
     this.getPage();
   }
+
+  getStars(rating: number): number[] {
+    return Array(5).fill(0).map((_, i) => i + 1);
+  }
 }

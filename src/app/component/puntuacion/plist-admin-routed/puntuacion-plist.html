@@ -112,7 +112,15 @@
               @if (oPuntuacion.puntuacion === null || oPuntuacion.puntuacion === undefined) {
                 <i class="bi bi-ban" aria-hidden="true"></i>
               } @else {
-                {{ oPuntuacion.puntuacion }}
+                <span class="star-rating">
+                  @for (star of getStars(oPuntuacion.puntuacion); track star) {
+                    @if (star <= oPuntuacion.puntuacion) {
+                      <i class="bi bi-star-fill text-warning" aria-hidden="true"></i>
+                    } @else {
+                      <i class="bi bi-star text-muted" aria-hidden="true"></i>
+                    }
+                  }
+                </span>
               }
             </td>
             <td>
