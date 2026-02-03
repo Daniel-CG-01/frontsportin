@@ -3,18 +3,20 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ITipousuario } from '../../../model/tipousuario';
 import { TipousuarioService } from '../../../service/tipousuario';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-tipousuario-plist',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './tipousuario-plist.html',
   styleUrl: './tipousuario-plist.css',
 })
 export class TipousuarioPlistAdminRouted {
 
   tipousuarios = signal<ITipousuario[]>([]);
-  orderField: string = 'id';
-  orderDirection: string = 'asc';
+  // Variables de ordenamiento
+  orderField = signal<string>('id');
+  orderDirection = signal<'asc' | 'desc'>('asc');
 
   constructor(private tipousuarioService: TipousuarioService) { }
 
@@ -34,12 +36,12 @@ export class TipousuarioPlistAdminRouted {
     });
   }
 
-  sortColumn(column: string) {
-    if (this.orderField === column) {
-      this.orderDirection = this.orderDirection === 'asc' ? 'desc' : 'asc';
+  onOrder(column: string) {
+    if (this.orderField() === column) {
+      this.orderDirection.set(this.orderDirection() === 'asc' ? 'desc' : 'asc');
     } else {
-      this.orderField = column;
-      this.orderDirection = 'asc';
+      this.orderField.set(column);
+      this.orderDirection.set('asc');
     }
     this.applyOrder(); // Re-ordenamos el array localmente
   }
@@ -47,17 +49,17 @@ export class TipousuarioPlistAdminRouted {
   private applyOrder() {
     if (this.tipousuarios()) {
       this.tipousuarios().sort((a, b) => {
-        let valueA = a[this.orderField as keyof ITipousuario];
-        let valueB = b[this.orderField as keyof ITipousuario];
+        let valueA = a[this.orderField() as keyof ITipousuario];
+        let valueB = b[this.orderField() as keyof ITipousuario];
 
         if (typeof valueA === 'string') {
           // Orden alfabético ignorando mayúsculas/minúsculas
-          return this.orderDirection === 'asc' 
+          return this.orderDirection() === 'asc' 
             ? valueA.localeCompare(valueB as string)
             : (valueB as string).localeCompare(valueA);
         } else {
           // Orden numérico (para el ID)
-          return this.orderDirection === 'asc' 
+          return this.orderDirection() === 'asc' 
             ? (valueA as number) - (valueB as number)
             : (valueB as number) - (valueA as number);
         }

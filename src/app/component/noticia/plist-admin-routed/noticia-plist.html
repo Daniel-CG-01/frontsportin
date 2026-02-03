@@ -44,7 +44,19 @@
 
   <!-- Ocultar paginación y RPP si no hay registros -->
   @if (totalRecords() > 0) {
-    <div class="d-flex justify-content-end my-1">
+
+    <div class="d-flex justify-content-between my-1">
+        @if (totalRecords() > 0) {
+          <div class="d-flex justify-content-start my-1">
+            <app-paginacion
+              [numPage]="numPage()"
+              [numPages]="oPage()?.totalPages || 1"
+              (pageChange)="goToPage($event)"
+            >
+            </app-paginacion>
+          </div>
+        }
+
       <app-botonera-rpp [numRpp]="numRpp()" (rppChange)="onRppChange($event)"> </app-botonera-rpp>
     </div>
   }
@@ -127,7 +139,7 @@
             <td>{{ oNoticia.contenido | trim: 50 }}</td>
             <td>{{ oNoticia.fecha | datetime }}</td>
             <td>
-              <a [routerLink]="['/club', '/view', oNoticia.club.id]">
+              <a [routerLink]="['/club/view', oNoticia.club.id]">
                 {{ (oNoticia.club.nombre || 'Club ' + oNoticia.club.id) | trim: 20 }}
                 {{ ' (' + oNoticia.club.id + ')' }}
               </a>
@@ -144,7 +156,7 @@
               @if (!oNoticia.comentarios || oNoticia.comentarios === 0) {
                 <i class="bi bi-ban" aria-hidden="true"></i>
               } @else {
-                <a [routerLink]="['/comentarionoticia', oNoticia.id]">
+                <a [routerLink]="['/comentario', oNoticia.id]">
                   {{ oNoticia.comentarios }}
                 </a>
               }
@@ -160,21 +172,21 @@
               <div class="d-flex justify-content-center">
                 <a
                   class="btn btn-primary btn-sm me-1"
-                  [routerLink]="['/noticia', '/view', oNoticia.id]"
+                  [routerLink]="['/noticia/view', oNoticia.id]"
                   role="button"
                   title="Ver"
                   ><i class="bi bi-eye-fill" aria-hidden="true"></i
                 ></a>
                 <a
                   class="btn btn-warning btn-sm me-1"
-                  [routerLink]="['/noticia', '/edit', oNoticia.id]"
+                  [routerLink]="['/noticia/edit', oNoticia.id]"
                   role="button"
                   title="Editar"
                   ><i class="bi bi-pencil-fill" aria-hidden="true"></i
                 ></a>
                 <a
                   class="btn btn-danger btn-sm"
-                  [routerLink]="['/noticia', '/delete', oNoticia.id]"
+                  [routerLink]="['/noticia/delete', oNoticia.id]"
                   role="button"
                   title="Eliminar"
                   ><i class="bi bi-trash-fill" aria-hidden="true"></i
@@ -186,16 +198,4 @@
       </tbody>
     </table>
   </div>
-
-  <!-- Paginación inferior -->
-  @if (totalRecords() > 0) {
-    <div class="d-flex justify-content-start my-1">
-      <app-paginacion
-        [numPage]="numPage()"
-        [numPages]="oPage()?.totalPages || 1"
-        (pageChange)="goToPage($event)"
-      >
-      </app-paginacion>
-    </div>
-  }
 </div>

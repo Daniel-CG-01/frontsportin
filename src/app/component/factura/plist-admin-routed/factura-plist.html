@@ -1,9 +1,11 @@
 <div class="container my-3">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h1>Facturas</h1>
-    <div class="text-muted">Total: {{ totalElementsCount () }}</div>
+  <div class="d-flex justify-content-center my-3">
+    <h1>Lista de Facturas</h1>
+  </div>
+  <div class="d-flex justify-content-center my-1">
+    <small class="text-muted">Total registros: {{ totalElementsCount() || 0 }}</small>
     @if (usuario() > 0) {
-      <small class="text-muted"> Filtro: id de usuario {{ usuario() }}</small>
+      <small class="text-muted ms-3"> Filtro: id de usuario = {{ usuario() }}</small>
       <a
         class="ms-2"
         [routerLink]="['/factura']"
@@ -12,13 +14,20 @@
         > Quitar filtro</a>
     }
   </div>
+  
+  <!-- Ocultar paginación y RPP si no hay registros -->
+  @if (totalElementsCount() > 0) {
+    <div class="d-flex justify-content-between my-1">
+      <app-paginacion
+        [numPage]="numPage()"
+        [numPages]="oPage()?.totalPages || 1"
+        (pageChange)="goToPage($event)"
+      >
+      </app-paginacion>
 
-
-  <div class="d-flex justify-content-between my-2 align-items-center">
-    @if (5 < totalElementsCount()) {
-      <app-botonera-rpp [numRpp]="numRpp()" (rppChange)="onRppChange($event)"></app-botonera-rpp>
-    }
-  </div>
+      <app-botonera-rpp [numRpp]="numRpp()" (rppChange)="onRppChange($event)"> </app-botonera-rpp>
+    </div>
+  }
 
 
   <div class="table-responsive">
@@ -71,7 +80,7 @@
                 class="btn btn-warning btn-sm ms-2 float-end"
                 [routerLink]="['/factura', oFactura.usuario.id]"
                 role="button"
-                title="Editar"
+                title="Filtrar por usuario"
                 ><i class="bi bi-funnel-fill" aria-hidden="true"></i
             ></a>
           </td>
@@ -117,15 +126,5 @@
     </table>
   </div>
 
-
-  <div class="d-flex justify-content-start my-2">
-    @if (numRpp() < totalElementsCount()) {
-      <app-paginacion
-        [numPage]="numPage()"
-        [numPages]="oPage()?.totalPages || 1"
-        (pageChange)="goToPage($event)"
-      ></app-paginacion>
-    }
-  </div>
 </div>
 

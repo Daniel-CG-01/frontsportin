@@ -1,6 +1,6 @@
 <div class="container my-2">
   <div class="d-flex justify-content-center my-3">
-    <h1>Lista de Categorías</h1>
+    <h1>Lista de Puntuaciones</h1>
   </div>
 
   <!-- Aviso (mensaje desde queryParams) -->
@@ -12,35 +12,18 @@
     </div>
   }
 
-  <!-- Búsqueda por nombre usando debounce -->
-  @if (temporada() <= 0) {
-    <div class="d-flex justify-content-center my-2">
-      <input
-        class="form-control me-2"
-        type="search"
-        placeholder="Buscar por nombre"
-        aria-label="Search"
-        (input)="onSearchName($event.target.value)"
-        [value]="nombre()"
-        name="searchNombre"
-      />
-    </div>
-  }
-
   <!-- Total registros -->
   <div class="d-flex justify-content-center my-1">
     <small class="text-muted">Total registros: {{ totalRecords() || 0 }}</small>
-    @if (temporada() > 0) {
-      <small class="text-muted ms-3">Filtro: id de temporada = {{ temporada() }}</small>
-      <!-- quitar el filtro -->
-      <a class="ms-2" [routerLink]="['/categoria']" role="button" title="Quitar filtro"
-        ><i class="bi bi-x-lg" aria-hidden="true"></i> Quitar filtro</a
-      >
+    @if (noticia() > 0) {
+      <small class="text-muted ms-3">Filtro: id de noticia = {{ noticia() }}</small>
     }
-    @if (nombre().length > 0) {
-      <small class="text-muted ms-3">Filtro: nombre contiene "{{ nombre() }}"</small>
+    @if (usuario() > 0) {
+      <small class="text-muted ms-3">Filtro: id de usuario = {{ usuario() }}</small>
+    }
+    @if (noticia() > 0 || usuario() > 0) {
       <!-- quitar el filtro -->
-      <a class="ms-2" (click)="clearSearchFilter()" role="button" style="cursor: pointer" title="Quitar filtro"
+      <a class="ms-2" [routerLink]="['/puntuacion']" role="button" title="Quitar filtro"
         ><i class="bi bi-x-lg" aria-hidden="true"></i> Quitar filtro</a
       >
     }
@@ -65,8 +48,8 @@
       <thead>
         <tr>
           <th scope="col" (click)="onOrder('id')" style="cursor: pointer; width: 5%">
-            <span class="header-inline">
-              ID
+            <span class="header-inline"
+              >ID
               @if (orderField() === 'id') {
                 @if (orderDirection() === 'asc') {
                   <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
@@ -77,10 +60,10 @@
               }
             </span>
           </th>
-          <th scope="col" (click)="onOrder('nombre')" style="cursor: pointer; width: 35%">
-            <span class="header-inline">
-              Nombre
-              @if (orderField() === 'nombre') {
+          <th scope="col" (click)="onOrder('puntuacion')" style="cursor: pointer; width: 10%">
+            <span class="header-inline"
+              >Puntuación
+              @if (orderField() === 'puntuacion') {
                 @if (orderDirection() === 'asc') {
                   <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
                 }
@@ -90,10 +73,10 @@
               }
             </span>
           </th>
-          <th scope="col" (click)="onOrder('temporada')" style="cursor: pointer; width: 40%">
-            <span class="header-inline">
-              Temporada
-              @if (orderField() === 'temporada') {
+          <th scope="col" (click)="onOrder('noticia')" style="cursor: pointer; width: 35%">
+            <span class="header-inline"
+              >Noticia
+              @if (orderField() === 'noticia') {
                 @if (orderDirection() === 'asc') {
                   <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
                 }
@@ -103,10 +86,10 @@
               }
             </span>
           </th>
-          <th scope="col" (click)="onOrder('equipos')" style="cursor: pointer; width: 10%">
-            <span class="header-inline">
-              Equipos
-              @if (orderField() === 'equipos') {
+          <th scope="col" (click)="onOrder('usuario')" style="cursor: pointer; width: 35%">
+            <span class="header-inline"
+              >Usuario
+              @if (orderField() === 'usuario') {
                 @if (orderDirection() === 'asc') {
                   <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
                 }
@@ -116,71 +99,89 @@
               }
             </span>
           </th>
-          <th scope="col">
-            <span class="header-inline">Acciones</span>
+          <th scope="col" style="width: 15%">
+            <span class="header-inline">Acciones </span>
           </th>
         </tr>
       </thead>
       <tbody>
-        @for (oCategoria of oPage()?.content; track oCategoria.id) {
+        @for (oPuntuacion of oPage()?.content; track oPuntuacion.id) {
           <tr>
-            <th scope="row" style="text-align: center">{{ oCategoria.id }}</th>
-            <td>{{ oCategoria.nombre }}</td>
-            <td>
-              <a [routerLink]="['/temporada', '/view', oCategoria.temporada.id]">
-                @if (oCategoria.temporada.descripcion) {
-                  {{ oCategoria.temporada.descripcion }} ({{ oCategoria.temporada.id }})
-                } @else {
-                  @if (oCategoria.temporada.id) {
-                    {{ 'Temporada (' + oCategoria.temporada.id + ')' }}
-                  } @else {
-                    Sin temporada
-                  }
-                }
-              </a>
-              <a
-                class="btn btn-warning btn-sm ms-2 float-end"
-                [routerLink]="['/categoria', oCategoria.temporada.id]"
-                role="button"
-                title="Filtrar por temporada"
-              >
-                <i class="bi bi-funnel-fill" aria-hidden="true"></i>
-              </a>
-           <td style="text-align: center">
-              @if (oCategoria.equipos === 0) {
-                <i class="bi bi-ban" aria-hidden="true"></i> 
+            <th scope="row" style="text-align: center">{{ oPuntuacion.id }}</th>
+            <td style="text-align: center">
+              @if (oPuntuacion.puntuacion === null || oPuntuacion.puntuacion === undefined) {
+                <i class="bi bi-ban" aria-hidden="true"></i>
               } @else {
-                <a [routerLink]="['/equipo', oCategoria.id]">
-                  {{ oCategoria.equipos }}
-                </a>
+                {{ oPuntuacion.puntuacion }}
               }
             </td>
+            <td>
+              @if (oPuntuacion.noticia) {
+                <a [routerLink]="['/noticia', 'view', oPuntuacion.noticia.id]">
+                  {{ (oPuntuacion.noticia.titulo || 'Noticia ' + oPuntuacion.noticia.id) | trim: 50 }}
+                  {{ ' (' + oPuntuacion.noticia.id + ')' }}
+                </a>
+                <a
+                  class="btn btn-warning btn-sm ms-2 float-end"
+                  [routerLink]="['/puntuacion', 'noticia', oPuntuacion.noticia.id]"
+                  role="button"
+                  title="Filtrar por noticia"
+                  ><i class="bi bi-funnel-fill" aria-hidden="true"></i
+                ></a>
+              } @else {
+                <span class="text-muted">Sin noticia</span>
+              }
+            </td>
+            <td>
+              @if (oPuntuacion.usuario) {
+                <a [routerLink]="['/usuario', 'view', oPuntuacion.usuario.id]">
+                  {{
+                    (oPuntuacion.usuario.nombre +
+                      ' ' +
+                      oPuntuacion.usuario.apellido1 +
+                      ' ' +
+                      oPuntuacion.usuario.apellido2) | trim: 50
+                  }}
+                  {{ ' (' + oPuntuacion.usuario.id + ')' }}
+                </a>
+                <a
+                  class="btn btn-warning btn-sm ms-2 float-end"
+                  [routerLink]="['/puntuacion', 'usuario', oPuntuacion.usuario.id]"
+                  role="button"
+                  title="Filtrar por usuario"
+                  ><i class="bi bi-funnel-fill" aria-hidden="true"></i
+                ></a>
+              } @else {
+                <span class="text-muted">Sin usuario</span>
+              }
+            </td>
+            <td>
               <div class="d-flex justify-content-center">
                 <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
                   <a
                     class="btn btn-primary btn-sm"
-                    [routerLink]="['/categoria/view', oCategoria.id]"
+                    [routerLink]="['/puntuacion/view', oPuntuacion.id]"
                     role="button"
                     title="Ver"
                     ><i class="bi bi-eye" aria-hidden="true"></i
                   ></a>
                   <a
                     class="btn btn-warning btn-sm"
-                    [routerLink]="['/categoria/edit', oCategoria.id]"
+                    [routerLink]="['/puntuacion/edit', oPuntuacion.id]"
                     role="button"
                     title="Editar"
                     ><i class="bi bi-pencil" aria-hidden="true"></i
                   ></a>
                   <a
                     class="btn btn-danger btn-sm"
-                    [routerLink]="['/categoria/delete', oCategoria.id]"
+                    [routerLink]="['/puntuacion/delete', oPuntuacion.id]"
                     role="button"
                     title="Eliminar"
                     ><i class="bi bi-trash" aria-hidden="true"></i
                   ></a>
                 </div>
               </div>
-            
+            </td>
           </tr>
         }
       </tbody>

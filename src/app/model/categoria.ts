@@ -7,5 +7,5 @@ export interface ICategoria {
 
 export interface ITemporada {
   id: number
-  nombre?: string
+  descripcion?: string
 }

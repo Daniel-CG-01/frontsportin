@@ -1,0 +1,127 @@
+﻿<div class="container my-2 carrito-plist">
+  <div class="d-flex justify-content-center my-3">
+    <h1>Carritos</h1>
+  </div>
+
+  <div class="d-flex justify-content-center my-2">
+    <input
+      class="form-control me-2"
+      type="search"
+      placeholder="Buscar por articulo o usuario"
+      aria-label="Search"
+      (input)="onSearch($any($event.target).value)"
+      [value]="filtro()"
+    />
+  </div>
+
+  <div class="d-flex justify-content-center my-1 flex-wrap gap-2">
+    <small class="text-muted">Total registros: {{ totalElementsCount() || 0 }}</small>
+
+    @if (idArticulo() > 0) {
+      <small class="text-muted ms-3">Filtro: id articulo = {{ idArticulo() }}</small>
+      <a class="ms-2" [routerLink]="['/carrito']" role="button" title="Quitar filtro">
+        <i class="bi bi-x-lg" aria-hidden="true"></i> Quitar filtro
+      </a>
+    }
+
+    @if (idUsuario() > 0) {
+      <small class="text-muted ms-3">Filtro: id usuario = {{ idUsuario() }}</small>
+      <a class="ms-2" [routerLink]="['/carrito']" role="button" title="Quitar filtro">
+        <i class="bi bi-x-lg" aria-hidden="true"></i> Quitar filtro
+      </a>
+    }
+  </div>
+
+  @if (totalElementsCount() > 0) {
+    <div class="d-flex justify-content-between my-1">
+      <app-paginacion
+        [numPage]="numPage()"
+        [numPages]="oPage()?.totalPages || 1"
+        (pageChange)="goToPage($event)"
+      ></app-paginacion>
+
+      <app-botonera-rpp
+        [numRpp]="numRpp()"
+        (rppChange)="onRppChange($event)"
+      ></app-botonera-rpp>
+    </div>
+  }
+
+  <div class="d-flex justify-content-center">
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th scope="col" (click)="onOrder('id')" style="cursor: pointer; width: 6%">
+            <span class="header-inline">
+              ID
+              @if (orderField() === 'id') {
+                @if (orderDirection() === 'asc') {
+                  <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
+                }
+                @if (orderDirection() === 'desc') {
+                  <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
+                }
+              }
+            </span>
+          </th>
+
+          <th scope="col" (click)="onOrder('cantidad')" style="cursor: pointer; width: 10%">
+            <span class="header-inline">
+              Cantidad
+              @if (orderField() === 'cantidad') {
+                @if (orderDirection() === 'asc') {
+                  <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
+                }
+                @if (orderDirection() === 'desc') {
+                  <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
+                }
+              }
+            </span>
+          </th>
+
+          <th scope="col" style="width: 40%">Articulo</th>
+          <th scope="col" style="width: 40%">Usuario</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (carrito of oPage()?.content; track carrito.id) {
+          <tr>
+            <th scope="row" class="text-center">{{ carrito.id }}</th>
+            <td class="text-center">{{ carrito.cantidad }}</td>
+
+            <td>
+              <a [routerLink]="['/articulo', 'view', carrito.articulo.id]">
+                {{ carrito.articulo.descripcion || 'Sin articulo' }} ({{ carrito.articulo.id }})
+              </a>
+              <a
+                class="btn btn-warning btn-sm ms-2 float-end"
+                [routerLink]="['/carrito', 'articulo', carrito.articulo.id]"
+                role="button"
+                title="Filtrar por articulo"
+              >
+                <i class="bi bi-funnel-fill" aria-hidden="true"></i>
+              </a>
+            </td>
+
+            <td>
+              <a [routerLink]="['/usuario', 'view', carrito.usuario.id]">
+                {{ carrito.usuario.nombre }} {{ carrito.usuario.apellido1 }} {{ carrito.usuario.apellido2 }} ({{ carrito.usuario.id }})
+              </a>
+              <a
+                class="btn btn-warning btn-sm ms-2 float-end"
+                [routerLink]="['/carrito', 'usuario', carrito.usuario.id]"
+                role="button"
+                title="Filtrar por usuario"
+              >
+                <i class="bi bi-funnel-fill" aria-hidden="true"></i>
+              </a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+

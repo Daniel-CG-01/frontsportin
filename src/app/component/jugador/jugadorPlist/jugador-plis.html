@@ -196,7 +196,7 @@
             @if (jugador.pagos === 0) {
               <i class="bi bi-ban" aria-hidden="true"></i> 
             } @else {
-              <a [routerLink]="['/pago', jugador.id]">
+              <a [routerLink]="['/pago','jugador', jugador.id]">
                 {{ jugador.pagos }}
               </a>
             }

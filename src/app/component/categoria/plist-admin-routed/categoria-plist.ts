@@ -194,4 +194,10 @@ export class CategoriaPlistAdminRouted {
   onSearchName(value: string) {
     this.searchSubject.next(value);
   }
+
+  clearSearchFilter() {
+    this.nombre.set('');
+    this.numPage.set(0);
+    this.getPage();
+  }
 }

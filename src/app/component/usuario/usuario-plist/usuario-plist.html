@@ -145,12 +145,12 @@
             <td style="text-align: center">{{ getGeneroLabel(usuario.genero) }}</td>
 
             <td>
-              <a [routerLink]="['/club', 'view', usuario.club?.id]">
-                {{ usuario.club?.nombre || 'Sin club' }} ({{ usuario.club?.id }})
+              <a [routerLink]="['/club', 'view', usuario.club.id]">
+                {{ usuario.club.nombre || 'Sin club' }} ({{ usuario.club.id }})
               </a>
               <a
                 class="btn btn-warning btn-sm ms-2 float-end"
-                [routerLink]="['/usuario', 'club', usuario.club?.id]"
+                [routerLink]="['/usuario', 'club', usuario.club.id]"
                 role="button"
                 title="Filtrar"
               >
@@ -159,12 +159,12 @@
             </td>
 
             <td>
-              <a [routerLink]="['/tipousuario', 'view', usuario.tipousuario?.id]">
-                {{ usuario.tipousuario?.descripcion || 'Sin tipo' }} ({{ usuario.tipousuario?.id }})
+              <a [routerLink]="['/tipousuario', 'view', usuario.tipousuario.id]">
+                {{ usuario.tipousuario.descripcion || 'Sin tipo' }} ({{ usuario.tipousuario.id }})
               </a>
               <a
                 class="btn btn-warning btn-sm ms-2 float-end"
-                [routerLink]="['/usuario', 'tipousuario', usuario.tipousuario?.id]"
+                [routerLink]="['/usuario', 'tipousuario', usuario.tipousuario.id]"
                 role="button"
                 title="Filtrar"
               >
@@ -173,12 +173,12 @@
             </td>
 
             <td>
-              <a [routerLink]="['/rolusuario', 'view', usuario.rolusuario?.id]">
-                {{ usuario.rolusuario?.descripcion || 'Sin rol' }} ({{ usuario.rolusuario?.id }})
+              <a [routerLink]="['/rolusuario', 'view', usuario.rolusuario.id]">
+                {{ usuario.rolusuario.descripcion || 'Sin rol' }} ({{ usuario.rolusuario.id }})
               </a>
               <a
                 class="btn btn-warning btn-sm ms-2 float-end"
-                [routerLink]="['/usuario', 'rol', usuario.rolusuario?.id]"
+                [routerLink]="['/usuario', 'rol', usuario.rolusuario.id]"
                 role="button"
                 title="Filtrar"
               >
@@ -188,37 +188,86 @@
 
             <td style="text-align: center">
               @if (usuario.comentarios === 0) { <i class="bi bi-ban" aria-hidden="true"></i> }
-              @else { {{ usuario.comentarios }} }
+              @else {
+                <a
+                  [routerLink]="['/comentario', 'usuario', usuario.id]"
+                  class="text-decoration-none"
+                  title="Ver comentarios"
+                  >{{ usuario.comentarios }}</a
+                >
+              }
             </td>
 
             <td style="text-align: center">
               @if (usuario.puntuaciones === 0) { <i class="bi bi-ban" aria-hidden="true"></i> }
-              @else { {{ usuario.puntuaciones }} }
+              @else {
+                <a
+                  [routerLink]="['/puntuacion', 'usuario', usuario.id]"
+                  class="text-decoration-none"
+                  title="Ver puntuaciones"
+                  >{{ usuario.puntuaciones }}</a
+                >
+              }
             </td>
 
             <td style="text-align: center">
               @if (usuario.comentarioarts === 0) { <i class="bi bi-ban" aria-hidden="true"></i> }
-              @else { {{ usuario.comentarioarts }} }
+              @else {
+                <a
+                  [routerLink]="['/comentarioart', 'usuario', usuario.id]"
+                  class="text-decoration-none"
+                  title="Ver comentarios de articulos"
+                  >{{ usuario.comentarioarts }}</a
+                >
+              }
             </td>
 
             <td style="text-align: center">
               @if (usuario.carritos === 0) { <i class="bi bi-ban" aria-hidden="true"></i> }
-              @else { {{ usuario.carritos }} }
+              @else {
+                <a
+                  [routerLink]="['/carrito', 'usuario', usuario.id]"
+                  class="text-decoration-none"
+                  title="Ver carritos"
+                  >{{ usuario.carritos }}</a
+                >
+              }
             </td>
 
             <td style="text-align: center">
               @if (usuario.facturas === 0) { <i class="bi bi-ban" aria-hidden="true"></i> }
-              @else { {{ usuario.facturas }} }
+              @else {
+                <a
+                  [routerLink]="['/factura', usuario.id]"
+                  class="text-decoration-none"
+                  title="Ver facturas"
+                  >{{ usuario.facturas }}</a
+                >
+              }
             </td>
 
             <td style="text-align: center">
               @if (usuario.equiposentrenados === 0) { <i class="bi bi-ban" aria-hidden="true"></i> }
-              @else { {{ usuario.equiposentrenados }} }
+              @else {
+                <a
+                  [routerLink]="['/equipo']"
+                  class="text-decoration-none"
+                  title="Ver equipos (no hay filtro por usuario disponible)"
+                  >{{ usuario.equiposentrenados }}</a
+                >
+              }
             </td>
 
             <td style="text-align: center">
               @if (usuario.jugadores === 0) { <i class="bi bi-ban" aria-hidden="true"></i> }
-              @else { {{ usuario.jugadores }} }
+              @else {
+                <a
+                  [routerLink]="['/jugador/usuario', usuario.id]"
+                  class="text-decoration-none"
+                  title="Ver jugadores"
+                  >{{ usuario.jugadores }}</a
+                >
+              }
             </td>
 
             <td>{{ usuario.fechaAlta }}</td>
