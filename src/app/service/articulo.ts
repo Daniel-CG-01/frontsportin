@@ -42,9 +42,9 @@ export class ArticuloService {
     );
   }
 
-  // get(id: number): Observable<IArticulo> {
-  //   return this.oHttp.get<IArticulo>(serverURL + '/articulo/' + id);
-  // }
+  get(id: number): Observable<IArticulo> {
+    return this.oHttp.get<IArticulo>(serverURL + '/articulo/' + id);
+   }
 
   // create(articulo: Partial<IArticulo>): Observable<number> {
   //   return this.oHttp.post<number>(serverURL + '/articulo', articulo);

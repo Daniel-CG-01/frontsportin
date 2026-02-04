@@ -50,4 +50,8 @@ export class ComentarioService {
     count(): Observable<number> {
         return this.oHttp.get<number>(`${serverURL}/comentario/count`);
     }
+
+    get(id: number): Observable<IComentario> {
+        return this.oHttp.get<IComentario>(`${this.URL}/${id}`);
+    }
 }

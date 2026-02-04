@@ -8,4 +8,6 @@ export interface IEquipo {
   categoria?: ICategoria;
   entrenador?: IUsuario;
   jugadores?: number;
+  cuotas?: number;
+  ligas?: number;
 }

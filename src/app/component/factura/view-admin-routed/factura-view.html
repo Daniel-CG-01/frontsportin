@@ -1,0 +1,221 @@
+<div class="container py-3">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 border rounded bg-light p-2 mb-3">
+    <div>
+      <div class="text-uppercase small text-muted fw-semibold">Facturas</div>
+      <div class="fw-bold">Detalle de factura</div>
+      <div class="text-muted small">Panel administrativo</div>
+    </div>
+    <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2" routerLink="/factura">
+      <i class="bi bi-arrow-left"></i>
+      Volver
+    </a>
+  </div>
+
+  @if (loading()) {
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="text-center py-3">
+          <div class="spinner-border text-secondary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p class="text-muted mt-2 mb-0">Cargando detalle...</p>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <span>{{ error() }}</span>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (!loading() && !error() && oFactura()) {
+    <div class="row g-3">
+      <div class="col-lg-4">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Información</div>
+          <div class="card-body p-2">
+            <div class="row g-1">
+              <div class="col-5 text-muted small text-uppercase">ID de factura</div>
+              <div class="col-7 fw-semibold small">
+                  {{ oFactura()?.id }}
+              </div>
+              <div class="col-5 text-muted small text-uppercase">Usuario emisor</div>
+              <div class="col-7 fw-semibold small">
+                  {{ oFactura()?.usuario?.username }}
+              </div>
+              <div class="col-5 text-muted small text-uppercase">Fecha de emisión</div>
+              <div class="col-7 fw-semibold small">
+                  {{ oFactura()?.fecha }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Relaciones</div>
+          <div class="card-body p-2">
+            <div class="row g-1">
+              <div class="col-5 text-muted small text-uppercase">Usuarios</div>
+              <div class="col-7 fw-semibold small">
+                <a class="text-decoration-none" [routerLink]="['/usuario/view', oFactura()?.usuario?.id]">
+                  {{ oFactura()?.usuario?.nombre }} {{ oFactura()?.usuario?.apellido1 }} {{ oFactura()?.usuario?.apellido2 }} ({{ oFactura()?.usuario?.id }})
+                </a>  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Actividad</div>
+          <div class="card-body p-2">
+            <div class="row g-2">
+              <div class="col-6">
+                <div class="border rounded p-2 bg-white">
+                  <div class="text-muted small text-uppercase">Compras</div>
+                  <div class="fw-bold">
+                     <a class="text-decoration-none" [routerLink]="['/compra/factura/', oFactura()?.id]">
+                    {{ oFactura()?.compras }}
+                    </a>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      <div class="col-12">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Usuario (detalle)</div>
+          <div class="card-body p-2">
+            @if (oFactura()?.usuario) {
+              <div class="row g-2">
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Nombre</div>
+                    <div class="fw-semibold">{{ oFactura()?.usuario?.nombre }}</div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Apellido 1</div>
+                    <div class="fw-semibold">{{ oFactura()?.usuario?.apellido1 }}</div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Apellido 2</div>
+                    <div class="fw-semibold">{{ oFactura()?.usuario?.apellido2 }}</div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Fecha Alta</div>
+                    <div class="fw-semibold">{{ oFactura()?.usuario?.fechaAlta | datetime }}</div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Rol de usuario</div>
+                    <div class="fw-semibold">
+                      <a class="text-decoration-none" [routerLink]="['/rolusuario/view/', oFactura()?.usuario?.rolusuario?.id]">
+                      {{ oFactura()?.usuario?.rolusuario?.descripcion }} ({{ oFactura()?.usuario?.rolusuario?.id }})
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Tipo de usuario</div>
+                    <div class="fw-semibold">
+                      <a class="text-decoration-none" [routerLink]="['/tipousuario/view/', oFactura()?.usuario?.tipousuario?.id]">
+                      {{ oFactura()?.usuario?.tipousuario?.descripcion }} ({{ oFactura()?.usuario?.tipousuario?.id }})
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">
+                        Comentarios en artículos
+                    </div>
+                    <div class="fw-semibold">
+                      <a class="text-decoration-none" [routerLink]="['/comentarioart/usuario/', oFactura()?.usuario?.id]">
+                        {{ oFactura()?.usuario?.comentarioarts }}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">
+                        Comentarios
+                    </div>
+                    <div class="fw-semibold">
+                      <a class="text-decoration-none" [routerLink]="['/comentario/usuario/', oFactura()?.usuario?.id]">
+                        {{ oFactura()?.usuario?.comentarios }}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Puntuaciones</div>
+                    <div class="fw-semibold">
+                      <a class="text-decoration-none" [routerLink]="['/puntuacion/usuario/', oFactura()?.usuario?.id]">
+                        {{ oFactura()?.usuario?.puntuaciones }}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Club</div>
+                    <div class="fw-semibold">
+                      <a class="text-decoration-none" [routerLink]="['/club/view/', oFactura()?.usuario?.club?.id]">
+                        {{ oFactura()?.usuario?.club?.nombre }} ({{ oFactura()?.usuario?.club?.id }})
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Carritos</div>
+                    <div class="fw-semibold">
+                      <a class="text-decoration-none" [routerLink]="['/carrito/usuario/', oFactura()?.usuario?.id]">
+                        {{ oFactura()?.usuario?.carritos }}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Facturas</div>
+                    <div class="fw-semibold">
+                      <a class="text-decoration-none" [routerLink]="['/factura/usuario/', oFactura()?.usuario?.id]">
+                        {{ oFactura()?.usuario?.facturas }}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            } @else {
+              <div class="text-muted">Sin usuario asignado.</div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

@@ -1,11 +1,11 @@
 <div class="container py-3">
     <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 border rounded bg-light p-2 mb-3">
         <div>
-            <div class="text-uppercase small text-muted fw-semibold">Noticias</div>
-            <div class="fw-bold">Detalle de noticia</div>
+            <div class="text-uppercase small text-muted fw-semibold">Carritos</div>
+            <div class="fw-bold">Detalle de carrito</div>
             <div class="text-muted small">Panel administrativo</div>
         </div>
-        <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2" routerLink="/noticia">
+        <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2" routerLink="/carrito">
             <i class="bi bi-arrow-left"></i>
             Volver
         </a>
@@ -35,26 +35,19 @@
         </div>
     }
 
-    @if (!loading() && !error() && noticia()) {
+    @if (!loading() && !error() && carrito()) {
         <div class="row g-3">
             <div class="col-lg-4">
                 <div class="card border">
                     <div class="card-header bg-light small text-uppercase fw-semibold">Identificación</div>
                     <div class="card-body p-2">
-                        <div class="fw-bold">
-                            {{ noticia()?.titulo }}
-                        </div>
                         <div class="d-flex flex-wrap gap-2 mt-1">
-                            <span class="badge bg-secondary-subtle text-secondary">ID {{ noticia()?.id }}</span>
+                            <span class="badge bg-secondary-subtle text-secondary">ID {{ carrito()?.id }}</span>
                         </div>
                         <div class="mt-2">
                             <div class="row g-1">
-                                <div class="col-5 text-muted small text-uppercase">Contenido</div>
-                                <div class="col-7 fw-semibold small">{{ noticia()?.contenido }}</div>
-                                <div class="col-5 text-muted small text-uppercase">Fecha</div>
-                                <div class="col-7 fw-semibold small">{{ noticia()?.fecha }}</div>
-                                <div class="col-5 text-muted small text-uppercase">Imagen</div>
-                                <div class="col-7 fw-semibold small">{{ noticia()?.imagen }}</div>
+                                <div class="col-5 text-muted small text-uppercase">Cantidad</div>
+                                <div class="col-7 fw-semibold small">{{ carrito()?.cantidad }}</div>
                             </div>
                         </div>
                     </div>
@@ -66,14 +59,24 @@
                     <div class="card-header bg-light small text-uppercase fw-semibold">Relaciones</div>
                     <div class="card-body p-2">
                         <div class="row g-1">
-                            <div class="col-5 text-muted small text-uppercase">Club</div>
+                            <div class="col-5 text-muted small text-uppercase">Artículo</div>
                             <div class="col-7 fw-semibold small">
-                                @if (noticia()?.club?.nombre) {
-                                    <a [routerLink]="['/club/view', noticia()?.club?.id]">
-                                        {{ noticia()?.club?.nombre }} ({{ noticia()?.club?.id }})
+                                @if (carrito()?.articulo?.descripcion) {
+                                    <a [routerLink]="['/articulo/view', carrito()?.articulo?.id]">
+                                        {{ carrito()?.articulo?.descripcion }} ({{ carrito()?.articulo?.id }})
                                     </a>
                                 } @else {
-                                    Sin club
+                                    Sin artículo
+                                }
+                            </div>
+                            <div class="col-5 text-muted small text-uppercase">Usuario</div>
+                            <div class="col-7 fw-semibold small">
+                                @if (carrito()?.usuario?.nombre) {
+                                    <a [routerLink]="['/usuario/view', carrito()?.usuario?.id]">
+                                        {{ carrito()?.usuario?.nombre }} ({{ carrito()?.usuario?.id }})
+                                    </a>
+                                } @else {
+                                    Sin usuario
                                 }
                             </div>
                         </div>

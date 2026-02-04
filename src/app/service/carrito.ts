@@ -40,4 +40,10 @@ export class CarritoService {
   count(): Observable<number> {
     return this.oHttp.get<number>(`${serverURL}/carrito/count`);
   }
+
+  private carritoURL = `${serverURL}/carrito`;
+
+  getById(id: number) {
+    return this.oHttp.get<ICarrito>(`${this.carritoURL}/${id}`);
+  }
 }

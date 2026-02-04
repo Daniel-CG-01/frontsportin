@@ -1,0 +1,269 @@
+<div class="container py-3">
+	<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 border rounded bg-light p-2 mb-3">
+		<div>
+			<div class="text-uppercase small text-muted fw-semibold">Comentarios</div>
+			<div class="fw-bold">Detalle de comentario</div>
+			<div class="text-muted small">Panel administrativo</div>
+		</div>
+		<a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2" routerLink="/comentario">
+			<i class="bi bi-arrow-left"></i>
+			Volver
+		</a>
+	</div>
+
+	@if (loading()) {
+		<div class="row justify-content-center">
+			<div class="col-lg-8">
+				<div class="text-center py-3">
+					<div class="spinner-border text-secondary" role="status">
+						<span class="visually-hidden">Cargando...</span>
+					</div>
+					<p class="text-muted mt-2 mb-0">Cargando detalle...</p>
+				</div>
+			</div>
+		</div>
+	}
+
+	@if (error()) {
+		<div class="row justify-content-center">
+			<div class="col-lg-8">
+				<div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+					<i class="bi bi-exclamation-triangle-fill"></i>
+					<span>{{ error() }}</span>
+				</div>
+			</div>
+		</div>
+	}
+
+	@if (!loading() && !error() && oComentario()) {
+		<div class="row g-3">
+			<div class="col-lg-6">
+				<div class="card border">
+					<div class="card-header bg-light small text-uppercase fw-semibold">Identificación</div>
+					<div class="card-body p-2">
+						<div class="d-flex flex-wrap gap-2">
+							<span class="badge bg-secondary-subtle text-secondary">ID {{ oComentario()?.id }}</span>
+							@if (oComentario()?.usuario?.id) {
+								<span class="badge bg-light text-muted">Usuario {{ oComentario()?.usuario?.id }}</span>
+							}
+							@if (oComentario()?.noticia?.id) {
+								<span class="badge bg-light text-muted">Noticia {{ oComentario()?.noticia?.id }}</span>
+							}
+						</div>
+
+						<div class="mt-2">
+							<div class="text-muted small text-uppercase">Contenido</div>
+							<div class="border rounded bg-white p-2">
+								<div class="small" style="white-space: pre-wrap">{{ oComentario()?.contenido }}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-6">
+				<div class="card border">
+					<div class="card-header bg-light small text-uppercase fw-semibold">Relaciones</div>
+					<div class="card-body p-2">
+						<div class="row g-1">
+							<div class="col-5 text-muted small text-uppercase">Usuario</div>
+							<div class="col-7 fw-semibold small">
+								@if (oComentario()?.usuario) {
+									<a class="text-decoration-none" [routerLink]="['/usuario/view', oComentario()?.usuario?.id]">
+										{{ oComentario()?.usuario?.nombre }} {{ oComentario()?.usuario?.apellido1 }} {{ oComentario()?.usuario?.apellido2 }}
+									</a>
+									<span class="text-muted"> ({{ oComentario()?.usuario?.id }})</span>
+								} @else {
+									Sin usuario
+								}
+							</div>
+
+							<div class="col-5 text-muted small text-uppercase">Noticia</div>
+							<div class="col-7 fw-semibold small">
+								@if (oComentario()?.noticia) {
+									<a class="text-decoration-none" [routerLink]="['/noticia/view', oComentario()?.noticia?.id]">
+										{{ oComentario()?.noticia?.titulo }}
+									</a>
+									<span class="text-muted"> ({{ oComentario()?.noticia?.id }})</span>
+								} @else {
+									Sin noticia
+								}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12">
+				<div class="card border">
+					<div class="card-header bg-light small text-uppercase fw-semibold">Usuario (detalle)</div>
+					<div class="card-body p-2">
+						@if (oComentario()?.usuario) {
+								<div class="row g-2">
+									<div class="col-sm-6 col-lg-4">
+										<div class="border rounded p-2 bg-white">
+											<div class="text-muted small text-uppercase">Nombre</div>
+											<div class="fw-semibold">
+												{{ oComentario()?.usuario?.nombre }} {{ oComentario()?.usuario?.apellido1 }} {{ oComentario()?.usuario?.apellido2 }}
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6 col-lg-2">
+										<div class="border rounded p-2 bg-white">
+											<div class="text-muted small text-uppercase">ID</div>
+											<div class="fw-semibold">{{ oComentario()?.usuario?.id }}</div>
+										</div>
+									</div>
+									<div class="col-sm-6 col-lg-3">
+										<div class="border rounded p-2 bg-white">
+											<div class="text-muted small text-uppercase">Username</div>
+											<div class="fw-semibold">@{{ oComentario()?.usuario?.username }}</div>
+										</div>
+									</div>
+									<div class="col-sm-6 col-lg-3">
+										<div class="border rounded p-2 bg-white">
+											<div class="text-muted small text-uppercase">Fecha alta</div>
+											<div class="fw-semibold">{{ oComentario()?.usuario?.fechaAlta | date:'dd/MM/yyyy' }}</div>
+										</div>
+									</div>
+
+									<div class="col-sm-6 col-lg-3">
+										<div class="border rounded p-2 bg-white">
+											<div class="text-muted small text-uppercase">Género</div>
+											<div class="fw-semibold">{{ oComentario()?.usuario?.genero }}</div>
+										</div>
+									</div>
+									<div class="col-sm-6 col-lg-4">
+										<div class="border rounded p-2 bg-white">
+											<div class="text-muted small text-uppercase">Tipo usuario</div>
+											<div class="fw-semibold">
+												@if (oComentario()?.usuario?.tipousuario) {
+													{{ oComentario()?.usuario?.tipousuario?.descripcion }} ({{ oComentario()?.usuario?.tipousuario?.id }})
+												} @else {
+													Sin asignar
+												}
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6 col-lg-5">
+										<div class="border rounded p-2 bg-white">
+											<div class="text-muted small text-uppercase">Rol usuario</div>
+											<div class="fw-semibold">
+												@if (oComentario()?.usuario?.rolusuario) {
+													{{ oComentario()?.usuario?.rolusuario?.descripcion }} ({{ oComentario()?.usuario?.rolusuario?.id }})
+												} @else {
+													Sin asignar
+												}
+											</div>
+										</div>
+									</div>
+
+									<div class="col-sm-6 col-lg-6">
+										<div class="border rounded p-2 bg-white">
+											<div class="text-muted small text-uppercase">Club</div>
+											<div class="fw-semibold">
+												@if (oComentario()?.usuario?.club?.nombre) {
+													{{ oComentario()?.usuario?.club?.nombre }} ({{ oComentario()?.usuario?.club?.id }})
+												} @else {
+													Sin club
+												}
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6 col-lg-6">
+										<div class="border rounded p-2 bg-white">
+											<div class="text-muted small text-uppercase">Contadores</div>
+											<div class="small">
+												<span class="me-3"><span class="text-muted">Comentarios:</span> <span class="fw-semibold">{{ oComentario()?.usuario?.comentarios }}</span></span>
+												<span class="me-3"><span class="text-muted">Puntuaciones:</span> <span class="fw-semibold">{{ oComentario()?.usuario?.puntuaciones }}</span></span>
+												<span class="me-3"><span class="text-muted">Coment. art.:</span> <span class="fw-semibold">{{ oComentario()?.usuario?.comentarioarts }}</span></span>
+												<span class="me-3"><span class="text-muted">Carritos:</span> <span class="fw-semibold">{{ oComentario()?.usuario?.carritos }}</span></span>
+												<span class="me-3"><span class="text-muted">Facturas:</span> <span class="fw-semibold">{{ oComentario()?.usuario?.facturas }}</span></span>
+											</div>
+										</div>
+									</div>
+								</div>
+						} @else {
+							<div class="text-muted">Sin usuario asignado.</div>
+						}
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12">
+				<div class="card border">
+					<div class="card-header bg-light small text-uppercase fw-semibold">Noticia (detalle)</div>
+					<div class="card-body p-2">
+						@if (oComentario()?.noticia) {
+								<div class="row g-2">
+									<div class="col-sm-6 col-lg-2">
+										<div class="border rounded p-2 bg-white">
+											<div class="text-muted small text-uppercase">ID</div>
+											<div class="fw-semibold">{{ oComentario()?.noticia?.id }}</div>
+										</div>
+									</div>
+									<div class="col-sm-6 col-lg-6">
+										<div class="border rounded p-2 bg-white">
+											<div class="text-muted small text-uppercase">Título</div>
+											<div class="fw-semibold">{{ oComentario()?.noticia?.titulo }}</div>
+										</div>
+									</div>
+									<div class="col-sm-6 col-lg-4">
+										<div class="border rounded p-2 bg-white">
+											<div class="text-muted small text-uppercase">Fecha</div>
+											<div class="fw-semibold">{{ oComentario()?.noticia?.fecha | date:'dd/MM/yyyy' }}</div>
+										</div>
+									</div>
+
+									<div class="col-12">
+										<div class="border rounded p-2 bg-white">
+											<div class="text-muted small text-uppercase">Contenido</div>
+											<div class="small" style="white-space: pre-wrap">{{ oComentario()?.noticia?.contenido }}</div>
+										</div>
+									</div>
+
+									<div class="col-sm-6 col-lg-4">
+										<div class="border rounded p-2 bg-white">
+											<div class="text-muted small text-uppercase">Club</div>
+											<div class="fw-semibold">
+												@if (oComentario()?.noticia?.club?.nombre) {
+													{{ oComentario()?.noticia?.club?.nombre }} ({{ oComentario()?.noticia?.club?.id }})
+												} @else {
+													Sin club
+												}
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6 col-lg-4">
+										<div class="border rounded p-2 bg-white">
+											<div class="text-muted small text-uppercase">Comentarios</div>
+											<div class="fw-semibold">{{ oComentario()?.noticia?.comentarios }}</div>
+										</div>
+									</div>
+									<div class="col-sm-6 col-lg-4">
+										<div class="border rounded p-2 bg-white">
+											<div class="text-muted small text-uppercase">Puntuaciones</div>
+											<div class="fw-semibold">{{ oComentario()?.noticia?.puntuaciones }}</div>
+										</div>
+									</div>
+
+									@if (oComentario()?.noticia?.imagen) {
+										<div class="col-12">
+											<div class="border rounded p-2 bg-white">
+												<div class="text-muted small text-uppercase">Imagen</div>
+												<div class="mt-2">
+													<img [src]="oComentario()?.noticia?.imagen" alt="Imagen noticia" class="img-fluid rounded" />
+												</div>
+											</div>
+										</div>
+									}
+								</div>
+						} @else {
+							<div class="text-muted">Sin noticia asignada.</div>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+</div>

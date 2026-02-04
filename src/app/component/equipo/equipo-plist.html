@@ -41,18 +41,6 @@
       <small class="text-muted ms-3">Filtro: nombre contiene "{{ nombre() }}"</small>
       <!-- quitar el filtro -->
     }
-    @if (filtroId() > 0) {
-      <small class="text-muted ms-3">Filtro: ID = {{ filtroId() }}</small>
-      <a
-        class="ms-2"
-        (click)="clearIdFilter()"
-        role="button"
-        title="Quitar filtro"
-        style="cursor: pointer"
-      >
-        <i class="bi bi-x-lg" aria-hidden="true"></i> Quitar filtro
-      </a>
-    }
   </div>
 
   <!-- Ocultar paginación y RPP si no hay registros -->
@@ -60,7 +48,7 @@
     <div class="d-flex justify-content-between my-1">
       <app-paginacion
         [numPage]="numPage()"
-        [numPages]="totalPages()"
+        [numPages]="oPage()?.totalPages ?? 1"
         (pageChange)="goToPage($event)"
       >
       </app-paginacion>
@@ -125,8 +113,14 @@
               }
             </span>
           </th>
-          <th scope="col" style="width: 10%">
+          <th scope="col" style="width: 8%">
             <span class="header-inline">Jugadores</span>
+          </th>
+          <th scope="col" style="width: 8%">
+            <span class="header-inline">Cuotas</span>
+          </th>
+          <th scope="col" style="width: 8%">
+            <span class="header-inline">Ligas</span>
           </th>
           <th scope="col">
             <span class="header-inline">Acciones</span>
@@ -134,7 +128,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (oEquipo of paginatedContent(); track oEquipo.id) {
+        @for (oEquipo of oPage()?.content; track oEquipo.id) {
           <tr>
             <th scope="row" style="text-align: center">{{ oEquipo.id }}</th>
             <td>{{ oEquipo.nombre }}</td>
@@ -170,6 +164,24 @@
               } @else {
                 <a [routerLink]="['/jugador/equipo', oEquipo.id]">
                   {{ oEquipo.jugadores }}
+                </a>
+              }
+            </td>
+            <td style="text-align: center">
+              @if (oEquipo.cuotas === 0) {
+                <i class="bi bi-ban" aria-hidden="true"></i>
+              } @else {
+                <a [routerLink]="['/cuota/equipo', oEquipo.id]">
+                  {{ oEquipo.cuotas }}
+                </a>
+              }
+            </td>
+            <td style="text-align: center">
+              @if (oEquipo.ligas === 0) {
+                <i class="bi bi-ban" aria-hidden="true"></i>
+              } @else {
+                <a [routerLink]="['/liga/equipo', oEquipo.id]">
+                  {{ oEquipo.ligas }}
                 </a>
               }
             </td>
