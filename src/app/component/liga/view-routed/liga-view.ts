@@ -8,7 +8,7 @@ import { ILiga } from '../../../model/liga';
 
 @Component({
   selector: 'app-liga-view',
-  imports: [CommonModule, RouterLink, DatetimePipe],
+  imports: [CommonModule, RouterLink],
   templateUrl: './liga-view.html',
   styleUrl: './liga-view.css',
 })
