@@ -238,7 +238,7 @@
               @if (usuario.facturas === 0) { <i class="bi bi-ban" aria-hidden="true"></i> }
               @else {
                 <a
-                  [routerLink]="['/factura', usuario.id]"
+                  [routerLink]="['/factura','usuario', usuario.id]"
                   class="text-decoration-none"
                   title="Ver facturas"
                   >{{ usuario.facturas }}</a
@@ -250,7 +250,7 @@
               @if (usuario.equiposentrenados === 0) { <i class="bi bi-ban" aria-hidden="true"></i> }
               @else {
                 <a
-                  [routerLink]="['/equipo']"
+                  [routerLink]="['/equipo','usuario', usuario.id]"
                   class="text-decoration-none"
                   title="Ver equipos (no hay filtro por usuario disponible)"
                   >{{ usuario.equiposentrenados }}</a

@@ -69,6 +69,7 @@ export const routes: Routes = [
     { path: 'equipo', component: PlistEquipo },
     { path: 'equipo/categoria/:id_categoria', component: PlistEquipo },
     { path: 'equipo/view/:id', component: EquipoViewRouted },
+    { path: 'equipo/usuario/:id_usuario', component: PlistEquipo },
     { path: 'carrito', component: CarritoPlistAdminRouted },
     { path: 'carrito/usuario/:id_usuario', component: CarritoPlistAdminRouted },
     { path: 'carrito/articulo/:id_articulo', component: CarritoPlistAdminRouted },

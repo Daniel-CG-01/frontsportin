@@ -34,6 +34,7 @@ export class PlistEquipo {
 
   // Variables de filtro
   categoria = signal<number>(0);
+  usuario = signal<number>(0);
 
   // Variables de búsqueda
   nombre = signal<string>('');
@@ -49,6 +50,11 @@ export class PlistEquipo {
     const id = this.route.snapshot.paramMap.get('id_categoria');
     if (id) {
       this.categoria.set(+id);
+    }
+
+    const idUsuario = this.route.snapshot.paramMap.get('id_usuario');
+    if (idUsuario) {
+      this.usuario.set(+idUsuario);
     }
 
     // Configurar el debounce para la búsqueda
@@ -82,6 +88,7 @@ export class PlistEquipo {
         this.orderDirection(),
         this.nombre(),
         this.categoria(),
+        this.usuario()
       )
       .subscribe({
         next: (data: IPage<IEquipo>) => {
