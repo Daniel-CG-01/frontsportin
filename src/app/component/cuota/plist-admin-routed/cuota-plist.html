@@ -123,7 +123,7 @@
         <td>{{ oCuota.fecha | datetime }}</td>
         <td>
           <a [routerLink]="['/equipo', '/view', oCuota.equipo.id]">
-            {{ oCuota.equipo.nombre | trim: 20 }}
+            {{ (oCuota.equipo.nombre || '') | trim: 20 }}
             {{ ' (' + oCuota.equipo.id + ')' }}
           </a>
           <!-- Botón alineado a la derecha para filtrar equipo -->
