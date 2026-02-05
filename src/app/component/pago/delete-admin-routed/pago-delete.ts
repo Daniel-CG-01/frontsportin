@@ -6,18 +6,21 @@ import { DatetimePipe } from '../../../pipe/datetime-pipe';
 import { PagoService } from '../../../service/pago';
 import { IPago } from '../../../model/pago';
 import { PagoDetailAdminUnrouted } from "../detail-admin-unrouted/pago-detail";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
   selector: 'app-pago-view',
   imports: [CommonModule, PagoDetailAdminUnrouted],
-  templateUrl: './pago-view.html',
-  styleUrl: './pago-view.css',
+  templateUrl: './pago-delete.html',
+  styleUrl: './pago-delete.css',
 })
-export class PagoViewAdminRouted implements OnInit {
+
+export class PagoDeleteAdminRouted implements OnInit {
 
   private route = inject(ActivatedRoute);  
-  //private snackBar = inject(MatSnackBar);
+  private oPagoService = inject(PagoService);
+  private snackBar = inject(MatSnackBar);
 
   oPago = signal<IPago | null>(null);
   loading = signal(true);
@@ -33,4 +36,27 @@ export class PagoViewAdminRouted implements OnInit {
       return;
     }    
   }
+
+  doDelete() {
+    this.oPagoService.delete(this.id_pago()).subscribe({
+      next: (data: any) => {
+        this.snackBar.open('Pago eliminado', 'Cerrar', { duration: 4000 });
+        console.log('Pago eliminado');
+        window.history.back();
+      },
+      error: (err: HttpErrorResponse) => {
+        this.error.set('Error eliminando el pago');
+        this.snackBar.open('Error eliminando el pago', 'Cerrar', { duration: 4000 });
+        console.error(err);
+      },
+    });
+  }
+  
+  doCancel() {    
+    window.history.back();
+  }
+
+
+
+
 }

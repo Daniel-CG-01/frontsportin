@@ -43,6 +43,7 @@ import { RolusuarioViewAdminRouted } from './component/rolusuario/view-routed/ro
 import { CategoriaViewAdminRouted } from './component/categoria/view-admin-routed/categoria-view';
 import { LigaViewRouted } from './component/liga/view-routed/liga-view';
 import { ComentarioartViewRouted } from './component/comentarioart/view-routed/comentarioart-view';
+import { PagoDeleteAdminRouted } from './component/pago/delete-admin-routed/pago-delete';
 
 
 export const routes: Routes = [
@@ -114,6 +115,7 @@ export const routes: Routes = [
     { path: 'pago/cuota/:id_cuota', component: PagoPlistComponent},
     { path: 'pago/jugador/:id_jugador', component: PagoPlistComponent},
     { path: 'pago/view/:id', component: PagoViewAdminRouted},
+    { path: 'pago/delete/:id', component: PagoDeleteAdminRouted},
     { path: 'puntuacion', component: PuntuacionPlistAdminRouted},
     { path: 'puntuacion/noticia/:id_noticia', component: PuntuacionPlistAdminRouted},
     { path: 'puntuacion/usuario/:id_usuario', component: PuntuacionPlistAdminRouted},

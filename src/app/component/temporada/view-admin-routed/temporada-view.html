@@ -50,9 +50,13 @@
                 <div class="col-7 fw-semibold small">{{ oTemporada()?.descripcion }}</div>
                 <div class="col-5 text-muted small text-uppercase">Categorías</div>
                 <div class="col-7 fw-semibold small">
-                  <a [routerLink]="['/categoria']" [queryParams]="{ id_temporada: oTemporada()?.id }">
-                    {{ oTemporada()?.categorias }}
-                  </a>
+                  @if (oTemporada()?.categorias === 0) {
+                    0
+                  } @else {
+                    <a [routerLink]="['/categoria']" [queryParams]="{ id_temporada: oTemporada()?.id }">
+                      {{ oTemporada()?.categorias }}
+                    </a>
+                  }
                 </div>
               </div>
             </div>
