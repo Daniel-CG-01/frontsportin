@@ -13,6 +13,10 @@ export class ClubService {
   private http = inject(HttpClient);
   private url = `${serverURL}/club`;
 
+  get(id: number): Observable<IClub> {
+    return this.http.get<IClub>(`${this.url}/${id}`);
+  }
+
   getPage(
     page: number,
     size: number,

@@ -134,7 +134,7 @@
           <th scope="row">{{ oComentario.id }}</th>
           <td>{{ oComentario.contenido }}</td>
           <td>
-            <a [routerLink]="['/usuario', '/view', oComentario.usuario.id]">
+            <a [routerLink]="['/usuario/view', oComentario.usuario.id]">
               {{ oComentario.usuario.nombre }} {{ oComentario.usuario.apellido1 }} {{ oComentario.usuario.apellido2 | trim: 20 }}
               {{ ' (' + oComentario.usuario.id + ')' }}
             </a>
@@ -148,7 +148,7 @@
             ></a>
           </td>
           <td>
-            <a [routerLink]="['/noticia', '/view', oComentario.noticia.id]">
+            <a [routerLink]="['/noticia/view', oComentario.noticia.id]">
               {{ oComentario.noticia.titulo | trim: 20 }}
               {{ ' (' + oComentario.noticia.id + ')' }}
             </a>

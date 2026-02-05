@@ -18,6 +18,7 @@ export class EquipoService {
     direction: string = '',
     nombre: string = '',
     id_categoria: number = 0,
+    id_usuario: number = 0,
   ): Observable<IPage<IEquipo>> {
     if (order === '') {
       order = 'id';
@@ -37,14 +38,20 @@ export class EquipoService {
           `/equipo?page=${page}&size=${rpp}&sort=${order},${direction}&nombre=${nombre}`,
       );
     }
+    if (id_usuario > 0) {
+      return this.oHttp.get<IPage<IEquipo>>(
+        serverURL +
+          `/equipo?page=${page}&size=${rpp}&sort=${order},${direction}&id_usuario=${id_usuario}`,
+      );
+    }
     return this.oHttp.get<IPage<IEquipo>>(
       serverURL + `/equipo?page=${page}&size=${rpp}&sort=${order},${direction}`,
     );
   }
 
-  // get(id: number): Observable<IEquipo> {
-  //   return this.oHttp.get<IEquipo>(serverURL + '/equipo/' + id);
-  // }
+  get(id: number): Observable<IEquipo> {
+    return this.oHttp.get<IEquipo>(serverURL + '/equipo/' + id);
+  }
 
   // create(equipo: Partial<IEquipo>): Observable<number> {
   //   return this.oHttp.post<number>(serverURL + '/equipo', equipo);

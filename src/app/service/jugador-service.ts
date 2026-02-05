@@ -50,9 +50,9 @@ export class JugadorService {
     return this.http.get<IPage<IJugador>>(url);
   }
 
-  // getById(id: number): Observable<IJugador> {
-  //   return this.http.get<IJugador>(serverURL + '/jugador/' + id);
-  // }
+  getById(id: number): Observable<IJugador> {
+    return this.http.get<IJugador>(serverURL + '/jugador/' + id);
+  }
 
   // create(jugador: Partial<IJugador>): Observable<number> {
   //   return this.http.post<number>(serverURL + '/jugador', jugador);

@@ -1,48 +1,85 @@
-<div class="container m-5 post-view">
+<div class="container py-3">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 border rounded bg-light p-2 mb-3">
+        <div>
+            <div class="text-uppercase small text-muted fw-semibold">Noticias</div>
+            <div class="fw-bold">Detalle de noticia</div>
+            <div class="text-muted small">Panel administrativo</div>
+        </div>
+        <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2" routerLink="/noticia">
+            <i class="bi bi-arrow-left"></i>
+            Volver
+        </a>
+    </div>
 
-    <!-- Noticia -->
-    @if (oNoticiaModel; as noticia) {
-        <article class="post-card p-5 border rounded shadow-sm">
-
-            <!-- ID -->
-            <section class="mb-3">
-                <strong>ID:</strong>
-                <span>{{ noticia.id }}</span>
-            </section>
-
-            <!-- Título -->
-            <section class="mb-3">
-                <strong>Título:</strong>
-                <span>{{ noticia.titulo }}</span>
-            </section>
-
-            <!-- Contenido -->
-            <section class="mb-3">
-                <strong>Contenido:</strong>
-                <p>{{ noticia.contenido }}</p>
-            </section>
-
-            <!-- Fecha -->
-            <section class="mb-3">
-                <strong>Fecha:</strong>
-                <span>{{ noticia.fecha | date:'dd/MM/yyyy' }}</span>
-            </section>
-
-            <!-- Imagen -->
-            @if (oNoticiaModel.imagen) {
-                <section class="mb-3">
-                    <strong>Imagen:</strong>
-                    <div>
-                        <img [src]="noticia.imagen" alt="Imagen_Noticia" class="img-fluid rounded" />
+    @if (loading()) {
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="text-center py-3">
+                    <div class="spinner-border text-secondary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
                     </div>
-                </section>
-            }
+                    <p class="text-muted mt-2 mb-0">Cargando detalle...</p>
+                </div>
+            </div>
+        </div>
+    }
 
-            <!-- Club -->
-            <section class="mb-3">
-                <strong>Club:</strong>
-                <span>{{ noticia.club.nombre }}</span>
-            </section>
-        </article>
+    @if (error()) {
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <span>{{ error() }}</span>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (!loading() && !error() && noticia()) {
+        <div class="row g-3">
+            <div class="col-lg-4">
+                <div class="card border">
+                    <div class="card-header bg-light small text-uppercase fw-semibold">Identificación</div>
+                    <div class="card-body p-2">
+                        <div class="fw-bold">
+                            {{ noticia()?.titulo }}
+                        </div>
+                        <div class="d-flex flex-wrap gap-2 mt-1">
+                            <span class="badge bg-secondary-subtle text-secondary">ID {{ noticia()?.id }}</span>
+                        </div>
+                        <div class="mt-2">
+                            <div class="row g-1">
+                                <div class="col-5 text-muted small text-uppercase">Contenido</div>
+                                <div class="col-7 fw-semibold small">{{ noticia()?.contenido }}</div>
+                                <div class="col-5 text-muted small text-uppercase">Fecha</div>
+                                <div class="col-7 fw-semibold small">{{ noticia()?.fecha }}</div>
+                                <div class="col-5 text-muted small text-uppercase">Imagen</div>
+                                <div class="col-7 fw-semibold small">{{ noticia()?.imagen }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border">
+                    <div class="card-header bg-light small text-uppercase fw-semibold">Relaciones</div>
+                    <div class="card-body p-2">
+                        <div class="row g-1">
+                            <div class="col-5 text-muted small text-uppercase">Club</div>
+                            <div class="col-7 fw-semibold small">
+                                @if (noticia()?.club?.nombre) {
+                                    <a [routerLink]="['/club/view', noticia()?.club?.id]">
+                                        {{ noticia()?.club?.nombre }} ({{ noticia()?.club?.id }})
+                                    </a>
+                                } @else {
+                                    Sin club
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 </div>

@@ -46,7 +46,13 @@ export class CategoriaService {
     );
   }
 
+  // Get de categoría por id
+  get(id: number): Observable<ICategoria> {
+    return this.oHttp.get<ICategoria>(`${serverURL}/categoria/${id}`);
+  }
+
+  // Obtener el conteo total de categorías
   count(): Observable<number> {
-    return this.oHttp.get<number>(serverURL + '/categoria/count');
+    return this.oHttp.get<number>(`${serverURL}/categoria/count`);
   }
 }

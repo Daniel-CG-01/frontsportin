@@ -1,0 +1,180 @@
+<div class="container py-3">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 border rounded bg-light p-2 mb-3">
+    <div>
+      <div class="text-uppercase small text-muted fw-semibold">Artículos</div>
+      <div class="fw-bold">Detalle de artículo</div>
+      <div class="text-muted small">Panel administrativo</div>
+    </div>
+    <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2" routerLink="/articulo">
+      <i class="bi bi-arrow-left"></i>
+      Volver
+    </a>
+  </div>
+
+  @if (loading()) {
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="text-center py-3">
+          <div class="spinner-border text-secondary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p class="text-muted mt-2 mb-0">Cargando detalle...</p>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <span>{{ error() }}</span>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (!loading() && !error() && oArticulo()) {
+    <div class="row g-3">
+      <div class="col-lg-4">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Identificación</div>
+          <div class="card-body p-2">
+            <div class="fw-bold">
+              {{ oArticulo()?.descripcion }}
+            </div>
+            <div class="d-flex flex-wrap gap-2 mt-1">
+              <span class="badge bg-secondary-subtle text-secondary">ID {{ oArticulo()?.id }}</span>
+            </div>
+
+            <div class="mt-2">
+              <div class="row g-1">
+                <div class="col-5 text-muted small text-uppercase">Descripción</div>
+                <div class="col-7 fw-semibold small">{{ oArticulo()?.descripcion }}</div>
+                
+                <div class="col-5 text-muted small text-uppercase">Precio</div>
+                <div class="col-7 fw-semibold small">{{ oArticulo()?.precio }} €</div>
+                
+                <div class="col-5 text-muted small text-uppercase">Descuento</div>
+                <div class="col-7 fw-semibold small">
+                  @if (oArticulo()?.descuento) {
+                    {{ oArticulo()?.descuento }} %
+                  } @else {
+                    0 %
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Relaciones</div>
+          <div class="card-body p-2">
+            <div class="row g-1">
+              <div class="col-5 text-muted small text-uppercase">Tipo Artículo</div>
+              <div class="col-7 fw-semibold small">
+                @if (oArticulo()?.tipoarticulo) {
+                  <a [routerLink]="['/tipoarticulo', 'view', oArticulo()?.tipoarticulo?.id]" class="text-decoration-none">
+                    {{ oArticulo()?.tipoarticulo?.descripcion }} ({{ oArticulo()?.tipoarticulo?.id }})
+                  </a>
+                } @else {
+                  Sin asignar
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Actividad</div>
+          <div class="card-body p-2">
+            <div class="row g-2">
+              <div class="col-6">
+                <div class="border rounded p-2 bg-white">
+                  <div class="text-muted small text-uppercase">Comentarios</div>
+                  <div class="fw-bold">
+                    @if (oArticulo()?.comentarioarts! > 0) {
+                      <a [routerLink]="['/comentarioart/articulo', oArticulo()?.id]" class="text-decoration-none">
+                        {{ oArticulo()?.comentarioarts }}
+                      </a>
+                    } @else {
+                      0
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="border rounded p-2 bg-white">
+                  <div class="text-muted small text-uppercase">Compras</div>
+                  <div class="fw-bold">
+                    @if (oArticulo()?.compras! > 0) {
+                      <a [routerLink]="['/compra/articulo', oArticulo()?.id]" class="text-decoration-none">
+                        {{ oArticulo()?.compras }}
+                      </a>
+                    } @else {
+                      0
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="border rounded p-2 bg-white">
+                  <div class="text-muted small text-uppercase">Carritos</div>
+                  <div class="fw-bold">
+                    @if (oArticulo()?.carritos! > 0) {
+                      <a [routerLink]="['/carrito/articulo', oArticulo()?.id]" class="text-decoration-none">
+                        {{ oArticulo()?.carritos }}
+                      </a>
+                    } @else {
+                      0
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Tipo de Artículo (detalle)</div>
+          <div class="card-body p-2">
+            @if (oArticulo()?.tipoarticulo) {
+              <div class="row g-2">
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">ID Tipo</div>
+                    <div class="fw-semibold">{{ oArticulo()?.tipoarticulo?.id }}</div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Descripción</div>
+                    <div class="fw-semibold">{{ oArticulo()?.tipoarticulo?.descripcion }}</div>
+                  </div>
+                </div>
+                 <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Club ID</div>
+                    <div class="fw-semibold"><a [routerLink]="['/club', 'view', oArticulo()?.tipoarticulo?.club?.id]" class="text-decoration-none">
+                    {{ oArticulo()?.tipoarticulo?.club?.nombre }} ({{ oArticulo()?.tipoarticulo?.club?.id }})
+                  </a></div>
+                  </div>
+                </div>
+              </div>
+            } @else {
+              <div class="text-muted">Sin tipo de artículo asignado.</div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

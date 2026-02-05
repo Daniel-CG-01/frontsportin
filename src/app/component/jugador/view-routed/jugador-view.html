@@ -1,0 +1,156 @@
+<div class="container py-3">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 border rounded bg-light p-2 mb-3">
+    <div>
+      <div class="text-uppercase small text-muted fw-semibold">Jugadores</div>
+      <div class="fw-bold">Detalle de jugador</div>
+      <div class="text-muted small">Panel administrativo</div>
+    </div>
+    <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2" routerLink="/jugador">
+      <i class="bi bi-arrow-left"></i>
+      Volver
+    </a>
+  </div>
+
+  @if (loading()) {
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="text-center py-3">
+        <div class="spinner-border text-secondary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p class="text-muted mt-2 mb-0">Cargando detalle...</p>
+      </div>
+    </div>
+  </div>
+  }
+
+  @if (error()) {
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>{{ error() }}</span>
+      </div>
+    </div>
+  </div>
+  }
+
+  @if (!loading() && !error() && jugador()) {
+  <div class="row g-3">
+    <div class="col-lg-4">
+      <div class="card border">
+        <div class="card-header bg-light small text-uppercase fw-semibold">Identificación</div>
+        <div class="card-body p-2">
+          <div class="fw-bold">
+            {{ jugador()?.usuario?.nombre }} {{ jugador()?.usuario?.apellido1 }} {{ jugador()?.usuario?.apellido2 }}
+          </div>
+          <div class="d-flex flex-wrap gap-2 mt-1">
+            <span class="badge bg-secondary-subtle text-secondary">ID {{ jugador()?.id }}</span>
+            <span class="badge bg-light text-muted">Dorsal {{ jugador()?.dorsal }}</span>
+            @if (jugador()?.capitan) {
+            <span class="badge bg-secondary-subtle text-secondary">
+              <i class="bi bi-star-fill"></i> Capitán
+            </span>
+            }
+          </div>
+
+          <div class="mt-2">
+            <div class="row g-1">
+              <div class="col-5 text-muted small text-uppercase">Dorsal</div>
+              <div class="col-7 fw-semibold small">{{ jugador()?.dorsal }}</div>
+              <div class="col-5 text-muted small text-uppercase">Posición</div>
+              <div class="col-7 fw-semibold small">{{ jugador()?.posicion }}</div>
+              <div class="col-5 text-muted small text-uppercase">Capitán</div>
+              <div class="col-7 fw-semibold small">
+                @if (jugador()?.capitan) {
+                <span class="text-secondary"><i class="bi bi-star-fill me-1"></i>Sí</span>
+                } @else {
+                <span class="text-muted">No</span>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card border">
+        <div class="card-header bg-light small text-uppercase fw-semibold">Relaciones</div>
+        <div class="card-body p-2">
+          <div class="row g-1">
+            <div class="col-5 text-muted small text-uppercase">Usuario</div>
+            <div class="col-7 fw-semibold small">
+              @if (jugador()?.usuario) {
+              <a [routerLink]="['/usuario/view', jugador()?.usuario?.id]">
+                {{ jugador()?.usuario?.nombre }} {{ jugador()?.usuario?.apellido1 }}
+              </a>
+              <div class="text-muted" style="font-size: 0.75rem;">
+                @{{ jugador()?.usuario?.username }}
+              </div>
+              } @else {
+              Sin usuario
+              }
+            </div>
+            <div class="col-5 text-muted small text-uppercase">Equipo</div>
+            <div class="col-7 fw-semibold small">
+              @if (jugador()?.equipo) {
+              <a [routerLink]="['/equipo/view', jugador()?.equipo?.id]">
+                {{ jugador()?.equipo?.nombre }}
+              </a>
+              <div class="text-muted" style="font-size: 0.75rem;">
+                ID: {{ jugador()?.equipo?.id }}
+              </div>
+              } @else {
+              Sin equipo
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card border">
+        <div class="card-header bg-light small text-uppercase fw-semibold">Imagen</div>
+        <div class="card-body p-2 text-center">
+          @if (jugador()?.imagen) {
+          <img [src]="getImagenUrl(jugador()!.imagen)" alt="Imagen del jugador" class="img-fluid rounded"
+            style="max-width: 100%; max-height: 200px;"
+            (error)="$any($event.target).src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2220%22%3ESin imagen%3C/text%3E%3C/svg%3E'">
+          } @else {
+          <div class="bg-light p-4 rounded">
+            <i class="bi bi-person-circle" style="font-size: 80px; color: #ccc;"></i>
+            <p class="text-muted mt-2 mb-0 small">Sin imagen</p>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="card border">
+        <div class="card-header bg-light small text-uppercase fw-semibold">Actividad financiera</div>
+        <div class="card-body p-2">
+          <div class="row g-2">
+            <div class="col-sm-6 col-lg-3">
+              <div class="border rounded p-2 bg-white">
+                <div class="text-muted small text-uppercase">Pagos</div>
+                <div class="fw-bold">
+                  @if (jugador()?.pagos === 0) {
+                  <span class="text-muted">0</span>
+                  } @else {
+                  <a [routerLink]="['/pago/jugador', jugador()?.id]">
+                    {{ jugador()?.pagos }}
+                  </a>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>

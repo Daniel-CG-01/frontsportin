@@ -75,7 +75,13 @@
               <div class="col-5 text-muted small text-uppercase">Club</div>
               <div class="col-7 fw-semibold small">
                 @if (oUsuario()?.club?.nombre) {
-                  {{ oUsuario()?.club?.nombre }} ({{ oUsuario()?.club?.id }})
+                  <a
+                    [routerLink]="['/club/view', oUsuario()?.club?.id]"
+                    class="text-decoration-underline text-reset"
+                    title="Ver club"
+                  >
+                    {{ oUsuario()?.club?.nombre }} ({{ oUsuario()?.club?.id }})
+                  </a>
                 } @else {
                   Sin club
                 }
@@ -83,7 +89,13 @@
               <div class="col-5 text-muted small text-uppercase">Tipo usuario</div>
               <div class="col-7 fw-semibold small">
                 @if (oUsuario()?.tipousuario) {
-                  {{ oUsuario()?.tipousuario?.descripcion }} ({{ oUsuario()?.tipousuario?.id }})
+                  <a
+                    [routerLink]="['/tipousuario/view', oUsuario()?.tipousuario?.id]"
+                    class="text-decoration-underline text-reset"
+                    title="Ver tipo de usuario"
+                  >
+                    {{ oUsuario()?.tipousuario?.descripcion }} ({{ oUsuario()?.tipousuario?.id }})
+                  </a>
                 } @else {
                   Sin asignar
                 }
@@ -91,7 +103,13 @@
               <div class="col-5 text-muted small text-uppercase">Rol usuario</div>
               <div class="col-7 fw-semibold small">
                 @if (oUsuario()?.rolusuario) {
-                  {{ oUsuario()?.rolusuario?.descripcion }} ({{ oUsuario()?.rolusuario?.id }})
+                  <a
+                    [routerLink]="['/rolusuario/view', oUsuario()?.rolusuario?.id]"
+                    class="text-decoration-underline text-reset"
+                    title="Ver rol de usuario"
+                  >
+                    {{ oUsuario()?.rolusuario?.descripcion }} ({{ oUsuario()?.rolusuario?.id }})
+                  </a>
                 } @else {
                   Sin asignar
                 }
@@ -109,31 +127,61 @@
               <div class="col-6">
                 <div class="border rounded p-2 bg-white">
                   <div class="text-muted small text-uppercase">Comentarios</div>
-                  <div class="fw-bold">{{ oUsuario()?.comentarios }}</div>
+                  <a
+                    [routerLink]="['/comentario', 'usuario', oUsuario()?.id]"
+                    class="fw-bold text-decoration-underline text-reset d-inline-block"
+                    title="Ver comentarios del usuario"
+                  >
+                    {{ oUsuario()?.comentarios }}
+                  </a>
                 </div>
               </div>
               <div class="col-6">
                 <div class="border rounded p-2 bg-white">
                   <div class="text-muted small text-uppercase">Puntuaciones</div>
-                  <div class="fw-bold">{{ oUsuario()?.puntuaciones }}</div>
+                  <a
+                    [routerLink]="['/puntuacion', 'usuario', oUsuario()?.id]"
+                    class="fw-bold text-decoration-underline text-reset d-inline-block"
+                    title="Ver puntuaciones del usuario"
+                  >
+                    {{ oUsuario()?.puntuaciones }}
+                  </a>
                 </div>
               </div>
               <div class="col-6">
                 <div class="border rounded p-2 bg-white">
                   <div class="text-muted small text-uppercase">Coment. art.</div>
-                  <div class="fw-bold">{{ oUsuario()?.comentarioarts }}</div>
+                  <a
+                    [routerLink]="['/comentarioart', 'usuario', oUsuario()?.id]"
+                    class="fw-bold text-decoration-underline text-reset d-inline-block"
+                    title="Ver comentarios de artículos del usuario"
+                  >
+                    {{ oUsuario()?.comentarioarts }}
+                  </a>
                 </div>
               </div>
               <div class="col-6">
                 <div class="border rounded p-2 bg-white">
                   <div class="text-muted small text-uppercase">Carritos</div>
-                  <div class="fw-bold">{{ oUsuario()?.carritos }}</div>
+                  <a
+                    [routerLink]="['/carrito', 'usuario', oUsuario()?.id]"
+                    class="fw-bold text-decoration-underline text-reset d-inline-block"
+                    title="Ver carritos del usuario"
+                  >
+                    {{ oUsuario()?.carritos }}
+                  </a>
                 </div>
               </div>
               <div class="col-6">
                 <div class="border rounded p-2 bg-white">
                   <div class="text-muted small text-uppercase">Facturas</div>
-                  <div class="fw-bold">{{ oUsuario()?.facturas }}</div>
+                  <a
+                    [routerLink]="['/factura', oUsuario()?.id]"
+                    class="fw-bold text-decoration-underline text-reset d-inline-block"
+                    title="Ver facturas del usuario"
+                  >
+                    {{ oUsuario()?.facturas }}
+                  </a>
                 </div>
               </div>
             </div>
@@ -150,49 +198,97 @@
                 <div class="col-sm-6 col-lg-3">
                   <div class="border rounded p-2 bg-white">
                     <div class="text-muted small text-uppercase">Nombre</div>
-                    <div class="fw-semibold">{{ oUsuario()?.club?.nombre }}</div>
+                    <a
+                      [routerLink]="['/club/view', oUsuario()?.club?.id]"
+                      class="fw-semibold text-decoration-underline text-reset d-inline-block"
+                      title="Ver club"
+                    >
+                      {{ oUsuario()?.club?.nombre }}
+                    </a>
                   </div>
                 </div>
                 <div class="col-sm-6 col-lg-3">
                   <div class="border rounded p-2 bg-white">
                     <div class="text-muted small text-uppercase">Dirección</div>
-                    <div class="fw-semibold">{{ oUsuario()?.club?.direccion }}</div>
+                    <a
+                      [routerLink]="['/club/view', oUsuario()?.club?.id]"
+                      class="fw-semibold text-decoration-underline text-reset d-inline-block"
+                      title="Ver club"
+                    >
+                      {{ oUsuario()?.club?.direccion }}
+                    </a>
                   </div>
                 </div>
                 <div class="col-sm-6 col-lg-3">
                   <div class="border rounded p-2 bg-white">
                     <div class="text-muted small text-uppercase">Teléfono</div>
-                    <div class="fw-semibold">{{ oUsuario()?.club?.telefono }}</div>
+                    <a
+                      [routerLink]="['/club/view', oUsuario()?.club?.id]"
+                      class="fw-semibold text-decoration-underline text-reset d-inline-block"
+                      title="Ver club"
+                    >
+                      {{ oUsuario()?.club?.telefono }}
+                    </a>
                   </div>
                 </div>
                 <div class="col-sm-6 col-lg-3">
                   <div class="border rounded p-2 bg-white">
                     <div class="text-muted small text-uppercase">Fecha alta</div>
-                    <div class="fw-semibold">{{ oUsuario()?.club?.fechaAlta | datetime }}</div>
+                    <a
+                      [routerLink]="['/club/view', oUsuario()?.club?.id]"
+                      class="fw-semibold text-decoration-underline text-reset d-inline-block"
+                      title="Ver club"
+                    >
+                      {{ oUsuario()?.club?.fechaAlta | datetime }}
+                    </a>
                   </div>
                 </div>
                 <div class="col-sm-6 col-lg-3">
                   <div class="border rounded p-2 bg-white">
                     <div class="text-muted small text-uppercase">Usuarios</div>
-                    <div class="fw-semibold">{{ oUsuario()?.club?.usuarios }}</div>
+                    <a
+                      [routerLink]="['/usuario', 'club', oUsuario()?.club?.id]"
+                      class="fw-semibold text-decoration-underline text-reset d-inline-block"
+                      title="Ver usuarios del club"
+                    >
+                      {{ oUsuario()?.club?.usuarios }}
+                    </a>
                   </div>
                 </div>
                 <div class="col-sm-6 col-lg-3">
                   <div class="border rounded p-2 bg-white">
                     <div class="text-muted small text-uppercase">Temporadas</div>
-                    <div class="fw-semibold">{{ oUsuario()?.club?.temporadas }}</div>
+                    <a
+                      [routerLink]="['/temporada', oUsuario()?.club?.id]"
+                      class="fw-semibold text-decoration-underline text-reset d-inline-block"
+                      title="Ver temporadas del club"
+                    >
+                      {{ oUsuario()?.club?.temporadas }}
+                    </a>
                   </div>
                 </div>
                 <div class="col-sm-6 col-lg-3">
                   <div class="border rounded p-2 bg-white">
                     <div class="text-muted small text-uppercase">Noticias</div>
-                    <div class="fw-semibold">{{ oUsuario()?.club?.noticias }}</div>
+                    <a
+                      [routerLink]="['/noticia', oUsuario()?.club?.id]"
+                      class="fw-semibold text-decoration-underline text-reset d-inline-block"
+                      title="Ver noticias del club"
+                    >
+                      {{ oUsuario()?.club?.noticias }}
+                    </a>
                   </div>
                 </div>
                 <div class="col-sm-6 col-lg-3">
                   <div class="border rounded p-2 bg-white">
                     <div class="text-muted small text-uppercase">Tipos artículos</div>
-                    <div class="fw-semibold">{{ oUsuario()?.club?.tipoarticulos }}</div>
+                    <a
+                      [routerLink]="['/tipoarticulo', oUsuario()?.club?.id]"
+                      class="fw-semibold text-decoration-underline text-reset d-inline-block"
+                      title="Ver tipos de artículos del club"
+                    >
+                      {{ oUsuario()?.club?.tipoarticulos }}
+                    </a>
                   </div>
                 </div>
               </div>

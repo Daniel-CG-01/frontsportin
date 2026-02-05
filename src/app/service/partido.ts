@@ -50,6 +50,10 @@ export class PartidoService {
     );
   }
 
+  get(id: number): Observable<IPartido> {
+    return this.oHttp.get<IPartido>(serverURL + `/partido/${id}`);
+  }
+
   count(): Observable<number> {
     return this.oHttp.get<number>(serverURL + '/partido/count');
   }

@@ -1,0 +1,43 @@
+.card {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card-header {
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.border-start {
+  border-left-width: 3px !important;
+  border-left-style: solid !important;
+}
+
+.border-primary {
+  --bs-border-color: #0d6efd;
+}
+
+.border-info {
+  --bs-border-color: #0dcaf0;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.badge {
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.text-primary {
+  color: #0d6efd !important;
+}
+
+.text-info {
+  color: #0dcaf0 !important;
+}
