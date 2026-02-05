@@ -152,7 +152,7 @@
                     <div class="text-muted small text-uppercase">Comentarios</div>
                     <div class="fw-semibold">
                       @if (oPuntuacion()?.noticia?.id) {
-                        <a class="text-decoration-none" [routerLink]="['/comentario/plist', oPuntuacion()?.noticia?.id]">
+                        <a class="text-decoration-none" [routerLink]="['/comentario/noticia', oPuntuacion()?.noticia?.id]">
                           {{ oPuntuacion()?.noticia?.comentarios }}
                         </a>
                       } @else {
@@ -166,7 +166,7 @@
                     <div class="text-muted small text-uppercase">Puntuaciones</div>
                     <div class="fw-semibold">
                       @if (oPuntuacion()?.noticia?.id) {
-                        <a class="text-decoration-none" [routerLink]="['/puntuacion/plist', oPuntuacion()?.noticia?.id]">
+                        <a class="text-decoration-none" [routerLink]="['/puntuacion/noticia', oPuntuacion()?.noticia?.id]">
                           {{ oPuntuacion()?.noticia?.puntuaciones }}
                         </a>
                       } @else {
