@@ -77,7 +77,7 @@
                 @if (oUsuario()?.club?.nombre) {
                   <a
                     [routerLink]="['/club/view', oUsuario()?.club?.id]"
-                    class="text-decoration-underline text-reset"
+                    class="text-decoration-underline"
                     title="Ver club"
                   >
                     {{ oUsuario()?.club?.nombre }} ({{ oUsuario()?.club?.id }})
@@ -91,7 +91,7 @@
                 @if (oUsuario()?.tipousuario) {
                   <a
                     [routerLink]="['/tipousuario/view', oUsuario()?.tipousuario?.id]"
-                    class="text-decoration-underline text-reset"
+                    class="text-decoration-underline"
                     title="Ver tipo de usuario"
                   >
                     {{ oUsuario()?.tipousuario?.descripcion }} ({{ oUsuario()?.tipousuario?.id }})
@@ -105,7 +105,7 @@
                 @if (oUsuario()?.rolusuario) {
                   <a
                     [routerLink]="['/rolusuario/view', oUsuario()?.rolusuario?.id]"
-                    class="text-decoration-underline text-reset"
+                    class="text-decoration-underline"
                     title="Ver rol de usuario"
                   >
                     {{ oUsuario()?.rolusuario?.descripcion }} ({{ oUsuario()?.rolusuario?.id }})
@@ -127,61 +127,81 @@
               <div class="col-6">
                 <div class="border rounded p-2 bg-white">
                   <div class="text-muted small text-uppercase">Comentarios</div>
-                  <a
-                    [routerLink]="['/comentario', 'usuario', oUsuario()?.id]"
-                    class="fw-bold text-decoration-underline text-reset d-inline-block"
-                    title="Ver comentarios del usuario"
-                  >
-                    {{ oUsuario()?.comentarios }}
-                  </a>
+                  @if (oUsuario()?.comentarios) {
+                    <a
+                      [routerLink]="['/comentario', 'usuario', oUsuario()?.id]"
+                      class="fw-bold text-decoration-underline d-inline-block"
+                      title="Ver comentarios del usuario"
+                    >
+                      {{ oUsuario()?.comentarios }}
+                    </a>
+                  } @else {
+                    <div class="fw-bold d-inline-block">{{ oUsuario()?.comentarios }}</div>
+                  }
                 </div>
               </div>
               <div class="col-6">
                 <div class="border rounded p-2 bg-white">
                   <div class="text-muted small text-uppercase">Puntuaciones</div>
-                  <a
-                    [routerLink]="['/puntuacion', 'usuario', oUsuario()?.id]"
-                    class="fw-bold text-decoration-underline text-reset d-inline-block"
-                    title="Ver puntuaciones del usuario"
-                  >
-                    {{ oUsuario()?.puntuaciones }}
-                  </a>
+                  @if (oUsuario()?.puntuaciones) {
+                    <a
+                      [routerLink]="['/puntuacion', 'usuario', oUsuario()?.id]"
+                      class="fw-bold text-decoration-underline d-inline-block"
+                      title="Ver puntuaciones del usuario"
+                    >
+                      {{ oUsuario()?.puntuaciones }}
+                    </a>
+                  } @else {
+                    <div class="fw-bold d-inline-block">{{ oUsuario()?.puntuaciones }}</div>
+                  }
                 </div>
               </div>
               <div class="col-6">
                 <div class="border rounded p-2 bg-white">
                   <div class="text-muted small text-uppercase">Coment. art.</div>
-                  <a
-                    [routerLink]="['/comentarioart', 'usuario', oUsuario()?.id]"
-                    class="fw-bold text-decoration-underline text-reset d-inline-block"
-                    title="Ver comentarios de artículos del usuario"
-                  >
-                    {{ oUsuario()?.comentarioarts }}
-                  </a>
+                  @if (oUsuario()?.comentarioarts) {
+                    <a
+                      [routerLink]="['/comentarioart', 'usuario', oUsuario()?.id]"
+                      class="fw-bold text-decoration-underline d-inline-block"
+                      title="Ver comentarios de artículos del usuario"
+                    >
+                      {{ oUsuario()?.comentarioarts }}
+                    </a>
+                  } @else {
+                    <div class="fw-bold d-inline-block">{{ oUsuario()?.comentarioarts }}</div>
+                  }
                 </div>
               </div>
               <div class="col-6">
                 <div class="border rounded p-2 bg-white">
                   <div class="text-muted small text-uppercase">Carritos</div>
-                  <a
-                    [routerLink]="['/carrito', 'usuario', oUsuario()?.id]"
-                    class="fw-bold text-decoration-underline text-reset d-inline-block"
-                    title="Ver carritos del usuario"
-                  >
-                    {{ oUsuario()?.carritos }}
-                  </a>
+                  @if (oUsuario()?.carritos) {
+                    <a
+                      [routerLink]="['/carrito', 'usuario', oUsuario()?.id]"
+                      class="fw-bold text-decoration-underline d-inline-block"
+                      title="Ver carritos del usuario"
+                    >
+                      {{ oUsuario()?.carritos }}
+                    </a>
+                  } @else {
+                    <div class="fw-bold d-inline-block">{{ oUsuario()?.carritos }}</div>
+                  }
                 </div>
               </div>
               <div class="col-6">
                 <div class="border rounded p-2 bg-white">
                   <div class="text-muted small text-uppercase">Facturas</div>
-                  <a
-                    [routerLink]="['/factura', oUsuario()?.id]"
-                    class="fw-bold text-decoration-underline text-reset d-inline-block"
-                    title="Ver facturas del usuario"
-                  >
-                    {{ oUsuario()?.facturas }}
-                  </a>
+                  @if (oUsuario()?.facturas) {
+                    <a
+                      [routerLink]="['/factura', oUsuario()?.id]"
+                      class="fw-bold text-decoration-underline d-inline-block"
+                      title="Ver facturas del usuario"
+                    >
+                      {{ oUsuario()?.facturas }}
+                    </a>
+                  } @else {
+                    <div class="fw-bold d-inline-block">{{ oUsuario()?.facturas }}</div>
+                  }
                 </div>
               </div>
             </div>
@@ -200,7 +220,7 @@
                     <div class="text-muted small text-uppercase">Nombre</div>
                     <a
                       [routerLink]="['/club/view', oUsuario()?.club?.id]"
-                      class="fw-semibold text-decoration-underline text-reset d-inline-block"
+                      class="fw-semibold text-decoration-underline d-inline-block"
                       title="Ver club"
                     >
                       {{ oUsuario()?.club?.nombre }}
@@ -212,7 +232,7 @@
                     <div class="text-muted small text-uppercase">Dirección</div>
                     <a
                       [routerLink]="['/club/view', oUsuario()?.club?.id]"
-                      class="fw-semibold text-decoration-underline text-reset d-inline-block"
+                      class="fw-semibold text-decoration-underline d-inline-block"
                       title="Ver club"
                     >
                       {{ oUsuario()?.club?.direccion }}
@@ -222,13 +242,9 @@
                 <div class="col-sm-6 col-lg-3">
                   <div class="border rounded p-2 bg-white">
                     <div class="text-muted small text-uppercase">Teléfono</div>
-                    <a
-                      [routerLink]="['/club/view', oUsuario()?.club?.id]"
-                      class="fw-semibold text-decoration-underline text-reset d-inline-block"
-                      title="Ver club"
-                    >
+                    <div class="fw-semibold d-inline-block">
                       {{ oUsuario()?.club?.telefono }}
-                    </a>
+                    </div>
                   </div>
                 </div>
                 <div class="col-sm-6 col-lg-3">
@@ -236,7 +252,7 @@
                     <div class="text-muted small text-uppercase">Fecha alta</div>
                     <a
                       [routerLink]="['/club/view', oUsuario()?.club?.id]"
-                      class="fw-semibold text-decoration-underline text-reset d-inline-block"
+                      class="fw-semibold text-decoration-underline d-inline-block"
                       title="Ver club"
                     >
                       {{ oUsuario()?.club?.fechaAlta | datetime }}
@@ -246,49 +262,65 @@
                 <div class="col-sm-6 col-lg-3">
                   <div class="border rounded p-2 bg-white">
                     <div class="text-muted small text-uppercase">Usuarios</div>
-                    <a
-                      [routerLink]="['/usuario', 'club', oUsuario()?.club?.id]"
-                      class="fw-semibold text-decoration-underline text-reset d-inline-block"
-                      title="Ver usuarios del club"
-                    >
-                      {{ oUsuario()?.club?.usuarios }}
-                    </a>
+                    @if (oUsuario()?.club?.usuarios) {
+                      <a
+                        [routerLink]="['/usuario', 'club', oUsuario()?.club?.id]"
+                        class="fw-semibold text-decoration-underline d-inline-block"
+                        title="Ver usuarios del club"
+                      >
+                        {{ oUsuario()?.club?.usuarios }}
+                      </a>
+                    } @else {
+                      <div class="fw-semibold d-inline-block">{{ oUsuario()?.club?.usuarios }}</div>
+                    }
                   </div>
                 </div>
                 <div class="col-sm-6 col-lg-3">
                   <div class="border rounded p-2 bg-white">
                     <div class="text-muted small text-uppercase">Temporadas</div>
-                    <a
-                      [routerLink]="['/temporada', oUsuario()?.club?.id]"
-                      class="fw-semibold text-decoration-underline text-reset d-inline-block"
-                      title="Ver temporadas del club"
-                    >
-                      {{ oUsuario()?.club?.temporadas }}
-                    </a>
+                    @if (oUsuario()?.club?.temporadas) {
+                      <a
+                        [routerLink]="['/temporada', 'club', oUsuario()?.club?.id]"
+                        class="fw-semibold text-decoration-underline d-inline-block"
+                        title="Ver temporadas del club"
+                      >
+                        {{ oUsuario()?.club?.temporadas }}
+                      </a>
+                    } @else {
+                      <div class="fw-semibold d-inline-block">{{ oUsuario()?.club?.temporadas }}</div>
+                    }
                   </div>
                 </div>
                 <div class="col-sm-6 col-lg-3">
                   <div class="border rounded p-2 bg-white">
                     <div class="text-muted small text-uppercase">Noticias</div>
-                    <a
-                      [routerLink]="['/noticia', oUsuario()?.club?.id]"
-                      class="fw-semibold text-decoration-underline text-reset d-inline-block"
-                      title="Ver noticias del club"
-                    >
-                      {{ oUsuario()?.club?.noticias }}
-                    </a>
+                    @if (oUsuario()?.club?.noticias) {
+                      <a
+                        [routerLink]="['/noticia', 'club', oUsuario()?.club?.id]"
+                        class="fw-semibold text-decoration-underline d-inline-block"
+                        title="Ver noticias del club"
+                      >
+                        {{ oUsuario()?.club?.noticias }}
+                      </a>
+                    } @else {
+                      <div class="fw-semibold d-inline-block">{{ oUsuario()?.club?.noticias }}</div>
+                    }
                   </div>
                 </div>
                 <div class="col-sm-6 col-lg-3">
                   <div class="border rounded p-2 bg-white">
                     <div class="text-muted small text-uppercase">Tipos artículos</div>
-                    <a
-                      [routerLink]="['/tipoarticulo', oUsuario()?.club?.id]"
-                      class="fw-semibold text-decoration-underline text-reset d-inline-block"
-                      title="Ver tipos de artículos del club"
-                    >
-                      {{ oUsuario()?.club?.tipoarticulos }}
-                    </a>
+                    @if (oUsuario()?.club?.tipoarticulos) {
+                      <a
+                        [routerLink]="['/tipoarticulo', 'club', oUsuario()?.club?.id]"
+                        class="fw-semibold text-decoration-underline d-inline-block"
+                        title="Ver tipos de artículos del club"
+                      >
+                        {{ oUsuario()?.club?.tipoarticulos }}
+                      </a>
+                    } @else {
+                      <div class="fw-semibold d-inline-block">{{ oUsuario()?.club?.tipoarticulos }}</div>
+                    }
                   </div>
                 </div>
               </div>

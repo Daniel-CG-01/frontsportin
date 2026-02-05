@@ -1,0 +1,215 @@
+<div class="container py-3">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 border rounded bg-light p-2 mb-3">
+    <div>
+      <div class="text-uppercase small text-muted fw-semibold">Puntuaciones</div>
+      <div class="fw-bold">Detalle de puntuación</div>
+      <div class="text-muted small">Panel administrativo</div>
+    </div>
+    <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2" routerLink="/puntuacion">
+      <i class="bi bi-arrow-left"></i>
+      Volver
+    </a>
+  </div>
+
+  @if (loading()) {
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="text-center py-3">
+          <div class="spinner-border text-secondary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p class="text-muted mt-2 mb-0">Cargando detalle...</p>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <span>{{ error() }}</span>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (!loading() && !error() && oPuntuacion()) {
+    <div class="row g-3">
+      <div class="col-lg-4">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Identificación</div>
+          <div class="card-body p-2">
+            <div class="fw-bold">
+              Puntuación #{{ oPuntuacion()?.id }}
+            </div>
+            <div class="d-flex flex-wrap gap-2 mt-1">
+              <span class="badge bg-secondary-subtle text-secondary">ID {{ oPuntuacion()?.id }}</span>
+              <span class="badge bg-primary-subtle text-primary">Valor: {{ oPuntuacion()?.puntuacion }}</span>
+            </div>
+
+            <div class="mt-2">
+              <div class="row g-1">
+                <div class="col-5 text-muted small text-uppercase">ID</div>
+                <div class="col-7 fw-semibold small">{{ oPuntuacion()?.id }}</div>
+                <div class="col-5 text-muted small text-uppercase">Puntuación</div>
+                <div class="col-7 fw-semibold small">{{ oPuntuacion()?.puntuacion }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Relaciones</div>
+          <div class="card-body p-2">
+            <div class="row g-1">
+              <div class="col-5 text-muted small text-uppercase">Noticia</div>
+              <div class="col-7 fw-semibold small">
+                @if (oPuntuacion()?.noticia?.titulo) {
+                  <a class="text-decoration-none" [routerLink]="['/noticia/view', oPuntuacion()?.noticia?.id]">
+                    {{ oPuntuacion()?.noticia?.titulo }} ({{ oPuntuacion()?.noticia?.id }})
+                  </a>
+                } @else {
+                  Sin noticia
+                }
+              </div>
+              <div class="col-5 text-muted small text-uppercase">Usuario</div>
+              <div class="col-7 fw-semibold small">
+                @if (oPuntuacion()?.usuario?.nombre) {
+                  <a class="text-decoration-none" [routerLink]="['/usuario/view', oPuntuacion()?.usuario?.id]">
+                    {{ oPuntuacion()?.usuario?.nombre }} {{ oPuntuacion()?.usuario?.apellido1 }} ({{ oPuntuacion()?.usuario?.id }})
+                  </a>
+                } @else {
+                  Sin usuario
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Usuario (detalle)</div>
+          <div class="card-body p-2">
+            @if (oPuntuacion()?.usuario) {
+              <div class="row g-2">
+                <div class="col-12">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Nombre completo</div>
+                    <div class="fw-semibold">{{ oPuntuacion()?.usuario?.nombre }} {{ oPuntuacion()?.usuario?.apellido1 }} {{ oPuntuacion()?.usuario?.apellido2 }}</div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Username</div>
+                    <div class="fw-semibold">{{ oPuntuacion()?.usuario?.username }}</div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Género</div>
+                    <div class="fw-semibold">
+                      @if (oPuntuacion()?.usuario?.genero === 0) {
+                        Masculino
+                      } @else if (oPuntuacion()?.usuario?.genero === 1) {
+                        Femenino
+                      } @else {
+                        -
+                      }
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Fecha alta</div>
+                    <div class="fw-semibold">{{ oPuntuacion()?.usuario?.fechaAlta | datetime }}</div>
+                  </div>
+                </div>
+              </div>
+            } @else {
+              <div class="text-muted">Sin usuario asignado.</div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Noticia (detalle)</div>
+          <div class="card-body p-2">
+            @if (oPuntuacion()?.noticia) {
+              <div class="row g-2">
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Título</div>
+                    <div class="fw-semibold">{{ oPuntuacion()?.noticia?.titulo }}</div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Fecha</div>
+                    <div class="fw-semibold">{{ oPuntuacion()?.noticia?.fecha | datetime }}</div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Comentarios</div>
+                    <div class="fw-semibold">
+                      @if (!oPuntuacion()?.noticia?.comentarios || oPuntuacion()?.noticia?.comentarios === 0) {
+                        {{ oPuntuacion()?.noticia?.comentarios ?? 0 }}
+                      } @else {
+                        <a class="text-decoration-none" [routerLink]="['/comentario/noticia', oPuntuacion()?.noticia?.id]">
+                          {{ oPuntuacion()?.noticia?.comentarios }}
+                        </a>
+                      }
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Puntuaciones</div>
+                    <div class="fw-semibold">
+                      @if (!oPuntuacion()?.noticia?.puntuaciones || oPuntuacion()?.noticia?.puntuaciones === 0) {
+                        {{ oPuntuacion()?.noticia?.puntuaciones ?? 0 }}
+                      } @else {
+                        <a class="text-decoration-none" [routerLink]="['/puntuacion/noticia', oPuntuacion()?.noticia?.id]">
+                          {{ oPuntuacion()?.noticia?.puntuaciones }}
+                        </a>
+                      }
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Contenido</div>
+                    <div class="fw-semibold">{{ oPuntuacion()?.noticia?.contenido }}</div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                  <div class="border rounded p-2 bg-white">
+                    <div class="text-muted small text-uppercase">Club</div>
+                    <div class="fw-semibold">
+                      @if (oPuntuacion()?.noticia?.club?.nombre) {
+                        <a class="text-decoration-none" [routerLink]="['/club/view', oPuntuacion()?.noticia?.club?.id]">
+                          {{ oPuntuacion()?.noticia?.club?.nombre }} ({{ oPuntuacion()?.noticia?.club?.id }})
+                        </a>
+                      } @else {
+                        Sin club
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+            } @else {
+              <div class="text-muted">Sin noticia asignada.</div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
