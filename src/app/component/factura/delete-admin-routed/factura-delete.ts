@@ -1,12 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
-import { DetailAdminUnrouted } from '../detail-admin-unrouted/factura-detail';
+import { FacturaDetailAdminUnrouted } from '../detail-admin-unrouted/factura-detail';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FacturaService } from '../../../service/factura-service';
 
 @Component({
   selector: 'app-delete-admin-routed',
-  imports: [DetailAdminUnrouted],
+  imports: [FacturaDetailAdminUnrouted],
   templateUrl: './factura-delete.html',
   styleUrl: './factura-delete.css',
 })
