@@ -4,11 +4,12 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NoticiaService } from '../../../service/noticia';
 import { INoticia } from '../../../model/noticia';
+import { DatetimePipe } from "../../../pipe/datetime-pipe";
 
 @Component({
   selector: 'app-view-admin-routed',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, DatetimePipe],
   templateUrl: './view-admin-routed.html',
   styleUrl: './view-admin-routed.css',
 })

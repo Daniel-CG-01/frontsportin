@@ -112,7 +112,15 @@
                 <div class="col-6">
                   <div class="border rounded p-2 bg-white">
                     <div class="text-muted small text-uppercase">Género</div>
-                    <div class="fw-semibold">{{ oPuntuacion()?.usuario?.genero }}</div>
+                    <div class="fw-semibold">
+                      @if (oPuntuacion()?.usuario?.genero === 0) {
+                        Masculino
+                      } @else if (oPuntuacion()?.usuario?.genero === 1) {
+                        Femenino
+                      } @else {
+                        -
+                      }
+                    </div>
                   </div>
                 </div>
                 <div class="col-12">
@@ -151,12 +159,12 @@
                   <div class="border rounded p-2 bg-white">
                     <div class="text-muted small text-uppercase">Comentarios</div>
                     <div class="fw-semibold">
-                      @if (oPuntuacion()?.noticia?.id) {
+                      @if (!oPuntuacion()?.noticia?.comentarios || oPuntuacion()?.noticia?.comentarios === 0) {
+                        {{ oPuntuacion()?.noticia?.comentarios ?? 0 }}
+                      } @else {
                         <a class="text-decoration-none" [routerLink]="['/comentario/noticia', oPuntuacion()?.noticia?.id]">
                           {{ oPuntuacion()?.noticia?.comentarios }}
                         </a>
-                      } @else {
-                        {{ oPuntuacion()?.noticia?.comentarios }}
                       }
                     </div>
                   </div>
@@ -165,12 +173,12 @@
                   <div class="border rounded p-2 bg-white">
                     <div class="text-muted small text-uppercase">Puntuaciones</div>
                     <div class="fw-semibold">
-                      @if (oPuntuacion()?.noticia?.id) {
+                      @if (!oPuntuacion()?.noticia?.puntuaciones || oPuntuacion()?.noticia?.puntuaciones === 0) {
+                        {{ oPuntuacion()?.noticia?.puntuaciones ?? 0 }}
+                      } @else {
                         <a class="text-decoration-none" [routerLink]="['/puntuacion/noticia', oPuntuacion()?.noticia?.id]">
                           {{ oPuntuacion()?.noticia?.puntuaciones }}
                         </a>
-                      } @else {
-                        {{ oPuntuacion()?.noticia?.puntuaciones }}
                       }
                     </div>
                   </div>

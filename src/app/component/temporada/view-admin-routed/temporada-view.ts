@@ -7,10 +7,11 @@ import { CategoriaService } from '../../../service/categoria';
 import { ITemporada } from '../../../model/temporada';
 import { ICategoria } from '../../../model/categoria';
 import { IPage } from '../../../model/plist';
+import { DatetimePipe } from '../../../pipe/datetime-pipe';
 
 @Component({
   selector: 'app-temporada-view',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, DatetimePipe],
   templateUrl: './temporada-view.html',
   styleUrl: './temporada-view.css',
 })

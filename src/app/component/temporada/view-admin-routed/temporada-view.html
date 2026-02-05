@@ -79,26 +79,107 @@
           <div class="card-header bg-light small text-uppercase fw-semibold">Club (detalle)</div>
           <div class="card-body p-2">
             @if (oTemporada()?.club) {
-              <div class="row g-2">
-                <div class="col-sm-6 col-lg-4">
-                  <div class="border rounded p-2 bg-white">
-                    <div class="text-muted small text-uppercase">ID</div>
-                    <div class="fw-semibold">{{ oTemporada()?.club?.id }}</div>
+              <div class="row g-3">
+                <div class="col-lg-4">
+                  <div class="card border h-100">
+                    <div class="card-header bg-light small text-uppercase fw-semibold">Identificación</div>
+                    <div class="card-body p-2">
+                      <div class="fw-bold d-flex align-items-center gap-2 flex-wrap">
+                        <span>{{ oTemporada()?.club?.nombre }}</span>
+                        <span class="badge bg-secondary-subtle text-secondary">ID {{ oTemporada()?.club?.id }}</span>
+                      </div>
+
+                      <div class="row g-1 mt-2">
+                        <div class="col-5 text-muted small text-uppercase">Dirección</div>
+                        <div class="col-7 fw-semibold small">{{ oTemporada()?.club?.direccion }}</div>
+                        <div class="col-5 text-muted small text-uppercase">Teléfono</div>
+                        <div class="col-7 fw-semibold small">{{ oTemporada()?.club?.telefono }}</div>
+                        <div class="col-5 text-muted small text-uppercase">Fecha alta</div>
+                        <div class="col-7 fw-semibold small">{{ oTemporada()?.club?.fechaAlta | datetime }}</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="col-sm-6 col-lg-4">
-                  <div class="border rounded p-2 bg-white">
-                    <div class="text-muted small text-uppercase">Nombre</div>
-                    <div class="fw-semibold">{{ oTemporada()?.club?.nombre }}</div>
-                  </div>
-                </div>
-                <div class="col-sm-6 col-lg-4">
-                  <div class="border rounded p-2 bg-white">
-                    <div class="text-muted small text-uppercase">Teléfono</div>
-                    <div class="fw-semibold">{{ oTemporada()?.club?.telefono }}</div>
+
+                <div class="col-lg-8">
+                  <div class="card border h-100">
+                    <div class="card-header bg-light small text-uppercase fw-semibold">Actividad</div>
+                    <div class="card-body p-2">
+                      <div class="row g-2">
+                        <div class="col-6">
+                          <div class="border rounded p-2 bg-white h-100">
+                            <div class="text-muted small text-uppercase">Temporadas</div>
+                            <div class="fw-bold">
+                              @if (oTemporada()?.club?.temporadas === 0) {
+                                0
+                              } @else {
+                                <a class="text-decoration-none" [routerLink]="['/temporada/club', oTemporada()?.club?.id]">
+                                  {{ oTemporada()?.club?.temporadas }}
+                                </a>
+                              }
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="border rounded p-2 bg-white h-100">
+                            <div class="text-muted small text-uppercase">Usuarios</div>
+                            <div class="fw-bold">
+                              @if (oTemporada()?.club?.usuarios === 0) {
+                                0
+                              } @else {
+                                <a class="text-decoration-none" [routerLink]="['/usuario/club', oTemporada()?.club?.id]">
+                                  {{ oTemporada()?.club?.usuarios }}
+                                </a>
+                              }
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="border rounded p-2 bg-white h-100">
+                            <div class="text-muted small text-uppercase">Noticias</div>
+                            <div class="fw-bold">
+                              @if (oTemporada()?.club?.noticias === 0) {
+                                0
+                              } @else {
+                                <a class="text-decoration-none" [routerLink]="['/noticia/club', oTemporada()?.club?.id]">
+                                  {{ oTemporada()?.club?.noticias }}
+                                </a>
+                              }
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="border rounded p-2 bg-white h-100">
+                            <div class="text-muted small text-uppercase">Tipos artículos</div>
+                            <div class="fw-bold">
+                              @if (oTemporada()?.club?.tipoarticulos === 0) {
+                                0
+                              } @else {
+                                <a class="text-decoration-none" [routerLink]="['/tipoarticulo/club', oTemporada()?.club?.id]">
+                                  {{ oTemporada()?.club?.tipoarticulos }}
+                                </a>
+                              }
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
+
+              @if (oTemporada()?.club?.imagen) {
+                <div class="row g-3 mt-2">
+                  <div class="col-12">
+                    <div class="card border">
+                      <div class="card-header bg-light small text-uppercase fw-semibold">Imagen</div>
+                      <div class="card-body p-2">
+                        <img [src]="'data:image/png;base64,' + oTemporada()?.club?.imagen" class="img-fluid" alt="Imagen del club">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
             } @else {
               <div class="text-muted">Sin club asignado.</div>
             }

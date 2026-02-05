@@ -37,8 +37,8 @@
 
     @if (!loading() && !error() && noticia()) {
         <div class="row g-3">
-            <div class="col-lg-4">
-                <div class="card border">
+            <div class="col-lg-8">
+                <div class="card border h-100">
                     <div class="card-header bg-light small text-uppercase fw-semibold">Identificación</div>
                     <div class="card-body p-2">
                         <div class="fw-bold">
@@ -62,21 +62,187 @@
             </div>
 
             <div class="col-lg-4">
-                <div class="card border">
-                    <div class="card-header bg-light small text-uppercase fw-semibold">Relaciones</div>
-                    <div class="card-body p-2">
-                        <div class="row g-1">
-                            <div class="col-5 text-muted small text-uppercase">Club</div>
-                            <div class="col-7 fw-semibold small">
-                                @if (noticia()?.club?.nombre) {
-                                    <a [routerLink]="['/club/view', noticia()?.club?.id]">
-                                        {{ noticia()?.club?.nombre }} ({{ noticia()?.club?.id }})
-                                    </a>
-                                } @else {
-                                    Sin club
-                                }
+                <div class="row g-3">
+                    <div class="col-12">
+                        <div class="card border">
+                            <div class="card-header bg-light small text-uppercase fw-semibold">Relaciones</div>
+                            <div class="card-body p-2">
+                                <div class="row g-1">
+                                    <div class="col-5 text-muted small text-uppercase">Club</div>
+                                    <div class="col-7 fw-semibold small">
+                                        @if (noticia()?.club?.nombre) {
+                                            <a [routerLink]="['/club/view', noticia()?.club?.id]">
+                                                {{ noticia()?.club?.nombre }} ({{ noticia()?.club?.id }})
+                                            </a>
+                                        } @else {
+                                            Sin club
+                                        }
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="card border">
+                            <div class="card-header bg-light small text-uppercase fw-semibold">Actividad</div>
+                            <div class="card-body p-2">
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <div class="border rounded p-2 bg-white">
+                                        <div class="text-muted small text-uppercase">Comentarios</div>
+                                            <div class="fw-bold">
+                                                @if (noticia()?.comentarios === 0) {
+                                                    0
+                                                } @else {
+                                                    <a
+                                                        [routerLink]="['/comentario', 'usuario', noticia()?.id]"
+                                                        class="text-decoration-underline text-reset d-inline-block"
+                                                        title="Ver comentarios del usuario"
+                                                    >
+                                                        {{ noticia()?.comentarios }}
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="border rounded p-2 bg-white">
+                                        <div class="text-muted small text-uppercase">Puntuaciones</div>
+                                            <div class="fw-bold">
+                                                @if (noticia()?.puntuaciones === 0) {
+                                                    0
+                                                } @else {
+                                                    <a
+                                                        [routerLink]="['/puntuacion', 'usuario', noticia()?.id]"
+                                                        class="text-decoration-underline text-reset d-inline-block"
+                                                        title="Ver puntuaciones del usuario"
+                                                    >
+                                                        {{ noticia()?.puntuaciones }}
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card border">
+                    <div class="card-header bg-light small text-uppercase fw-semibold">Club (detalle)</div>
+                    <div class="card-body p-2">
+                        @if (noticia()?.club) {
+                            <div class="row g-2">
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="border rounded p-2 bg-white">
+                                        <div class="text-muted small text-uppercase">Nombre</div>
+                                        <a
+                                            [routerLink]="['/club/view', noticia()?.club?.id]"
+                                            class="fw-semibold text-decoration-underline d-inline-block"
+                                            title="Ver club"
+                                        >
+                                            {{ noticia()?.club?.nombre }}
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="border rounded p-2 bg-white">
+                                        <div class="text-muted small text-uppercase">Dirección</div>
+                                        {{ noticia()?.club?.direccion }}
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="border rounded p-2 bg-white">
+                                        <div class="text-muted small text-uppercase">Teléfono</div>
+                                        {{ noticia()?.club?.telefono }}
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="border rounded p-2 bg-white">
+                                        <div class="text-muted small text-uppercase">Fecha alta</div>
+                                        {{ noticia()?.club?.fechaAlta | datetime }}
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="border rounded p-2 bg-white">
+                                        <div class="text-muted small text-uppercase">Temporadas</div>
+                                        <div class="fw-semibold">
+                                            @if (noticia()?.club?.temporadas === 0) {
+                                                0
+                                            } @else {
+                                                <a
+                                                    [routerLink]="['/temporada/', noticia()?.club?.id]"
+                                                    class="text-decoration-underline d-inline-block"
+                                                    title="Ver usuarios del club"
+                                                >
+                                                    {{ noticia()?.club?.temporadas }}
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="border rounded p-2 bg-white">
+                                        <div class="text-muted small text-uppercase">Usuarios</div>
+                                        <div class="fw-semibold">
+                                            @if (noticia()?.club?.usuarios === 0) {
+                                                0
+                                            } @else {
+                                                <a
+                                                    [routerLink]="['/usuario', noticia()?.club?.id]"
+                                                    class="text-decoration-underline d-inline-block"
+                                                    title="Ver temporadas del club"
+                                                >
+                                                    {{ noticia()?.club?.usuarios }}
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="border rounded p-2 bg-white">
+                                        <div class="text-muted small text-uppercase">Noticias</div>
+                                        <div class="fw-semibold">
+                                            @if (noticia()?.club?.noticias === 0) {
+                                                0
+                                            } @else {
+                                                <a
+                                                    [routerLink]="['/noticia/', noticia()?.club?.id]"
+                                                    class="text-decoration-underline d-inline-block"
+                                                    title="Ver noticias del club"
+                                                >
+                                                    {{ noticia()?.club?.noticias }}
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="border rounded p-2 bg-white">
+                                        <div class="text-muted small text-uppercase">Tipos artículos</div>
+                                        <div class="fw-semibold">
+                                            @if (noticia()?.club?.tipoarticulos === 0) {
+                                                0
+                                            } @else {
+                                                <a
+                                                    [routerLink]="['/tipoarticulo/', noticia()?.club?.id]"
+                                                    class="text-decoration-underline d-inline-block"
+                                                    title="Ver tipos de artículos del club"
+                                                >
+                                                    {{ noticia()?.club?.tipoarticulos }}
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        } @else {
+                            <div class="text-muted">Sin club asignado.</div>
+                        }
                     </div>
                 </div>
             </div>

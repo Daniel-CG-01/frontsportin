@@ -83,6 +83,246 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-12">
+                <div class="card border">
+                    <div class="card-header bg-light small text-uppercase fw-semibold">Artículo (detalle)</div>
+                    <div class="card-body p-2">
+                        @if (carrito()?.articulo) {
+                            <div class="row g-2">
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="border rounded p-2 bg-white">
+                                        <div class="text-muted small text-uppercase">Descripción</div>
+                                        <a
+                                            [routerLink]="['/articulo/view', carrito()?.articulo?.id]"
+                                            class="fw-semibold text-decoration-underline d-inline-block"
+                                            title="Ver articulo"
+                                        >
+                                            {{ carrito()?.articulo?.descripcion }}
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="border rounded p-2 bg-white">
+                                        <div class="text-muted small text-uppercase">Precio</div>
+                                        {{ carrito()?.articulo?.precio }}
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="border rounded p-2 bg-white">
+                                        <div class="text-muted small text-uppercase">Descuento</div>
+                                        {{ carrito()?.articulo?.descuento }}
+                                    </div>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-sm-4 col-lg-4">
+                                        <div class="border rounded p-2 bg-white">
+                                            <div class="text-muted small text-uppercase">Comentarios</div>
+                                            <div class="fw-semibold">
+                                                @if (carrito()?.articulo?.comentarioarts === 0) {
+                                                    0
+                                                } @else {
+                                                    <a
+                                                        [routerLink]="['/comentarioart', carrito()?.articulo?.id]"
+                                                        class="text-decoration-underline d-inline-block"
+                                                        title="Ver comentarios del artículo"
+                                                    >
+                                                        {{ carrito()?.articulo?.comentarioarts }}
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-lg-4">
+                                        <div class="border rounded p-2 bg-white">
+                                            <div class="text-muted small text-uppercase">Compras</div>
+                                            <div class="fw-semibold">
+                                                @if (carrito()?.articulo?.compras === 0) {
+                                                    0
+                                                } @else {
+                                                    <a
+                                                        [routerLink]="['/compra/', carrito()?.articulo?.id]"
+                                                        class="text-decoration-underline d-inline-block"
+                                                        title="Ver compras del artículo"
+                                                    >
+                                                        {{ carrito()?.articulo?.compras }}
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-lg-4">
+                                        <div class="border rounded p-2 bg-white">
+                                            <div class="text-muted small text-uppercase">Carritos</div>
+                                            <div class="fw-semibold">
+                                                @if (carrito()?.articulo?.carritos === 0) {
+                                                    0
+                                                } @else {
+                                                    <a
+                                                        [routerLink]="['/carrito/', carrito()?.articulo?.id]"
+                                                        class="text-decoration-underline d-inline-block"
+                                                        title="Ver carritos del artículo"
+                                                    >
+                                                        {{ carrito()?.articulo?.carritos }}
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        } @else {
+                            <div class="text-muted">Sin artículo asignado.</div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card border">
+                    <div class="card-header bg-light small text-uppercase fw-semibold">Usuario (detalle)</div>
+                    <div class="card-body p-2">
+                        @if (carrito()?.articulo) {
+                            <div class="row g-2">
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="border rounded p-2 bg-white">
+                                        <div class="text-muted small text-uppercase">Nombre</div>
+                                        <a
+                                            [routerLink]="['/usuario/view', carrito()?.usuario?.id]"
+                                            class="fw-semibold text-decoration-underline d-inline-block"
+                                            title="Ver usuario"
+                                        >
+                                            {{ carrito()?.usuario?.nombre }}
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="border rounded p-2 bg-white">
+                                        <div class="text-muted small text-uppercase">Apellido 1</div>
+                                        {{ carrito()?.usuario?.apellido1 }}
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="border rounded p-2 bg-white">
+                                        <div class="text-muted small text-uppercase">Apellido 2</div>
+                                        {{ carrito()?.usuario?.apellido2 }}
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="border rounded p-2 bg-white">
+                                        <div class="text-muted small text-uppercase">Género</div>
+                                            @if (carrito()?.usuario?.genero === 0) {
+                                                Hombre
+                                            } @else {
+                                                Mujer
+                                            }
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="border rounded p-2 bg-white">
+                                        <div class="text-muted small text-uppercase">Fecha alta</div>
+                                        {{ carrito()?.usuario?.fechaAlta }}
+                                    </div>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-sm-4 col-lg-4">
+                                        <div class="border rounded p-2 bg-white">
+                                            <div class="text-muted small text-uppercase">Comentarios</div>
+                                            <div class="fw-semibold">
+                                                @if (carrito()?.usuario?.comentarios === 0) {
+                                                    0
+                                                } @else {
+                                                    <a
+                                                        [routerLink]="['/comentario', carrito()?.usuario?.id]"
+                                                        class="text-decoration-underline d-inline-block"
+                                                        title="Ver comentarios del usuario"
+                                                    >
+                                                        {{ carrito()?.usuario?.comentarios }}
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-lg-4">
+                                        <div class="border rounded p-2 bg-white">
+                                            <div class="text-muted small text-uppercase">Puntuaciones</div>
+                                            <div class="fw-semibold">
+                                                @if (carrito()?.usuario?.puntuaciones === 0) {
+                                                    0
+                                                } @else {
+                                                    <a
+                                                        [routerLink]="['/usuario', carrito()?.usuario?.id]"
+                                                        class="text-decoration-underline d-inline-block"
+                                                        title="Ver puntuaciones del usuario"
+                                                    >
+                                                        {{ carrito()?.usuario?.puntuaciones }}
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-lg-4">
+                                        <div class="border rounded p-2 bg-white">
+                                            <div class="text-muted small text-uppercase">Comentarios Artículos</div>
+                                            <div class="fw-semibold">
+                                                @if (carrito()?.usuario?.comentarioarts === 0) {
+                                                    0
+                                                } @else {
+                                                    <a
+                                                        [routerLink]="['/comentarioart', carrito()?.usuario?.id]"
+                                                        class="text-decoration-underline d-inline-block"
+                                                        title="Ver comentarios del artículo del usuario"
+                                                    >
+                                                        {{ carrito()?.usuario?.comentarioarts }}
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-lg-4">
+                                        <div class="border rounded p-2 bg-white">
+                                            <div class="text-muted small text-uppercase">Carritos</div>
+                                            <div class="fw-semibold">
+                                                @if (carrito()?.usuario?.carritos === 0) {
+                                                    0
+                                                } @else {
+                                                    <a
+                                                        [routerLink]="['/carrito/', carrito()?.usuario?.id]"
+                                                        class="text-decoration-underline d-inline-block"
+                                                        title="Ver carritos del usuario"
+                                                    >
+                                                        {{ carrito()?.usuario?.carritos }}
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-lg-4">
+                                        <div class="border rounded p-2 bg-white">
+                                            <div class="text-muted small text-uppercase">Facturas</div>
+                                            <div class="fw-semibold">
+                                                @if (carrito()?.usuario?.facturas === 0) {
+                                                    0
+                                                } @else {
+                                                    <a
+                                                        [routerLink]="['/factura/', carrito()?.usuario?.id]"
+                                                        class="text-decoration-underline d-inline-block"
+                                                        title="Ver facturas del usuario"
+                                                    >
+                                                        {{ carrito()?.usuario?.facturas }}
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        } @else {
+                            <div class="text-muted">Sin usuario asignado.</div>
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
     }
 </div>
