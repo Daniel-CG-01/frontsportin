@@ -1,0 +1,131 @@
+<div class="container py-3">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 border rounded bg-light p-2 mb-3">
+    <div>
+      <div class="text-uppercase small text-muted fw-semibold">Clubs</div>
+      <div class="fw-bold">Edición de Club</div>
+      <div class="text-muted small">Panel administrativo</div>
+    </div>
+    <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2" (click)="doCancel()">
+      <i class="bi bi-arrow-left"></i>
+      Volver
+    </a>
+  </div>
+
+  @if (loading()) {
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="text-center py-3">
+          <div class="spinner-border text-secondary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p class="text-muted mt-2 mb-0">Cargando datos del club...</p>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (!loading() && oClubForm) {
+    <form [formGroup]="oClubForm" (ngSubmit)="onSubmit()">
+      <div class="row g-3">
+        
+        <div class="col-lg-6">
+          <div class="card border h-100">
+            <div class="card-header bg-light small text-uppercase fw-semibold">Identificación</div>
+            <div class="card-body">
+              
+              <div class="mb-3">
+                <label for="id" class="form-label text-muted small text-uppercase">ID</label>
+                <div class="input-group input-group-sm">
+                  <span class="input-group-text bg-light">#</span>
+                  <input type="text" class="form-control" id="id" formControlName="id" readonly>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="nombre" class="form-label text-muted small text-uppercase">Nombre del Club</label>
+                <input type="text" class="form-control" id="nombre" formControlName="nombre" 
+                       [class.is-invalid]="oClubForm.get('nombre')?.invalid && oClubForm.get('nombre')?.touched">
+                
+                @if (oClubForm.get('nombre')?.invalid && oClubForm.get('nombre')?.touched) {
+                  <div class="invalid-feedback">
+                    @if (oClubForm.get('nombre')?.errors?.['required']) { El nombre es obligatorio. }
+                    @if (oClubForm.get('nombre')?.errors?.['minlength']) { Mínimo 3 caracteres. }
+                  </div>
+                }
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card border h-100">
+            <div class="card-header bg-light small text-uppercase fw-semibold">Contacto</div>
+            <div class="card-body">
+              
+              <div class="mb-3">
+                <label for="direccion" class="form-label text-muted small text-uppercase">Dirección</label>
+                <input type="text" class="form-control" id="direccion" formControlName="direccion"
+                       [class.is-invalid]="oClubForm.get('direccion')?.invalid && oClubForm.get('direccion')?.touched">
+                @if (oClubForm.get('direccion')?.hasError('required') && oClubForm.get('direccion')?.touched) {
+                   <div class="invalid-feedback">La dirección es obligatoria.</div>
+                }
+              </div>
+
+              <div class="mb-3">
+                <label for="telefono" class="form-label text-muted small text-uppercase">Teléfono</label>
+                <input type="text" class="form-control" id="telefono" formControlName="telefono">
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+ <div class="col-12">
+          <div class="card border">
+            <div class="card-header bg-light small text-uppercase fw-semibold">Fecha de Alta</div>
+            <div class="card-body">
+              
+              <div class="input-group">
+    <span class="input-group-text bg-light"><i class="bi bi-calendar"></i></span>
+    <input type="text" class="form-control" id="fechaAlta" formControlName="fechaAlta" >
+    
+  </div>
+
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="col-12">
+          <div class="card border">
+            <div class="card-header bg-light small text-uppercase fw-semibold">Multimedia</div>
+            <div class="card-body">
+              
+              <div class="mb-3">
+                <label for="imagen" class="form-label text-muted small text-uppercase">Imagen (URL o Base64)</label>
+                <input type="text" class="form-control" id="imagen" formControlName="imagen" placeholder="http://...">
+                <div class="form-text small">Introduce la URL de la imagen del escudo o logo.</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 text-center mt-4">
+          <div class="d-flex justify-content-center gap-2">
+            <button type="button" class="btn btn-secondary" (click)="doCancel()">
+              <i class="bi bi-x-circle me-1"></i> Cancelar
+            </button>
+            
+            <button type="submit" class="btn btn-primary" [disabled]="oClubForm.invalid">
+              <i class="bi bi-save me-1"></i> Guardar Cambios
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  }
+</div>

@@ -31,4 +31,8 @@ export class ClubService {
   count(): Observable<number> {
     return this.http.get<number>(`${this.url}/count`);
   }
+
+     update(club: Partial<IClub>): Observable<number> {
+     return this.http.put<number>(serverURL + '/club', club);
+   }
 }
