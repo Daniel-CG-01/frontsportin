@@ -4,11 +4,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { CategoriaService } from '../../../service/categoria';
 import { ICategoria } from '../../../model/categoria';
+import { CategoriaDetailAdminUnrouted } from '../detail-admin-unrouted/categoria-detail';
 
 
 @Component({
   selector: 'app-categoria-view',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, CategoriaDetailAdminUnrouted],
   templateUrl: './categoria-view.html',
   styleUrl: './categoria-view.css',
 })
@@ -20,23 +21,16 @@ export class CategoriaViewAdminRouted implements OnInit {
   loading = signal(true);
   error = signal<string | null>(null);
 
+   id_categoria = signal<number>(0);
+
   ngOnInit(): void {
-    // Suscribirse a los cambios en los parámetros de la ruta
-    this.route.paramMap.subscribe(params => {
-      const idParam = params.get('id');
-      const id = idParam ? Number(idParam) : NaN;
-      
-      if (isNaN(id)) {
-        this.error.set('ID no válido');
-        this.loading.set(false);
-        return;
-      }
-      
-      // Resetear el estado antes de cargar
-      this.loading.set(true);
-      this.error.set(null);
-      this.load(id);
-    });
+    const idParam = this.route.snapshot.paramMap.get('id');
+    this.id_categoria.set(idParam ? Number(idParam) : NaN);
+    if (isNaN(this.id_categoria())) {
+      this.error.set('ID no válido');
+      this.loading.set(false);
+      return;
+    }    
   }
 
   load(id: number) {
