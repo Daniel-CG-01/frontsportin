@@ -3,17 +3,16 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { DatetimePipe } from '../../../pipe/datetime-pipe';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { IPage } from '../../../model/plist';
-import { ICarrito } from '../../../model/carrito';
-import { CarritoService } from '../../../service/carrito';
 import { CarritoDetailAdminUnrouted } from "../detail-admin-unrouted/carrito-detail";
+import { CarritoService } from '../../../service/carrito';
+import { ICarrito } from '../../../model/carrito';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-carrito-delete',
+  selector: 'app-carrito-view',
   imports: [CommonModule, CarritoDetailAdminUnrouted],
   templateUrl: './carrito-delete.html',
-  styleUrls: ['./carrito-delete.css'],
+  styleUrl: './carrito-delete.css',
 })
 
 export class CarritoDeleteAdminRouted implements OnInit {

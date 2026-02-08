@@ -126,5 +126,6 @@ export const routes: Routes = [
     { path: 'comentarioart/articulo/:id_articulo', component: ComentarioartPlistAdminRouted},
     { path: 'comentarioart/usuario/:id_usuario', component: ComentarioartPlistAdminRouted},
     { path: 'comentarioart/view/:id', component: ComentarioartViewRouted},
+    { path: 'carrito/delete/:id', component: CarritoDeleteAdminRouted}
 
 ];
