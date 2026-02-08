@@ -24,6 +24,7 @@ import { TipousuarioPlistAdminRouted } from './component/tipousario/plist-admin-
 import { TemporadaPlist } from './component/temporada/temporada-plist/temporada-plist';
 import { PlistEquipo } from './component/equipo/plist-admin-routed/equipo-plist';
 import { EquipoViewRouted } from './component/equipo/view-admin-routed/equipo-view';
+import { EquipoDeleteAdminRouted } from './component/equipo/delete-admin-routed/equipo.delete';
 import { CarritoPlistAdminRouted } from './component/carrito/plist-admin-routed/carrito-plist';
 import { ComentarioPlistAdminRouted } from './component/comentario/plist-admin-routed/comentario-plist';
 import { ComentarioViewRouted } from './component/comentario/view-routed/comentario-view';
@@ -102,6 +103,7 @@ export const routes: Routes = [
     { path: 'equipo', component: PlistEquipo },
     { path: 'equipo/categoria/:id_categoria', component: PlistEquipo },
     { path: 'equipo/view/:id', component: EquipoViewRouted },
+    { path: 'equipo/delete/:id', component: EquipoDeleteAdminRouted },
     { path: 'equipo/usuario/:id_usuario', component: PlistEquipo },
     { path: 'carrito', component: CarritoPlistAdminRouted },
     { path: 'carrito/usuario/:id_usuario', component: CarritoPlistAdminRouted },
