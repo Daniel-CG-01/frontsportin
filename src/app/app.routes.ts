@@ -58,6 +58,7 @@ import { ClubEditAdminRouted } from './component/club/edit-admin-routed/club-edi
 import { CarritoDeleteAdminRouted } from './component/carrito/delete-admin-routed/carrito-delete';
 import { ComentarioartDeleteAdminRouted } from './component/comentarioart/delete-admin-routed/delete-admin-routed';
 import { FacturaDeleteAdminRouted } from './component/factura/delete-admin-routed/factura-delete';
+import { CarritoEditAdminRouted } from './component/carrito/edit-admin-routed/carrito-edit';
 
 
 export const routes: Routes = [
@@ -132,6 +133,7 @@ export const routes: Routes = [
     { path: 'carrito/articulo/:id_articulo', component: CarritoPlistAdminRouted },
     { path: 'carrito/view/:id', component: CarritoViewAdminRouted },
     { path: 'carrito/delete/:id', component: CarritoDeleteAdminRouted },
+    { path: 'carrito/edit/:id', component: CarritoEditAdminRouted },
     { path: 'comentario', component: ComentarioPlistAdminRouted },
     { path: 'comentario/usuario/:id_usuario', component: ComentarioPlistAdminRouted},
     { path: 'comentario/noticia/:id_noticia', component: ComentarioPlistAdminRouted},

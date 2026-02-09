@@ -6,7 +6,7 @@ import { IPage } from '../model/plist';
 import { ICarrito } from '../model/carrito';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CarritoService {
   constructor(private oHttp: HttpClient) {}
@@ -18,7 +18,7 @@ export class CarritoService {
     direction: string = '',
     filter: string = '',
     _idArticulo: number = 0,
-    _idUsuario: number = 0
+    _idUsuario: number = 0,
   ): Observable<IPage<ICarrito>> {
     if (order === '') {
       order = 'id';
@@ -43,7 +43,7 @@ export class CarritoService {
 
     return this.oHttp.get<IPage<ICarrito>>(url);
   }
-  
+
   count(): Observable<number> {
     return this.oHttp.get<number>(`${serverURL}/carrito/count`);
   }
@@ -52,6 +52,14 @@ export class CarritoService {
 
   getById(id: number) {
     return this.oHttp.get<ICarrito>(`${this.carritoURL}/${id}`);
+  }
+
+  get(id: number): Observable<ICarrito> {
+    return this.oHttp.get<ICarrito>(`${this.carritoURL}/${id}`);
+  }
+
+  update(carrito: Partial<ICarrito>): Observable<number> {
+    return this.oHttp.put<number>(this.carritoURL, carrito);
   }
 
   delete(id: number) {
