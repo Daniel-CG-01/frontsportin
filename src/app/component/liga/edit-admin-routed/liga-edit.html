@@ -1,0 +1,115 @@
+<div class="container my-4 edit-form">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+      <div class="form-card">
+        <header class="mb-4">
+          <h1 class="h3 mb-0">Editar Liga</h1>
+        </header>
+
+        @if (loadingLiga()) {
+        <div class="d-flex justify-content-center my-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+        </div>
+        }
+
+        @if (error()) {
+        <div class="alert alert-danger" role="alert">
+          <i class="bi bi-exclamation-triangle me-2"></i>{{ error() }}
+        </div>
+        }
+
+        @if (!loadingLiga() && !error()) {
+        <form [formGroup]="ligaForm" (ngSubmit)="onSubmit()" novalidate>
+          <!-- ID (solo lectura) -->
+          <div class="mb-4">
+            <label for="id" class="form-label">ID de la liga</label>
+            <input
+              type="text"
+              class="form-control"
+              id="id"
+              formControlName="id"
+              readonly
+            />
+          </div>
+
+          <!-- Nombre -->
+          <div class="mb-4">
+            <label for="nombre" class="form-label">Nombre <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              [class.is-invalid]="nombre?.invalid && nombre?.touched"
+              [class.is-valid]="nombre?.valid && nombre?.touched"
+              id="nombre"
+              formControlName="nombre"
+              placeholder="Introduce el nombre de la liga"
+            />
+            @if (nombre?.invalid && nombre?.touched) {
+            <div class="invalid-feedback">
+              @if (nombre?.errors?.['required']) {
+                <span>El nombre es obligatorio.</span>
+              }
+              @if (nombre?.errors?.['minlength']) {
+                <span>El nombre debe tener al menos 3 caracteres.</span>
+              }
+              @if (nombre?.errors?.['maxlength']) {
+                <span>El nombre no puede superar 255 caracteres.</span>
+              }
+            </div>
+            }
+          </div>
+
+          <!-- Equipo -->
+          <div class="mb-4">
+            <label for="equipo" class="form-label">Equipo <span class="text-danger">*</span></label>
+            <select
+              id="equipo"
+              style="cursor: pointer;"
+              class="form-select"
+              [class.is-invalid]="id_equipo?.invalid && id_equipo?.touched"
+              [class.is-valid]="id_equipo?.valid && id_equipo?.touched"
+              formControlName="id_equipo"
+            >
+              <option [value]="null" disabled>Selecciona un equipo</option>
+              @for (equipo of equipos(); track equipo.id) {
+                <option [value]="equipo.id">{{ equipo.nombre }} (ID: {{ equipo.id }})</option>
+              }
+            </select>
+            @if (id_equipo?.invalid && id_equipo?.touched) {
+            <div class="invalid-feedback">
+              <span>Debe seleccionar un equipo.</span>
+            </div>
+            }
+            @if (loadingEquipos()) {
+              <div class="form-text text-muted">Cargando equipos...</div>
+            }
+          </div>
+
+          <!-- Botones -->
+          <div class="d-flex justify-content-between align-items-center mt-4">
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              (click)="doCancel()"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="submitting() || ligaForm.invalid"
+            >
+              @if (submitting()) {
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              }
+              Guardar Cambios
+            </button>
+          </div>
+        </form>
+        }
+      </div>
+    </div>
+  </div>
+</div>

@@ -148,4 +148,28 @@ export class ComentarioartPlistAdminRouted {
     // Emitir el valor al Subject para que sea procesado con debounce
     this.searchSubject.next(value);
   }
+
+  getArticuloId(comentario: IComentarioart | null | undefined): number | null {
+    if (!comentario) {
+      return null;
+    }
+    return (
+      comentario.idArticulo ??
+      comentario.id_articulo ??
+      comentario.articulo?.id ??
+      null
+    );
+  }
+
+  getUsuarioId(comentario: IComentarioart | null | undefined): number | null {
+    if (!comentario) {
+      return null;
+    }
+    return (
+      comentario.idUsuario ??
+      comentario.id_usuario ??
+      comentario.usuario?.id ??
+      null
+    );
+  }
 }

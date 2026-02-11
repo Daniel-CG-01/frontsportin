@@ -1,0 +1,151 @@
+<div class="container my-4 edit-form">
+	<div class="row justify-content-center">
+		<div class="col-12 col-lg-8">
+			<div class="form-card">
+				<header class="mb-4">
+					<h1 class="h3 mb-0">Editar cuota</h1>
+				</header>
+
+				@if (loading()) {
+					<div class="d-flex justify-content-center my-5">
+						<div class="spinner-border text-primary" role="status">
+							<span class="visually-hidden">Cargando...</span>
+						</div>
+					</div>
+				}
+
+				@if (error()) {
+					<div class="alert alert-danger" role="alert">
+						<i class="bi bi-exclamation-triangle me-2"></i>{{ error() }}
+					</div>
+				}
+
+				@if (!loading() && !error()) {
+					<form [formGroup]="cuotaForm" (ngSubmit)="onSubmit()" novalidate>
+						<!-- ID (solo lectura) -->
+						<div class="mb-4">
+							<label for="id" class="form-label">ID de la cuota</label>
+							<input type="text" class="form-control" id="id" formControlName="id" readonly />
+						</div>
+
+						<!-- Descripción -->
+						<div class="mb-4">
+							<label for="descripcion" class="form-label">
+								Descripción <span class="text-danger">*</span>
+							</label>
+							<input
+								type="text"
+								class="form-control"
+								[class.is-invalid]="descripcion?.invalid && descripcion?.touched"
+								[class.is-valid]="descripcion?.valid && descripcion?.touched"
+								id="descripcion"
+								formControlName="descripcion"
+								placeholder="Introduce la descripción de la cuota"
+							/>
+							@if (descripcion?.invalid && descripcion?.touched) {
+								<div class="invalid-feedback">
+									@if (descripcion?.errors?.['required']) {
+										<span>La descripción es obligatoria.</span>
+									}
+									@if (descripcion?.errors?.['minlength']) {
+										<span>La descripción debe tener al menos 3 caracteres.</span>
+									}
+									@if (descripcion?.errors?.['maxlength']) {
+										<span>La descripción no puede superar 255 caracteres.</span>
+									}
+								</div>
+							}
+						</div>
+
+						<!-- Cantidad -->
+						<div class="mb-4">
+							<label for="cantidad" class="form-label">
+								Cantidad (€) <span class="text-danger">*</span>
+							</label>
+							<input
+								type="number"
+								step="0.01"
+								min="0"
+								class="form-control"
+								[class.is-invalid]="cantidad?.invalid && cantidad?.touched"
+								[class.is-valid]="cantidad?.valid && cantidad?.touched"
+								id="cantidad"
+								formControlName="cantidad"
+								placeholder="0.00"
+								(input)="limitDecimalPlaces($event, 'cantidad', 2)"
+							/>
+							@if (cantidad?.invalid && cantidad?.touched) {
+								<div class="invalid-feedback">
+									@if (cantidad?.errors?.['required']) {
+										<span>La cantidad es obligatoria.</span>
+									}
+									@if (cantidad?.errors?.['min']) {
+										<span>La cantidad debe ser mayor o igual a 0.</span>
+									}
+								</div>
+							}
+						</div>
+
+						<!-- Fecha -->
+						<div class="mb-4">
+							<label for="fecha" class="form-label">Fecha <span class="text-danger">*</span></label>
+							<input
+								type="date"
+								class="form-control"
+								[class.is-invalid]="fecha?.invalid && fecha?.touched"
+								[class.is-valid]="fecha?.valid && fecha?.touched"
+								id="fecha"
+								formControlName="fecha"
+							/>
+							@if (fecha?.invalid && fecha?.touched) {
+								<div class="invalid-feedback">
+									@if (fecha?.errors?.['required']) {
+										<span>La fecha es obligatoria.</span>
+									}
+								</div>
+							}
+						</div>
+
+						<!-- Equipo -->
+						<div class="mb-4">
+							<label for="equipo" class="form-label">
+								Equipo <span class="text-danger">*</span>
+							</label>
+							<select
+								id="equipo"
+								style="cursor: pointer;"
+								class="form-select"
+								[class.is-invalid]="id_equipo?.invalid && id_equipo?.touched"
+								[class.is-valid]="id_equipo?.valid && id_equipo?.touched"
+								formControlName="id_equipo"
+							>
+								<option [value]="null" disabled>Selecciona un equipo</option>
+								@for (equipo of equipos(); track equipo.id) {
+									<option [value]="equipo.id">{{ equipo.nombre }}</option>
+								}
+							</select>
+							@if (id_equipo?.invalid && id_equipo?.touched) {
+								<div class="invalid-feedback">
+									<span>Debe seleccionar un equipo.</span>
+								</div>
+							}
+						</div>
+
+						<!-- Botones -->
+						<div class="d-flex justify-content-between align-items-center mt-4">
+						  <a href="/cuota" class="btn btn-outline-secondary">
+								Cancelar
+							</a>
+							<button type="submit" class="btn btn-primary" [disabled]="submitting() || cuotaForm.invalid">
+								@if (submitting()) {
+									<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+								}
+								Guardar Cambios
+							</button>
+						</div>
+					</form>
+				}
+			</div>
+		</div>
+	</div>
+</div>

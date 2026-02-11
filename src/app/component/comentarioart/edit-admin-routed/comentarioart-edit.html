@@ -1,0 +1,126 @@
+<div class="container my-4 edit-form">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+      <div class="form-card">
+        <header class="mb-4">
+          <h1 class="h3 mb-0">Editar comentario de articulo</h1>
+        </header>
+
+        @if (loading()) {
+          <div class="d-flex justify-content-center my-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+          </div>
+        }
+
+        @if (error()) {
+          <div class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i>{{ error() }}
+          </div>
+        }
+
+        @if (!loading() && !error()) {
+          <form [formGroup]="comentarioartForm" (ngSubmit)="onSubmit()" novalidate>
+            <div class="mb-4">
+              <label for="id" class="form-label">ID del comentario</label>
+              <input type="text" class="form-control" id="id" formControlName="id" readonly />
+            </div>
+
+            <div class="mb-4">
+              <label for="contenido" class="form-label"
+                >Contenido <span class="text-danger">*</span></label
+              >
+              <textarea
+                id="contenido"
+                rows="4"
+                class="form-control"
+                [class.is-invalid]="contenido?.invalid && contenido?.touched"
+                [class.is-valid]="contenido?.valid && contenido?.touched"
+                formControlName="contenido"
+                placeholder="Escribe el contenido del comentario"
+              ></textarea>
+              @if (contenido?.invalid && contenido?.touched) {
+                <div class="invalid-feedback">
+                  <span>El contenido es obligatorio.</span>
+                </div>
+              }
+            </div>
+
+            <div class="mb-4">
+              <label for="articulo" class="form-label"
+                >Articulo <span class="text-danger">*</span></label
+              >
+              <select
+                id="articulo"
+                style="cursor: pointer"
+                class="form-select"
+                [class.is-invalid]="id_articulo?.invalid && id_articulo?.touched"
+                [class.is-valid]="id_articulo?.valid && id_articulo?.touched"
+                formControlName="id_articulo"
+              >
+                <option [value]="null" disabled>Selecciona un articulo</option>
+                @for (articulo of articulos(); track articulo.id) {
+                  <option [value]="articulo.id">
+                    {{ articulo.descripcion }} - {{ articulo.precio | currency: 'EUR' }}
+                  </option>
+                }
+              </select>
+              @if (id_articulo?.invalid && id_articulo?.touched) {
+                <div class="invalid-feedback">
+                  <span>Debe seleccionar un articulo.</span>
+                </div>
+              }
+            </div>
+
+            <div class="mb-4">
+              <label for="usuario" class="form-label"
+                >Usuario <span class="text-danger">*</span></label
+              >
+              <select
+                id="usuario"
+                style="cursor: pointer"
+                class="form-select"
+                [class.is-invalid]="id_usuario?.invalid && id_usuario?.touched"
+                [class.is-valid]="id_usuario?.valid && id_usuario?.touched"
+                formControlName="id_usuario"
+              >
+                <option [value]="null" disabled>Selecciona un usuario</option>
+                @for (usuario of usuarios(); track usuario.id) {
+                  <option [value]="usuario.id">
+                    {{ usuario.nombre }} {{ usuario.apellido1 }} {{ usuario.apellido2 }} ({{
+                      usuario.username
+                    }})
+                  </option>
+                }
+              </select>
+              @if (id_usuario?.invalid && id_usuario?.touched) {
+                <div class="invalid-feedback">
+                  <span>Debe seleccionar un usuario.</span>
+                </div>
+              }
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+              <a [routerLink]="['/comentarioart']" class="btn btn-outline-secondary"> Cancelar </a>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="submitting() || comentarioartForm.invalid"
+              >
+                @if (submitting()) {
+                  <span
+                    class="spinner-border spinner-border-sm me-2"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                }
+                Guardar Cambios
+              </button>
+            </div>
+          </form>
+        }
+      </div>
+    </div>
+  </div>
+</div>

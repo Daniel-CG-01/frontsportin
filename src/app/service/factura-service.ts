@@ -8,19 +8,10 @@ import { IFactura } from '../model/factura';
 @Injectable({
   providedIn: 'root',
 })
-
 export class FacturaService {
-
-
   constructor(private oHttp: HttpClient) {}
 
-getPage(
-  page: number,
-  rpp: number, 
-  order: string = '', 
-  direction: string = '', 
-  id_usuario: number = 0, 
-): Observable<IPage<IFactura>> {
+  getPage(page: number, rpp: number, order: string = '', direction: string = '', id_usuario: number = 0): Observable<IPage<IFactura>> {
     if (order === '') {
       order = 'id';
     }
@@ -39,14 +30,18 @@ getPage(
   }
 
   get(id: number): Observable<IFactura> {
-      return this.oHttp.get<IFactura>(`${serverURL}/factura/${id}`);
-    }
+    return this.oHttp.get<IFactura>(`${serverURL}/factura/${id}`);
+  }
 
   delete(id: number): Observable<number> {
-      return this.oHttp.delete<number>(serverURL + '/factura/' + id);
-    }
+    return this.oHttp.delete<number>(serverURL + '/factura/' + id);
+  }
 
   count(): Observable<number> {
-      return this.oHttp.get<number>(serverURL + '/factura/count');
-    }
+    return this.oHttp.get<number>(serverURL + '/factura/count');
+  }
+
+  update(factura: Partial<IFactura>): Observable<number> {
+    return this.oHttp.put<number>(serverURL + '/factura', factura);
+  } 
 }

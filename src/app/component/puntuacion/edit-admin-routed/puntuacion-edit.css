@@ -1,0 +1,8 @@
+/* Estilos del formulario de edición de puntuación */
+.edit-form .form-card {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	border-radius: 12px;
+	padding: 24px;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+}

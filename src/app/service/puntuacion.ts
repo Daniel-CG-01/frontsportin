@@ -55,9 +55,9 @@ export class PuntuacionService {
   //   return this.oHttp.post<number>(serverURL + '/puntuacion', puntuacion);
   // }
 
-  // update(puntuacion: Partial<IPuntuacion>): Observable<number> {
-  //   return this.oHttp.put<number>(serverURL + '/puntuacion', puntuacion);
-  // }
+  update(puntuacion: Partial<IPuntuacion>): Observable<number> {
+    return this.oHttp.put<number>(serverURL + '/puntuacion', puntuacion);
+  }
 
   // delete(id: number): Observable<number> {
   //   return this.oHttp.delete<number>(serverURL + '/puntuacion/' + id);

@@ -50,9 +50,9 @@ export class CuotaService {
   //   return this.oHttp.post<number>(serverURL + '/cuota', cuota);
   // }
 
-  // update(cuota: Partial<ICuota>): Observable<number> {
-  //   return this.oHttp.put<number>(serverURL + '/cuota', cuota);
-  // }
+  update(cuota: Partial<ICuota>): Observable<number> {
+    return this.oHttp.put<number>(serverURL + '/cuota', cuota);
+  }
 
   // delete(id: number): Observable<number> {
   //   return this.oHttp.delete<number>(serverURL + '/cuota/' + id);

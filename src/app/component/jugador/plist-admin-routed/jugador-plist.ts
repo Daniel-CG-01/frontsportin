@@ -14,9 +14,9 @@ import { debounceTimeSearch, serverURL } from '../../../environment/environment'
 
 @Component({
   standalone: true,
-  selector: 'app-jugador-plis',
-  templateUrl: './jugador-plis.html',
-  styleUrls: ['./jugador-plis.css'],
+  selector: 'app-jugador-plist',
+  templateUrl: './jugador-plist.html',
+  styleUrls: ['./jugador-plist.css'],
   imports: [
     CommonModule,
     Paginacion,
@@ -25,7 +25,7 @@ import { debounceTimeSearch, serverURL } from '../../../environment/environment'
     TrimPipe
   ]
 })
-export class JugadorPlisComponent {
+export class JugadorPlist {
 
   oPage = signal<IPage<IJugador> | null>(null);
   numPage = signal<number>(0);

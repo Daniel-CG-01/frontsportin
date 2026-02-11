@@ -1,0 +1,80 @@
+<div class="container py-3">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 border rounded bg-light p-2 mb-3">
+    <div>
+      <div class="text-uppercase small text-muted fw-semibold">Rol Usuarios</div>
+      <div class="fw-bold">Detalle de rol usuario</div>
+      <div class="text-muted small">Panel administrativo</div>
+    </div>
+    <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2" routerLink="/rolusuario">
+      <i class="bi bi-arrow-left"></i>
+      Volver
+    </a>
+  </div>
+
+  @if (loading()) {
+    <div class="row justify-content-center">
+      <div class="col-lg-10 col-xl-8">
+        <div class="text-center py-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p class="text-muted mt-3 mb-0">Cargando detalle...</p>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="row justify-content-center">
+      <div class="col-lg-10 col-xl-8">
+        <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <span>{{ error() }}</span>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (!loading() && !error() && oRolusuario()) {
+    <div class="row g-3">
+      <div class="col-lg-6">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Identificación</div>
+          <div class="card-body p-2">
+            <div class="d-flex flex-wrap gap-2 mt-1">
+              <span class="badge bg-secondary-subtle text-secondary">ID {{ oRolusuario()?.id }}</span>
+            </div>
+            <div>
+              <label class="text-muted small d-block">Descripción del Rol</label>
+              <p class="fw-bold fs-5 mb-0">{{ oRolusuario()?.descripcion }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card border">
+          <div class="card-header bg-light small text-uppercase fw-semibold">Actividad</div>
+          <div class="card-body p-2">
+            <div class="row g-2">
+              <div class="col-6">
+                <div class="border rounded p-2 bg-white">
+                  <div class="text-muted small text-uppercase">Usuarios</div>
+                  <div class="fw-bold">
+                    @if (oRolusuario()?.usuarios !== undefined && oRolusuario()!.usuarios > 0) {
+                      <a [routerLink]="['/usuario', 'rol', oRolusuario()?.id]" class="text-decoration-none">
+                        {{ oRolusuario()?.usuarios }}
+                      </a>
+                    } @else {
+                      Sin usuarios
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

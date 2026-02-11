@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, inject } from '@angular/core';
+import { Component, signal, OnInit, inject, Input, Signal } from '@angular/core';
 import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -7,38 +7,27 @@ import { IJugador } from '../../../model/jugador';
 import { serverURL } from '../../../environment/environment';
 
 @Component({
-  selector: 'app-jugador-view',
+  selector: 'app-jugador-detail-unrouted',
   imports: [CommonModule, RouterLink],
-  templateUrl: './jugador-view.html',
-  styleUrls: ['./jugador-view.css'],
+  templateUrl: './jugador-detail.html',
+  styleUrl: './jugador-detail.css',
 })
-export class JugadorViewRouted implements OnInit {
+export class JugadorDetailAdminUnrouted implements OnInit {
 
-  private route = inject(ActivatedRoute);
+  @Input() id: Signal<number> = signal(0);
+
   private jugadorService = inject(JugadorService);
-  private router = inject(Router);
+  //private snackBar = inject(MatSnackBar);
 
   jugador = signal<IJugador | null>(null);
   loading = signal(true);
   error = signal<string | null>(null);
 
   ngOnInit(): void {
-    const idParam = this.route.snapshot.paramMap.get('id');
-    const id = idParam ? Number(idParam) : NaN;
-
-    if (isNaN(id)) {
-      this.error.set('ID no válido');
-      this.loading.set(false);
-      return;
-    }
-
-    this.load(id);
+    this.load(this.id());
   }
 
   load(id: number) {
-    this.loading.set(true);
-    this.error.set(null);
-
     this.jugadorService.getById(id).subscribe({
       next: (data: IJugador) => {
         this.jugador.set(data);
@@ -57,7 +46,4 @@ export class JugadorViewRouted implements OnInit {
     return `${serverURL}/jugador/imagen/${imagen}`;
   }
 
-  goBack(): void {
-    this.router.navigate(['/jugador']);
-  }
 }

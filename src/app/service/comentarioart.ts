@@ -66,8 +66,18 @@ export class ComentarioartService {
         );
     }
 
+    get(id: number): Observable<IComentarioart> {
+        return this.oHttp.get<IComentarioart>(
+            serverURL + `/comentarioart/${id}`
+        );
+    }
+
     count(): Observable<number> {
         return this.oHttp.get<number>(serverURL + '/comentarioart/count');
+    }
+
+    update(comentarioart: Partial<IComentarioart>): Observable<number> {
+        return this.oHttp.put<number>(serverURL + '/comentarioart', comentarioart);
     }
 
     delete(id: number): Observable<number> {
