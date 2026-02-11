@@ -1,0 +1,182 @@
+<div class="container my-4 edit-form">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+      <div class="form-card">
+        <header class="mb-4">
+          <h1 class="h3 mb-0">Editar puntuación</h1>
+        </header>
+
+        @if (loading()) {
+          <div class="d-flex justify-content-center my-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+          </div>
+        }
+
+        @if (error()) {
+          <div class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i>{{ error() }}
+          </div>
+        }
+
+        @if (!loading() && !error()) {
+          <form [formGroup]="puntuacionForm" (ngSubmit)="onSubmit()" novalidate>
+            <!-- ID (solo lectura) -->
+            <div class="mb-4">
+              <label for="id" class="form-label">ID de la puntuación</label>
+              <input type="text" class="form-control" id="id" formControlName="id" readonly />
+            </div>
+
+            <!-- Puntuación -->
+            <div class="mb-4">
+              <label for="puntuacion" class="form-label"
+                >Puntuación <span class="text-danger">*</span></label
+              >
+              <input
+                type="number"
+                step="1"
+                min="0"
+                max="5"
+                class="form-control"
+                [class.is-invalid]="puntuacion?.invalid && puntuacion?.touched"
+                [class.is-valid]="puntuacion?.valid && puntuacion?.touched"
+                id="puntuacion"
+                formControlName="puntuacion"
+                placeholder="0"
+              />
+              @if (puntuacion?.invalid && puntuacion?.touched) {
+                <div class="invalid-feedback">
+                  @if (puntuacion?.errors?.['required']) {
+                    <span>La puntuación es obligatoria.</span>
+                  }
+                  @if (puntuacion?.errors?.['min']) {
+                    <span>La puntuación debe ser mayor o igual a 0.</span>
+                  }
+                  @if (puntuacion?.errors?.['max']) {
+                    <span>La puntuación no puede superar 5.</span>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Sección: Relaciones -->
+            <div class="p-4 rounded mb-4" style="background-color: #e4e4e4; border-left: 4px solid #0d6efd;">
+              <!-- Noticia Dropdown -->
+              <div class="mb-4">
+                <label for="noticia" class="form-label"
+                  >Noticia <span class="text-danger">*</span></label
+                >
+                <select
+                  id="noticia"
+                  style="cursor: pointer"
+                  class="form-select"
+                  [class.is-invalid]="id_noticia?.invalid && id_noticia?.touched"
+                  [class.is-valid]="id_noticia?.valid && id_noticia?.touched"
+                  formControlName="id_noticia"
+                >
+                  <option [value]="null" disabled>Selecciona una noticia</option>
+                  @for (noticia of noticias(); track noticia.id) {
+                    <option [value]="noticia.id">{{ noticia.titulo }} ({{ noticia.id }})</option>
+                  }
+                </select>
+                @if (id_noticia?.invalid && id_noticia?.touched) {
+                  <div class="invalid-feedback">
+                    <span>Debe seleccionar una noticia.</span>
+                  </div>
+                }
+              </div>
+
+              <!-- Usuario Dropdown -->
+              <div class="mb-4">
+                <label for="usuario" class="form-label"
+                  >Usuario <span class="text-danger">*</span></label
+                >
+                <select
+                  id="usuario"
+                  style="cursor: pointer"
+                  class="form-select"
+                  [class.is-invalid]="id_usuario?.invalid && id_usuario?.touched"
+                  [class.is-valid]="id_usuario?.valid && id_usuario?.touched"
+                  formControlName="id_usuario"
+                >
+                  <option [value]="null" disabled>Selecciona un usuario</option>
+                  @for (usuario of usuarios(); track usuario.id) {
+                    <option [value]="usuario.id">
+                      {{ usuario.nombre }} {{ usuario.apellido1 }} {{ usuario.apellido2 }} ({{ usuario.id }})
+                    </option>
+                  }
+                </select>
+                @if (id_usuario?.invalid && id_usuario?.touched) {
+                  <div class="invalid-feedback">
+                    <span>Debe seleccionar un usuario.</span>
+                  </div>
+                }
+              </div>
+
+              <!-- IDs y resumen -->
+              <div class="d-flex gap-3 align-items-end flex-wrap">
+                <div>
+                  <label for="display_id_noticia" class="form-label">ID Noticia</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="display_id_noticia"
+                    [value]="displayIdNoticia() || ''"
+                    readonly
+                  />
+                </div>
+                <div>
+                  <label for="display_id_usuario" class="form-label">ID Usuario</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="display_id_usuario"
+                    [value]="displayIdUsuario() || ''"
+                    readonly
+                  />
+                </div>
+                @if (selectedNoticia()) {
+                  <div class="grow">
+                    <label class="form-label">Noticia</label>
+                    <p class="form-control-plaintext fw-semibold mb-0">
+                      {{ selectedNoticia()?.titulo }}
+                    </p>
+                  </div>
+                }
+                @if (selectedUsuario()) {
+                  <div class="grow">
+                    <label class="form-label">Usuario</label>
+                    <p class="form-control-plaintext fw-semibold mb-0">
+                      {{ selectedUsuario()?.nombre }} {{ selectedUsuario()?.apellido1 }}
+                      {{ selectedUsuario()?.apellido2 }}
+                    </p>
+                  </div>
+                }
+              </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="d-flex justify-content-between align-items-center mt-4">
+              <a [routerLink]="['/puntuacion']" class="btn btn-outline-secondary"> Cancelar </a>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="submitting() || puntuacionForm.invalid"
+              >
+                @if (submitting()) {
+                  <span
+                    class="spinner-border spinner-border-sm me-2"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                }
+                Guardar Cambios
+              </button>
+            </div>
+          </form>
+        }
+      </div>
+    </div>
+  </div>
+</div>

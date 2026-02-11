@@ -1,0 +1,137 @@
+<div class="container my-4 edit-form">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+      <div class="form-card">
+        <header class="mb-4">
+          <h1 class="h3 mb-0">Editar carrito</h1>
+        </header>
+
+        @if (loading()) {
+          <div class="d-flex justify-content-center my-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+          </div>
+        }
+
+        @if (error()) {
+          <div class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i>{{ error() }}
+          </div>
+        }
+
+        @if (!loading() && !error()) {
+          <form [formGroup]="carritoForm" (ngSubmit)="onSubmit()" novalidate>
+            <!-- ID (solo lectura) -->
+            <div class="mb-4">
+              <label for="id" class="form-label">ID del carrito</label>
+              <input type="text" class="form-control" id="id" formControlName="id" readonly />
+            </div>
+
+            <!-- Cantidad -->
+            <div class="mb-4">
+              <label for="cantidad" class="form-label"
+                >Cantidad <span class="text-danger">*</span></label
+              >
+              <input
+                type="number"
+                min="1"
+                class="form-control"
+                [class.is-invalid]="cantidad?.invalid && cantidad?.touched"
+                [class.is-valid]="cantidad?.valid && cantidad?.touched"
+                id="cantidad"
+                formControlName="cantidad"
+                placeholder="1"
+              />
+              @if (cantidad?.invalid && cantidad?.touched) {
+                <div class="invalid-feedback">
+                  @if (cantidad?.errors?.['required']) {
+                    <span>La cantidad es obligatoria.</span>
+                  }
+                  @if (cantidad?.errors?.['min']) {
+                    <span>La cantidad debe ser mayor o igual a 1.</span>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Artículo -->
+            <div class="mb-4">
+              <label for="articulo" class="form-label"
+                >Artículo <span class="text-danger">*</span></label
+              >
+              <select
+                id="articulo"
+                style="cursor: pointer"
+                class="form-select"
+                [class.is-invalid]="id_articulo?.invalid && id_articulo?.touched"
+                [class.is-valid]="id_articulo?.valid && id_articulo?.touched"
+                formControlName="id_articulo"
+              >
+                <option [value]="null" disabled>Selecciona un artículo</option>
+                @for (articulo of articulos(); track articulo.id) {
+                  <option [value]="articulo.id">
+                    {{ articulo.descripcion }} - {{ articulo.precio | currency: 'EUR' }}
+                  </option>
+                }
+              </select>
+              @if (id_articulo?.invalid && id_articulo?.touched) {
+                <div class="invalid-feedback">
+                  <span>Debe seleccionar un artículo.</span>
+                </div>
+              }
+            </div>
+
+            <!-- Usuario -->
+            <div class="mb-4">
+              <label for="usuario" class="form-label"
+                >Usuario <span class="text-danger">*</span></label
+              >
+              <select
+                id="usuario"
+                style="cursor: pointer"
+                class="form-select"
+                [class.is-invalid]="id_usuario?.invalid && id_usuario?.touched"
+                [class.is-valid]="id_usuario?.valid && id_usuario?.touched"
+                formControlName="id_usuario"
+              >
+                <option [value]="null" disabled>Selecciona un usuario</option>
+                @for (usuario of usuarios(); track usuario.id) {
+                  <option [value]="usuario.id">
+                    {{ usuario.nombre }} {{ usuario.apellido1 }} {{ usuario.apellido2 }} ({{
+                      usuario.username
+                    }})
+                  </option>
+                }
+              </select>
+              @if (id_usuario?.invalid && id_usuario?.touched) {
+                <div class="invalid-feedback">
+                  <span>Debe seleccionar un usuario.</span>
+                </div>
+              }
+            </div>
+
+            <!-- Botones -->
+            <div class="d-flex justify-content-between align-items-center mt-4">
+              <a [routerLink]="['/carrito']" class="btn btn-outline-secondary"> Cancelar </a>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="submitting() || carritoForm.invalid"
+              >
+                @if (submitting()) {
+                  <span
+                    class="spinner-border spinner-border-sm me-2"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                }
+                Guardar Cambios
+              </button>
+            </div>
+          </form>
+        }
+      </div>
+    </div>
+  </div>
+</div>

@@ -33,6 +33,7 @@ import { ComentarioViewRouted } from './component/comentario/view-routed/comenta
 import { PagoPlistComponent } from './component/pago/plist-admin-routed/pago-plist';
 import { PuntuacionPlistAdminRouted } from './component/puntuacion/plist-admin-routed/puntuacion-plist';
 import { PuntuacionViewRouted } from './component/puntuacion/view-routed/puntuacion-view';
+import { PuntuacionEditAdminRouted } from './component/puntuacion/edit-admin-routed/puntuacion-edit';
 import { NoticiaViewAdminRouted } from './component/noticia/view-admin-routed/view-admin-routed';
 import { FacturaViewAdminRouted } from './component/factura/view-admin-routed/factura-view';
 import { ComentarioartPlistAdminRouted } from './component/comentarioart/comentarioart-plist';
@@ -63,6 +64,8 @@ import { ClubEditAdminRouted } from './component/club/edit-admin-routed/club-edi
 import { CarritoDeleteAdminRouted } from './component/carrito/delete-admin-routed/carrito-delete';
 import { ComentarioartDeleteAdminRouted } from './component/comentarioart/delete-admin-routed/delete-admin-routed';
 import { FacturaDeleteAdminRouted } from './component/factura/delete-admin-routed/factura-delete';
+import { FacturaEditAdminRouted } from './component/factura/edit-admin-routed/factura-edit';
+import { CarritoEditAdminRouted } from './component/carrito/edit-admin-routed/carrito-edit';
 import { CuotaEditAdminRouted } from './component/cuota/edit-admin-routed/cuota-edit';
 import { JugadorDeleteAdminRouted } from './component/jugador/delete-admin-routed/jugador-delete';
 import { TipoarticuloDeleteAdminRouted } from './component/tipoarticulo/delete-admin-routed/delete-admin-routed';
@@ -110,6 +113,7 @@ export const routes: Routes = [
     { path: 'factura/view/:id', component: FacturaViewAdminRouted },
     { path: 'factura/usuario/:id_usuario', component: FacturaPlistAdminRouted },
     { path: 'factura/delete/:id', component: FacturaDeleteAdminRouted},
+    { path: 'factura/edit/:id', component: FacturaEditAdminRouted},
     { path: 'compra', component: CompraPlistAdminRouted },
     { path: 'compra/articulo/:id_articulo', component: CompraPlistAdminRouted },
     { path: 'compra/factura/:id_factura', component: CompraPlistAdminRouted },
@@ -153,6 +157,7 @@ export const routes: Routes = [
     { path: 'carrito/articulo/:id_articulo', component: CarritoPlistAdminRouted },
     { path: 'carrito/view/:id', component: CarritoViewAdminRouted },
     { path: 'carrito/delete/:id', component: CarritoDeleteAdminRouted },
+    { path: 'carrito/edit/:id', component: CarritoEditAdminRouted },
     { path: 'comentario', component: ComentarioPlistAdminRouted },
     { path: 'comentario/usuario/:id_usuario', component: ComentarioPlistAdminRouted},
     { path: 'comentario/noticia/:id_noticia', component: ComentarioPlistAdminRouted},
@@ -167,6 +172,7 @@ export const routes: Routes = [
     { path: 'puntuacion/noticia/:id_noticia', component: PuntuacionPlistAdminRouted},
     { path: 'puntuacion/usuario/:id_usuario', component: PuntuacionPlistAdminRouted},
     { path: 'puntuacion/view/:id', component: PuntuacionViewRouted},
+    { path: 'puntuacion/edit/:id', component: PuntuacionEditAdminRouted},
     { path: 'puntuacion/delete/:id', component: PuntuacionDeleteAdminRouted},
     { path: 'comentarioart', component: ComentarioartPlistAdminRouted},
     { path: 'comentarioart/articulo/:id_articulo', component: ComentarioartPlistAdminRouted},
