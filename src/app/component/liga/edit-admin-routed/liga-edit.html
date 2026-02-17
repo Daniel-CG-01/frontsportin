@@ -61,29 +61,28 @@
             }
           </div>
 
-          <!-- Equipo -->
-          <div class="mb-4">
-            <label for="equipo" class="form-label">Equipo <span class="text-danger">*</span></label>
-            <select
-              id="equipo"
-              style="cursor: pointer;"
-              class="form-select"
-              [class.is-invalid]="id_equipo?.invalid && id_equipo?.touched"
-              [class.is-valid]="id_equipo?.valid && id_equipo?.touched"
-              formControlName="id_equipo"
-            >
-              <option [value]="null" disabled>Selecciona un equipo</option>
-              @for (equipo of equipos(); track equipo.id) {
-                <option [value]="equipo.id">{{ equipo.nombre }} (ID: {{ equipo.id }})</option>
-              }
-            </select>
-            @if (id_equipo?.invalid && id_equipo?.touched) {
-            <div class="invalid-feedback">
-              <span>Debe seleccionar un equipo.</span>
+          <!-- Buscador, ID y Nombre en una línea -->
+          <div class="d-flex gap-3 align-items-end">
+            <button type="button" class="btn btn-info" (click)="openEquipoFinderModal()">
+              <i class="bi bi-search me-2"></i>Buscar
+            </button>
+            <div>
+              <label for="display_id_tipoarticulo" class="form-label">ID Equipo</label>
+              <input
+                type="text"
+                class="form-control"
+                id="display_id_equipo"
+                [value]="displayIdEquipo() || ''"
+                readonly
+              />
             </div>
-            }
-            @if (loadingEquipos()) {
-              <div class="form-text text-muted">Cargando equipos...</div>
+            @if (selectedEquipo()) {
+            <div class="flex-grow-1">
+              <label class="form-label">Nombre</label>
+              <p class="form-control-plaintext fw-semibold mb-0">
+                {{ selectedEquipo()?.nombre }}
+              </p>
+            </div>
             }
           </div>
 

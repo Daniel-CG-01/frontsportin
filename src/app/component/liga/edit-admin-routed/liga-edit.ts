@@ -8,7 +8,9 @@ import { LigaService } from '../../../service/liga';
 import { EquipoService } from '../../../service/equipo';
 import { ILiga } from '../../../model/liga';
 import { IEquipo } from '../../../model/equipo';
+import { EquipoPlistAdminUnrouted } from '../../equipo/plist-admin-unrouted/equipo-plist-admin-unrouted';
 import { IPage } from '../../../model/plist';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-liga-edit',
@@ -32,6 +34,12 @@ export class LigaEditAdminRouted implements OnInit {
 
   ligaForm!: FormGroup;
   equipos = signal<IEquipo[]>([]);
+  selectedEquipo = signal<IEquipo | null>(null);
+  displayIdEquipo = signal<number | null>(null);
+
+  constructor(private dialog: MatDialog) {
+
+  }
 
   ngOnInit(): void {
     // Inicializar el formulario
@@ -83,6 +91,10 @@ export class LigaEditAdminRouted implements OnInit {
           nombre: data.nombre ?? '',
           id_equipo: equipoId,
         });
+
+        if (equipoId) {
+          this.syncEquipo(equipoId);
+        }
 
         this.loadingLiga.set(false);
       },
@@ -148,4 +160,59 @@ export class LigaEditAdminRouted implements OnInit {
   doCancel() {
     this.router.navigate(['/liga']);
   }
+
+  private loadEquipo(): void {
+    const idEquipo = this.ligaForm.get('id_equipo')?.value;
+    if (idEquipo) {
+      this.oEquipoService.get(idEquipo).subscribe({
+        next: (equipo) => {
+          this.selectedEquipo.set(equipo);
+          this.displayIdEquipo.set(equipo.id ?? null);
+        },
+        error: (err: HttpErrorResponse) => {
+          this.snackBar.open('Error cargando el equipo', 'Cerrar', { duration: 4000 });
+          console.error(err);
+        },
+      });
+    } else {
+      this.selectedEquipo.set(null);
+      this.displayIdEquipo.set(null);
+    }
+  }
+
+  private syncEquipo(idEquipo: number): void {
+    this.displayIdEquipo.set(idEquipo);
+    const equipoSeleccionado = this.equipos().find((t) => t.id === idEquipo);
+    if (equipoSeleccionado) {
+      this.selectedEquipo.set(equipoSeleccionado);
+    } else {
+      this.selectedEquipo.set(null);
+    }
+  }
+
+  openEquipoFinderModal(): void {
+      const dialogRef = this.dialog.open(EquipoPlistAdminUnrouted, {
+        height: '800px',
+        width: '1100px',
+        maxWidth: '95vw',
+        panelClass: 'equipo-dialog',
+        data: {
+          title: 'Aqui eliges el eqquipo',
+          message: 'Plist finder para encontrar el equipo y asignarlo al articulo',
+        },
+      });
+  
+      dialogRef.afterClosed().subscribe((equipo: IEquipo | null) => {
+        if (equipo) {
+          this.ligaForm.patchValue({
+            id_equipo: equipo.id,
+          });
+          // Sincronizar explícitamente después de seleccionar desde el modal
+          this.syncEquipo(equipo.id!);
+          this.snackBar.open(`Equipo seleccionado: ${equipo.nombre}`, 'Cerrar', {
+            duration: 3000,
+          });
+        }
+      });
+    }
 }
