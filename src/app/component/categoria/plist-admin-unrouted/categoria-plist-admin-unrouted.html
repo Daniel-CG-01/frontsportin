@@ -113,35 +113,35 @@
 					<td>{{ oCategoria.nombre }}</td>
 					<td>
 						@if (isDialogMode()) {
-							@if (oCategoria.temporada.descripcion) {
+							@if (oCategoria.temporada && oCategoria.temporada.descripcion) {
 								{{ oCategoria.temporada.descripcion }} ({{ oCategoria.temporada.id }})
 							} @else {
-								@if (oCategoria.temporada.id) {
+								@if (oCategoria.temporada && oCategoria.temporada.id) {
 									{{ 'Temporada (' + oCategoria.temporada.id + ')' }}
 								} @else {
 									Sin temporada
 								}
 							}
 						} @else {
-							<a [routerLink]="['/temporada', '/view', oCategoria.temporada.id]">
-								@if (oCategoria.temporada.descripcion) {
-									{{ oCategoria.temporada.descripcion }} ({{ oCategoria.temporada.id }})
-								} @else {
-									@if (oCategoria.temporada.id) {
-										{{ 'Temporada (' + oCategoria.temporada.id + ')' }}
+							@if (oCategoria.temporada && oCategoria.temporada.id) {
+								<a [routerLink]="['/temporada/view', oCategoria.temporada.id]">
+									@if (oCategoria.temporada.descripcion) {
+										{{ oCategoria.temporada.descripcion }} ({{ oCategoria.temporada.id }})
 									} @else {
-										Sin temporada
+										{{ 'Temporada (' + oCategoria.temporada.id + ')' }}
 									}
-								}
-							</a>
-							<a
-								class="btn btn-warning btn-sm ms-2 float-end"
-								[routerLink]="['/categoria/temporada', oCategoria.temporada.id]"
-								role="button"
-								title="Filtrar por temporada"
-							>
-								<i class="bi bi-funnel-fill" aria-hidden="true"></i>
-							</a>
+								</a>
+								<a
+									class="btn btn-warning btn-sm ms-2 float-end"
+									[routerLink]="['/categoria/temporada', oCategoria.temporada.id]"
+									role="button"
+									title="Filtrar por temporada"
+								>
+									<i class="bi bi-funnel-fill" aria-hidden="true"></i>
+								</a>
+							} @else {
+								Sin temporada
+							}
 						}
 					</td>
 					<td style="text-align: center">

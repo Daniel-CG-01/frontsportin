@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoriaService } from '../../../service/categoria';
 import { TemporadaService } from '../../../service/temporada';
+import { MatDialog } from '@angular/material/dialog';
+import { TemporadaPlistAdminUnrouted } from '../../temporada/plist-admin-unrouted/temporada-plist-admin-unrouted';
 import { ICategoria } from '../../../model/categoria';
 import { ITemporada } from '../../../model/temporada';
 
@@ -23,6 +25,7 @@ export class CategoriaEditAdminRouted implements OnInit {
   private oCategoriaService = inject(CategoriaService);
   private oTemporadaService = inject(TemporadaService);
   private snackBar = inject(MatSnackBar);
+  private dialog = inject(MatDialog);
 
   categoriaForm!: FormGroup;
   id_categoria = signal<number>(0);
@@ -30,6 +33,8 @@ export class CategoriaEditAdminRouted implements OnInit {
   error = signal<string | null>(null);
   submitting = signal(false);
   temporadas = signal<ITemporada[]>([]);
+  selectedTemporada = signal<ITemporada | null>(null);
+  displayIdTemporada = signal<number | null>(null);
 
   ngOnInit(): void {
     this.initForm();
@@ -70,6 +75,10 @@ export class CategoriaEditAdminRouted implements OnInit {
           nombre: categoria.nombre,
           id_temporada: categoria.temporada?.id
         });
+        if (categoria.temporada) {
+          // sincronizar la temporada seleccionada con la lista / carga individual
+          this.syncTemporada(categoria.temporada.id);
+        }
         this.loading.set(false);
       },
       error: (err: HttpErrorResponse) => {
@@ -77,6 +86,53 @@ export class CategoriaEditAdminRouted implements OnInit {
         this.snackBar.open('Error cargando la categoría', 'Cerrar', { duration: 4000 });
         console.error(err);
         this.loading.set(false);
+      }
+    });
+  }
+
+  private loadTemporada(id: number): void {
+    // mantenido por compatibilidad pero delegado a syncTemporada
+    this.syncTemporada(id);
+  }
+
+  private syncTemporada(id: number): void {
+    // Igual que Temporada.syncClub: solicitar la temporada y asignarla
+    this.oTemporadaService.get(id).subscribe({
+      next: (temporada) => {
+        this.selectedTemporada.set(temporada);
+        this.displayIdTemporada.set(temporada.id);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error al sincronizar temporada:', err);
+        this.snackBar.open('Error al cargar la temporada seleccionada', 'Cerrar', { duration: 3000 });
+        this.selectedTemporada.set(null);
+        this.displayIdTemporada.set(null);
+      }
+    });
+  }
+
+  openTemporadaFinderModal(): void {
+    const dialogRef = this.dialog.open(TemporadaPlistAdminUnrouted, {
+      height: '800px',
+      width: '1100px',
+      maxWidth: '95vw',
+      panelClass: 'temporada-dialog',
+      data: {
+        title: 'Elige una temporada',
+        message: 'Plist finder para encontrar la temporada y asignarla a la categoría',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((temporada: ITemporada | null) => {
+      if (temporada) {
+        this.categoriaForm.patchValue({
+          id_temporada: temporada.id,
+        });
+        // sincronizar explícitamente después de seleccionar desde el modal
+        this.syncTemporada(temporada.id);
+        this.snackBar.open(`Temporada seleccionada: ${temporada.descripcion}`, 'Cerrar', {
+          duration: 3000,
+        });
       }
     });
   }

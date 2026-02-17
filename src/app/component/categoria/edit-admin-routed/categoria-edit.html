@@ -61,27 +61,52 @@
             }
           </div>
 
-          <!-- Temporada -->
-          <div class="mb-4">
-            <label for="temporada" class="form-label">Temporada <span class="text-danger">*</span></label>
-            <select
-              id="temporada"
-              style="cursor: pointer;"
-              class="form-select"
-              [class.is-invalid]="id_temporada?.invalid && id_temporada?.touched"
-              [class.is-valid]="id_temporada?.valid && id_temporada?.touched"
-              formControlName="id_temporada"
-            >
-              <option [value]="null" disabled>Selecciona una temporada</option>
-              @for (temporada of temporadas(); track temporada.id) {
-                <option [value]="temporada.id">{{ temporada.descripcion }}</option>
+          <!-- Sección: Temporada (idéntica a patrón Temporada) -->
+          <div class="p-4 rounded mb-4" style="background-color: #e4e4e4; border-left: 4px solid #0d6efd;">
+            <!-- Temporada -->
+            <div class="mb-4">
+              <label for="temporada" class="form-label">Temporada <span class="text-danger">*</span></label>
+              <input
+                id="temporada"
+                type="text"
+                class="form-control"
+                [class.is-invalid]="id_temporada?.invalid && id_temporada?.touched"
+                [class.is-valid]="id_temporada?.valid && id_temporada?.touched"
+                [value]="selectedTemporada()?.descripcion"
+                readonly
+              />
+              @if (id_temporada?.invalid && id_temporada?.touched) {
+                <div class="invalid-feedback">
+                  <span>Debe seleccionar una temporada.</span>
+                </div>
               }
-            </select>
-            @if (id_temporada?.invalid && id_temporada?.touched) {
-            <div class="invalid-feedback">
-              <span>Debe seleccionar una temporada.</span>
             </div>
-            }
+
+            <!-- Buscador, ID y Descripción en una línea -->
+            <div class="d-flex gap-3 align-items-end">
+              <button type="button" class="btn btn-info" (click)="openTemporadaFinderModal()">
+                <i class="bi bi-search me-2"></i>Buscar
+              </button>
+              <div>
+                <label for="display_id_temporada" class="form-label">ID Temporada</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="display_id_temporada"
+                  [value]="id_temporada?.value"
+                  formControlName="id_temporada"
+                  readonly
+                />
+              </div>
+              @if (selectedTemporada()) {
+                <div class="grow">
+                  <label class="form-label">Información</label>
+                  <p class="form-control-plaintext fw-semibold mb-0">
+                    {{ selectedTemporada()?.descripcion }}
+                  </p>
+                </div>
+              }
+            </div>
           </div>
 
           <!-- Botones -->
