@@ -55,42 +55,58 @@
               }
             </div>
 
-            <div class="mb-4">
-              <label for="id_usuario" class="form-label">
-                ID Usuario <span class="text-danger">*</span>
-              </label>
-              <input
-                type="number"
-                class="form-control"
-                id="id_usuario"
-                formControlName="id_usuario"
-                [class.is-invalid]="id_usuario?.invalid && id_usuario?.touched"
-                [class.is-valid]="id_usuario?.valid && id_usuario?.touched"
-                placeholder="ID del usuario"
-              />
+            <div class="p-3 rounded mb-4" style="background-color: #e4e4e4; border-left: 4px solid #0d6efd;">
+              <label class="form-label">Usuario <span class="text-danger">*</span></label>
+              <div class="d-flex gap-3 align-items-end">
+                <button type="button" class="btn btn-info" (click)="openUsuarioFinderModal()">
+                  <i class="bi bi-search me-2"></i>Buscar
+                </button>
+                <div style="flex:1">
+                  <label class="form-label">Nombre</label>
+                  <input type="text" class="form-control" [value]="selectedUsuario()?.nombre" readonly />
+                </div>
+                <div>
+                  <label class="form-label">ID Usuario</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="id_usuario?.value"
+                    formControlName="id_usuario"
+                    readonly
+                  />
+                </div>
+              </div>
               @if (id_usuario?.invalid && id_usuario?.touched) {
-                <div class="invalid-feedback">
-                  <span>Debe indicar un usuario válido.</span>
+                <div class="invalid-feedback d-block">
+                  <span>Debe seleccionar un usuario válido.</span>
                 </div>
               }
             </div>
 
-            <div class="mb-4">
-              <label for="id_noticia" class="form-label">
-                ID Noticia <span class="text-danger">*</span>
-              </label>
-              <input
-                type="number"
-                class="form-control"
-                id="id_noticia"
-                formControlName="id_noticia"
-                [class.is-invalid]="id_noticia?.invalid && id_noticia?.touched"
-                [class.is-valid]="id_noticia?.valid && id_noticia?.touched"
-                placeholder="ID de la noticia"
-              />
+            <div class="p-3 rounded mb-4" style="background-color: #e4e4e4; border-left: 4px solid #0d6efd;">
+              <label class="form-label">Noticia <span class="text-danger">*</span></label>
+              <div class="d-flex gap-3 align-items-end">
+                <button type="button" class="btn btn-info" (click)="openNoticiaFinderModal()">
+                  <i class="bi bi-search me-2"></i>Buscar
+                </button>
+                <div style="flex:1">
+                  <label class="form-label">Título</label>
+                  <input type="text" class="form-control" [value]="selectedNoticia()?.titulo" readonly />
+                </div>
+                <div>
+                  <label class="form-label">ID Noticia</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="id_noticia?.value"
+                    formControlName="id_noticia"
+                    readonly
+                  />
+                </div>
+              </div>
               @if (id_noticia?.invalid && id_noticia?.touched) {
-                <div class="invalid-feedback">
-                  <span>Debe indicar una noticia válida.</span>
+                <div class="invalid-feedback d-block">
+                  <span>Debe seleccionar una noticia válida.</span>
                 </div>
               }
             </div>
